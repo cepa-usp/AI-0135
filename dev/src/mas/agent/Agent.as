@@ -7,8 +7,9 @@ package mas.agent
 	 */
 	public interface Agent 
 	{
-		function execute();
-		function init();	
+		function actuate():void;
+		function refresh():void;
+		function init():void;
 	}
 
 }

@@ -1,7 +1,9 @@
 package 
 {
+	import mas.enviro.Environment;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import model.LimitingFactorCurve;
 	
 	/**
 	 * ...
@@ -20,6 +22,8 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+			
+			var env:Environment;
 		}
 		
 	}
