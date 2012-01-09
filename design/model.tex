@@ -1,0 +1,247 @@
+\documentclass{article}
+	\usepackage[ansinew]{inputenc}	
+	\usepackage[T1]{fontenc}
+	\usepackage[brazil]{babel}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+	\usepackage{wasysym}
+	\usepackage{paralist}
+	\usepackage{indentfirst}
+	\usepackage[squaren]{SIunits}
+	\usepackage{graphicx}
+	
+	\newcommand\classe[1]{\texttt{#1}}
+	\newcommand\foreign[1]{\textsl{#1}}
+	\DeclareMathOperator{\random}{random}
+	\DeclareMathOperator{\cut}{cut}
+	
+	\title{Modelagem da AI-0135}
+	\author{Ivan Ramos Pagnossin}
+	\date{Janeiro de 2012}
+	
+\begin{document}
+
+	\maketitle
+
+	%-------------------------------------------
+	\section{Energia máxima \foreign{vs.} idade}
+		\label{sec:idade}
+	
+	A energia máxima $E_m$ que um indivíduo pode armazenar é função de sua idade $t$:
+	\begin{equation*}
+		E_m(t) = E_M e^{-t/t_E},
+	\end{equation*}
+	onde $t_E$ é a idade na qual $E_m$ é aproximadamente $37\%$ da energia máxima armazenada por um indivíduo dessa espécie, $E_M$.
+	
+	%-----------------------------------------
+	\section{Velocidade \foreign{vs.} energia}
+	
+	Um indivíduo qualquer da espécie pode mover-se pelo ambiente, em busca de comida, de parceiro para acasalar ou sem motivo, com velocidade $v(E)$, que depende da energia disponível naquele momento:
+	\begin{equation*}
+		v(E) = v_M \left(1 - e^{-E/E_v}\right).
+	\end{equation*}
+	
+	$v_M$ é a velocidade máxima de deslocamento do indivíduo, em unidades de distância do ambiente por unidade de tempo, e $E_v$ é uma energia característica, na qual $v(E)$ é aproximadamente igual a $63\%$ da velocidade máxima.
+	
+	%--------------------
+	\section{Nascimento}
+		\label{sec:nasc}
+	
+	Quando um indivíduo nasce, sua energia $E$ é máxima: $E = E_m(0) = E_M$.
+	
+	%-------------------------------------
+	\section{Permissividade de nascimento}
+		\label{sec:p}
+	
+	Para evitar problemas de processamento, definimos a \emph{permissividade de nascimento} $p^{\star}(n)$ da espécie, uma função da quantidade de indivíduos $n$:
+	\begin{gather*}
+		p^{\star}(n) = \cut\left(\frac{1}{2} + \frac{n_M - n}{\Delta n}\right) \\
+		\cut(x) \doteq \max\left[0, \min\left(x, 1\right)\right],
+	\end{gather*}
+	onde $n_M$ é a quantidade máxima (desejada) de indivíduos e $\Delta n$ é a flutuação em $n_M$. Deste modo, quando $p^{\star} = 0$ a natalidade é totalmente suprimida. Inversamente, quando $p^{\star} = 1$ a natalidade é totalmente incentivada (veja a seção~\ref{sec:estados}).
+	
+	\paragraph{Curiosidade:} a função acima é uma aproximação mais rápida de se calcular de $p^{\star}(n) = \left[e^{\left(n - n_M\right)/\Delta n} + 1\right]^{-1}$ (compare com a distribuição de Fermi-Dirac).
+	
+	%---------------
+	\section{Morte}
+	
+	Um indivíduo morre quando sua reserva de energia se esgota: $E = 0$.
+	
+	%-----------------------------
+	\section{Expectativa de vida}
+	
+	Espero que a expectativa de vida apareça naturalmente da conjunção dos parâmetros envolvidos na simulação. Essencialmente, a morte de um indivíduo acontecerá devido à redução gradual em $E_m(t)$, que por sua vez afeta $v(E)$, a velocidade de busca por comida.
+	
+	%---------------
+	\section{Ações}
+		\label{sec:acoes}
+	
+	Cada indivíduo de uma espécie pode executar algumas ações, sendo cada uma delas têm um gasto ou ganho de energia associado. As ações são as seguintes:
+	\begin{compactitem}
+		\item Para \textbf{sobreviver} no ambiente, um indivíduo qualquer gasta uma quantidade de energia $\dot E_b < 0$ por unidade de tempo da simulação, chamada de \emph{gasto basal}. 
+		\item Para \textbf{deslocar-se} no ambiente em busca de alimento, de um parceiro para acasalar ou a esmo, um indivíduo qualquer gasta uma quantidade de energia $\dot E_d < 0$ por unidade de tempo da simulação.
+		\item Para \textbf{acasalar}, cada um dos dois indivíduos envolvidos gasta uma quantidade de energia $\dot E_a < 0$ por unidade de tempo da simulação.
+		\item Para \textbf{alimentar-se}, um indivíduo qualquer gasta uma quantidade de energia $\dot E_c < 0$ por unidade de tempo da simulação. Entretanto, neste processo esse mesmo indivíduo absorve o saldo de energia $E' > 0$ do indivíduo comido (não depende do intervalo de tempo que durou o processo).
+	\end{compactitem}
+
+	Assim, após um turno da simulação, a energia de cada indivíduo deve ser recalculada: 
+	\begin{equation*}
+		E \leftarrow E + E' + \left(\dot E_a + \dot E_b + \dot E_c + \dot E_d\right) \Delta t,
+	\end{equation*}
+	onde $\Delta t$ é o intervalo de tempo entre turnos.
+
+	Em qualquer um dos casos acima, $0 \le E \le E_m(t)$. Quando $E = 0$ o indivíduo morre; quando $E = E_m(t)$, nada especial ocorre.
+
+	%------------------------
+	\section{Fator limitante}
+		
+	Cada \emph{espécie} está sujeita à uma \emph{lista} de fatores limitantes $x_i$ ($i \in \mathbb{N}$), que afetam suas ações (seção~\ref{sec:acoes}). Nesta simulação, \emph{a resposta} da espécie a esse fator limitante qualquer é definido por uma função de uma variável, $0 \le f_i(x) \le 1$, onde $x$ é o valor do fator limitante (por exemplo, a temperatura e o pH do meio ambiente). Quando $f(x) = 0$ o ambiente é hostil para a espécie, de modo que os indivíduos morrem rapidamente; quando $f(x) < F$, os indivíduos conseguem sobreviver, mas não reproduzir ($F$ é um \foreign{threshold} que depende da espécie); quando $f(x) \ge F$ os indivíduos vivem e se reproduzem, tão melhor quanto maior for $f(x)$. Isto é, quando $f(x) = 1$ a espécie vive plenamente.
+	
+	Numa primeira modelagem de um fator limitante qualquer, utilizaremos nesta simulação a expressão
+	\begin{equation}\label{eq:f}
+		f(x) = \cut\left[-\frac{2(x - x_{+})(x - x_{-})}{(x_{+} - x_{-})^2}\right]
+	\end{equation}
+	onde $x_{-}$ e $x_{+}$ são as duas raízes reais de $f(x)$. Note que $f(\bar x) = 1$, onde $\bar x = (x_{+} + x_{-}) / 2$ é o ponto médio entre $x_{-}$ e $x_{+}$. Mas atenção: esta é uma particularidade da expressão acima, que pode eventualmente mudar.
+	
+	\paragraph{Exemplo:} considere os parâmetros $x_{-} = \unit{0}{\celsius}$, $x_{+} = \unit{2}{\celsius}$ e $F = 1/2$, que definem a resposta de uma espécie qualquer ao fator limitante $x = T$, a temperatura. Podemos concluir que esta espécie só sobreviverá no ambiente se $0 \le T \le \unit{2}{\celsius}$. Além disso, essa espécie só conseguirá se reproduzir se $0,3 \lesssim T \lesssim \unit{1,7}{\celsius}$ (região na qual $f(T) > F$). Finalmente, $T = \unit{1}{\celsius}$ oferece o melhor ambiente para esta espécie.
+	
+	\paragraph{Importante:} a expressão \ref{eq:f} é uma primeira aproximação do fator limitante. Por isso, é importante isolar a definição de $f(x)$ de modo que se possa alterá-la conforme a necessidade no futuro. A interface, que se mantém inalterada, é a assinatura de $f(x)$. Isto é, dado um valor do fator limitante, obtemos a resposta da espécie a ele, o valor $f(x)$.
+
+	%---------------------
+	\section{Gasto energético basal ($\dot E_b$)}
+		\label{sec:dE_b}
+	
+	O \emph{gasto \textbf{b}asal} é a quantidade de energia $\dot E_b$ que um indivíduo gasta para manter-se vivo por unidade de tempo da simulação:
+	\begin{equation}\label{eq:dE-basal}
+		\dot E_b = -\max\left\{\left[1 - f_i(x_i)\right] \dot E_{i, \text{max}} - f_i(x_i) \dot E_{i, \text{min}}\right\},
+	\end{equation}
+	onde o índice $i \in 1, 2, \ldots N$ define os $N$ fatores limitantes. $\dot E_{\text{min}}$ e $\dot E_{\text{max}}$ são os gastos mínimo e máximo possíveis, respectivamente, e devem ser definidos para cada espécie no ambiente.
+	
+	\paragraph{Atenção:} pode ser útil definir $\dot E_{\text{min}}$ e $\dot E_{\text{max}}$ como uma fração de $E_M$ (seção \ref{sec:idade}). Por exemplo, $\dot E_{\text{min}} = E_M / 100$ e $\dot E_{\text{max}} = E_M / 10$. Deste modo, quando $f(x) = 0$ (ambiente hostil), um indivíduo qualquer consegue viver por até dez unidades de tempo da simulação (sem alimentar-se). Por outro lado, se $f(x) = 1$ (ambiente favorável) ele conseguirá manter-se vivo por até cem unidades de tempo da simulação.
+	
+	%---------------------
+	\section{Gasto energético para deslocar ($\dot E_d$)}
+	
+	Para \textbf{d}eslocar-se de uma unidade de distância no ambiente, um indivíduo qualquer gasta $\dot E_d$. Este gasto relaciona-se com os fatores limitantes da mesma forma que $\dot E_b$, na seção \ref{sec:dE_b}, exceto que os parâmetros $\dot E_{\text{min}}$ e $\dot E_{\text{max}}$ são diferentes.
+	
+	%---------------------
+	\section{Gasto energético para acasalar ($\dot E_a$)}
+	
+	Para \textbf{a}casalar, cada um dos dois indivíduos envolvidos gasta $\dot E_a$. Este gasto relaciona-se com os fatores limitantes da mesma forma que $\dot E_b$, na seção \ref{sec:dE_b}, exceto que os parâmetros $\dot E_{\text{min}}$ e $\dot E_{\text{max}}$ são diferentes.
+		
+	%---------------------
+	\section{Gasto energético para comer ($\dot E_c$)}
+	
+	Para \textbf{c}omer um indíduo qualquer gasta $\dot E_c$. Este gasto relaciona-se com os fatores limitantes da mesma forma que $\dot E_b$, na seção \ref{sec:dE_b}, exceto que os parâmetros $\dot E_{\text{min}}$ e $\dot E_{\text{max}}$ são diferentes. Entretanto, diferentemente das ações anteriores, ao comer o indivíduo absorve a energia contida no indivíduo comido, $E' > 0$. Ou seja, $E \leftarrow E + E' + \dot E_c \Delta t$. Acontece que geralmente $E' \gg |\dot E_c \Delta t|$, de modo que neste caso a operação anterior tenderá a aumentar a energia do indivíduo. Este é o único mecanismo que aumenta a energia do indivíduo. Além disso, note que $E'$ não depende de $f_i(x_i)$.
+
+	\paragraph{Atenção:} pode ser útil definir todas as energias envolvidas na simulação como variáveis inteiras. Isto tornará mais rápido os cálculos.
+	
+	%------------------------------------
+	\section{Interesse por alimentar-se}
+		\label{sec:i_c}
+			
+	A função $i_c(E) \in [0, 1]$ dá o grau de \textbf{i}nteresse do indivíuo em alimentar-se, numa escala de 0 (não interessado) a 1 (interessado):	
+	\begin{equation*}
+		i_c(E) = \cut\left[\frac{\left(i_{cM} - i_{cm}\right)\left(E_C - E\right)}{E_C - E_c}\right],
+	\end{equation*}
+	onde $i_{cm}$ e $i_{cM}$ são o interesse mínimo e máximo, respectivamente ($\in [0,1]$). $E_c$ é a energia crítica abaixo da qual o único interesse do indivíduo é alimentar-se (está faltando energia); $E_C$ é a energia crítica acima da qual o único interesse do indivíduo é acasalar-se (está sobrando energia).
+	
+	%------------------------------------
+	\section{Interesse por reproduzir-se}
+		\label{sec:i_a}
+	
+	A função $i_a(E) \in [0, 1]$ dá o grau de \textbf{i}nteresse do indivíuo no acasalamento, numa escala de 0 (não interessado) a 1 (interessado):	
+	\begin{equation*}
+		i_a(E) = \cut\left[\frac{\left(i_{aM} - i_{am}\right)\left(E - E_a\right)}{E_C - E_a}\right],
+	\end{equation*}
+	onde $i_{am}$ e $i_{aM}$ são o interesse mínimo e máximo, respectivamente ($\in [0,1]$). $E_a$ é a energia acima da qual o interesse do indivíduo por acasalar-se começa a crescer.
+	
+	Em palavras, $E_a$ é a energia mínima que um indivíduo precisa ter disponível para interessar-se pelo acasalamento. Este limite inferior é importante por que, sem ele, pode acontecer de o indivíduo literalmente morrer durante o acasalamento, isto é, atingir $E = 0$. Por outro lado, se $E > E_C$ o indivíduo tem tanta energia que não precisa se alimentar nem descansar. Neste caso, seu interesse é a reprodução, até como forma de reduzir sua energia $E$.
+	
+	%-----------------------------------------------
+	\section{Estados da simulação}
+		\label{sec:estados}
+	
+	Cada indivíduo no ambiente está sempre num dos seguintes estados:
+	\begin{compactenum}
+		\item \label{e:d} Descansando (parado ou movendo-se)
+		\item \label{e:pc} Procurando comida (movendo-se)
+		\item \label{e:c} Comendo (parado)
+		\item \label{e:pp} Procurando um parceiro para acasalar (movendo-se)
+		\item \label{e:a} Acasalando (parado)
+	\end{compactenum}
+	
+	As transições de estado permitidas são aquelas ilustradas na figura~\ref{fig:estados}. O estado inicial é o \ref{e:d} acima: descansando. Neste estado, a cada turno da simulação o indivíduo pode transitar para os estados \ref{e:pc} (procurando comida), \ref{e:pp} (procurando parceiro para acasalar) ou manter-se no mesmo estado (descansando). Para tomar esta decisão, utilize este processo:	
+	\begin{compactitem}
+		\item Se $\random() < i_c(E)$, vai para o estado \ref{e:pc}; se não, vai para o próximo item.
+		\item Se $\random() < i_a(E) p^{\star}(n)$, vai para o estado \ref{e:pp}; se não, vai para o estado \ref{e:d}.
+	\end{compactitem}
+	
+	
+	\begin{figure}
+		\includegraphics[width=\textwidth]{figures/estados}
+		\caption{Estados da simulação}
+		\label{fig:estados}
+	\end{figure}
+	
+	No estado \ref{e:pc} (procurando comida), o indivíduo move-se pelo ambiente em busca de alimento (algoritmo A* em modo \foreign{seek}) e dele sai apenas (i) quando encontrar comida ou (ii) quando morrer. No caso (i), ocorre a transição para o estado \ref{e:c} (comendo). Após comer, a única transição possível é para o estado \ref{e:d} (descansando). No caso (ii), o indivíduo simplesmente deixa de existir no ambiente (após uma animação de morte).
+	
+	No estado \ref{e:pp} (procurando parceiro para acasalar), o indivíduo move-se pelo ambiente em busca de um parceiro \emph{que também esteja no estado \ref{e:pp}} (algoritmo A* em modo \foreign{seek}) e dele sai num desses três eventos: (i) ao encontrar um parceiro, (ii) quando $E < E_c$ (seção \ref{sec:i_a}) ou (iii) quando morrer. No caso (i) ocorre a transição para o estado \ref{e:a} (acasalando) e, dele, para \ref{e:d} (descansando); no caso (ii), ocorre a transição para o estado \ref{e:pc}.
+	
+	O estado \ref{e:d} (descansando) pode ocorrer com o indivíduo em movimento ou parado no ambiente. A decisão entre um e outro é puramente aleatória: por exemplo, se $\random() < 1/2$ o indivíduo descansará em movimento [com isto seu gasto energético será $(\dot E_b + \dot E_d) \Delta t$]; caso contrário, descansará parado (gasto energético igual a $\dot E_b\Delta t$).
+
+
+	%-----------------------------
+	\section{Resumo de parâmetros}
+		
+		\subsection*{Propriedades da espécie}
+		\begin{compactdesc}
+			\item[$E_c$] Energia crítica abaixo da qual o indivíduo ocupa-se em alimentar-se (quase) exclusivamente.
+			\item[$E_C$] Energia crítica acima da qual o indivíduo ocupa-se em acasalar-se (quase) exclusivamente.
+			\item[$E_M$] Energia máxima que um indivíduo consegue armazenar.
+			\item[$E_v$] Energia na qual $v(E)/v_M = 0,63$.
+			\item[$v_M$] Velocidade máxima de deslocamento.
+			\item[$x_i^{-}$] Limite inferior de sobrevivência da espécie com relação ao fator limitante $i$.
+			\item[$x_i^{+}$] Limite superior de sobrevivência da espécie com relação ao fator limitante $i$.
+			\item[$F_i$] é o \foreign{threshold} que define a relação $f(x_i) \ge F_i$, que deve ser satisfeita para que ocorra a reprodução.
+			\item[$t_E$] Idade na qual $E_m(t)/E_M = 0,37$.
+			\item[$n_M$] Quantidade máxima desejável de indivíduos no ambiente.
+			\item[$\Delta n$] Flutuação em $n_M$.
+			\item[$i_{cm}$] Interesse mínimo do indivíduo em alimentar-se.
+			\item[$i_{cM}$] Interesse máximo do indivíduo em alimentar-se.
+			\item[$i_{am}$] Interesse mínimo do indivíduo em acasalar-se.
+			\item[$i_{aM}$] Interesse máximo do indivíduo em acasalar-se.
+			\item[$\dot E_{a,{\text{min}}}$] Gasto energético mínimo no acasalamento. Ocorre quando $\min[f_i(x_i)] = 1$.
+			\item[$\dot E_{a,{\text{max}}}$] Gasto energético máximo no acasalamento. Ocorre quando $\min[f_i(x_i)] = 0$.
+			\item[$\dot E_{b,{\text{min}}}$] Gasto basal mínimo.
+			\item[$\dot E_{b,{\text{max}}}$] Gasto basal máximo.
+			\item[$\dot E_{c,{\text{min}}}$] Gasto energético mínimo na alimentação.
+			\item[$\dot E_{c,{\text{max}}}$] Gasto energético máximo na alimentação.
+			\item[$\dot E_{d,{\text{min}}}$] Gasto energético mínimo no deslocamento.
+			\item[$\dot E_{d,{\text{max}}}$] Gasto energético máximo no deslocamento.
+		\end{compactdesc}
+		
+		Algumas condições que devem ser satisfeitas:
+		\begin{compactitem}
+			\item $E_M > E_C > E_a > E_c > 0$
+			\item $E_M > E_v > 0$
+			\item $x_i^{+} > x_i^{-}$
+			\item $1 \ge i_{cM} > i_{cm} \ge 0$
+			\item $1 \ge i_{aM} > i_{am} \ge 0$
+			\item $\Delta n \ll n_M$
+			\item $0 \le F_i < 1$
+		\end{compactitem}
+		
+		\subsection*{Propriedades de um indivíduo}		
+		\begin{compactdesc}
+			\item[$t$] Idade
+			\item[$E$] Saldo energético
+		\end{compactdesc}
+
+		\subsection*{Propriedades do ambiente}
+		\begin{compactdesc}
+			\item[$\Delta t$] Intervalo de tempo de uma ação (seção~\ref{sec:acoes}).
+			\item[$\{x_i\}$] Lista de fatores limitantes.
+		\end{compactdesc}
+		
+\end{document}
