@@ -1,9 +1,13 @@
 package 
 {
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	import mas.enviro.Environment;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import model.BioAgent;
 	import model.LimitingFactorCurve;
+	import view.MiniMap;
 	
 	/**
 	 * ...
@@ -22,8 +26,13 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+			var env:Environment = new Environment;
+			env.createNewAgents();
+			env.init();
 			
-			var env:Environment;
+			var minimap:MiniMap = new MiniMap(env);
+			addChild(minimap)
+			
 		}
 		
 	}

@@ -47,7 +47,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\as3isolib.v1.core.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

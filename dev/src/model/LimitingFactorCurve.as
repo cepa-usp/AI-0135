@@ -7,7 +7,7 @@ package model
 	 */
 	public interface LimitingFactorCurve
 	{
-		function get getFactorName:String;
+		function get getFactorName():String;
 		function calculateTolerance(val:Number):Number;
 
 	}
