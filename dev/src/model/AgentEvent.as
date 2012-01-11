@@ -101,6 +101,9 @@ package model
 		
 		public static const INITIALIZED : String = "initialized";
 		public static const MINDSTATE_CHANGED: String = "mindstateChanged";	
+		public static const FEEDING_COMPLETE: String = "feedingComplete";
+		public static const MATING_COMPLETE: String = "matingComplete";
+		public static const MOVING_COMPLETE: String = "movingComplete";
 		public static const ACTION_CHANGED: String = "actionChanged";	
 		public static const AGE_COMPUTED: String = "ageComputed";	
 		public static const ENERGY_CHANGED: String = "energyChanged";

@@ -23,7 +23,7 @@ package model
 			
 		}
 
-		private function die() {
+		private function die():void {
 			dispatcher.dispatchEvent(new Event(AgentEvent.TERMINATED));
 		}
 		
@@ -37,6 +37,13 @@ package model
 		{
 			// nothing
 		}
+		
+		/* INTERFACE mas.agent.Agent */
+		
+		public function get block():Boolean 
+		{
+			return false;
+		}
 	
 		
 		public function get eventDispatcher():EventDispatcher 
@@ -44,8 +51,8 @@ package model
 			return dispatcher;
 		}
 		
-		public static const STATE_NORMAL = 0;
-		public static const STATE_EATEN = 1;
+		public static const STATE_NORMAL:int = 0;
+		public static const STATE_EATEN:int = 1;
 		
 
 		

@@ -1,15 +1,19 @@
 package mas.enviro
 {
 	import as3isolib.core.EventListenerDescriptor;
+	import eDpLib.events.EventDispatcherProxy;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Timer;
 	import mas.agent.Agent;
 	import mas.enviro.Region;
+	import model.AgentEvent;
 	import model.Config;
 	import model.creature1.Creature1;
+	import model.EnvironmentEvent;
 	import model.FoodAgent;
 	
 	/**
@@ -20,15 +24,31 @@ package mas.enviro
 	{
 		private var _agents:Vector.<Agent> = new Vector.<Agent>();
 		private var regions:Vector.<Region> = new Vector.<Region>();
-		private var enviro_width:int = 100;
-		private var enviro_height:int = 100;
-		private var resourceMap:Array;
+		private var enviro_width:int = 60;
+		private var enviro_height:int = 60;
+		private var _resourceMap:Array;
+		private var _blockMap:Array;
+		private var _eventDispatcher:EventDispatcher = new EventDispatcher();
 		
 		public function Environment() 
 		{
 			resourceMap = new Array(enviro_width);
-			for (var i:int = 0; i < resourceMap.length; i++)  resourceMap[i] = new Array(enviro_height);		
-			resourceMap[2][3] = new Object();
+			blockMap = new Array(enviro_width);
+			var i:int;
+			var j:int;
+			for (i = 0; i < resourceMap.length; i++)  {
+				resourceMap[i] = new Array(enviro_height);	
+				for (j = 0; j < resourceMap[i].length; j++) {
+					resourceMap[i][j] = null;
+				}
+			}
+			for (i = 0; i < blockMap.length; i++)  {
+				blockMap[i] = new Array(enviro_height);		
+				for (j = 0; j < blockMap[i].length; j++)  {
+					blockMap[i][j] = false;
+				}
+			}
+			
 		}
 		
 		
@@ -44,15 +64,28 @@ package mas.enviro
 			
 		}
 		
-		public function registerAgent(a:Agent):void {
+		public function moveAgent(e:AgentEvent):void {
+			
+			// in this case destination is not destination itself but the agent's previous position
+			resourceMap[e.destination.x][e.destination.y] = null;
+			blockMap[e.destination.x][e.destination.y] = false;
+			resourceMap[e.agent.position.x][e.agent.position.y] = e.agent;
+			blockMap[e.agent.position.x][e.agent.position.y] = true;
+			
+		}
+		
+		public function registerAgent(a:Agent, pos:Point):void {
 			agents.push(a);
+			a.eventDispatcher.addEventListener(AgentEvent.MOVING_COMPLETE, moveAgent);
+			blockMap[pos.x][pos.y] = a.block;
+			resourceMap[pos.x][pos.y] = a;
+			a.init(this, pos);	
+
+			var ev:EnvironmentEvent = new EnvironmentEvent(EnvironmentEvent.AGENT_CREATED);
+			ev.agent = a;
+			eventDispatcher.dispatchEvent(ev);
 		}			
 		
-		public function init():void {
-			for each (var a:Agent in agents) {
-				a.init(this, new Point(Math.random()*enviro_width, Math.random()*enviro_height));
-			}
-		}
 		
 		public function start():void {
 			run();
@@ -67,14 +100,14 @@ package mas.enviro
 		}
 		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 1; i++) {
+			for (var i:int = 0; i < 26; i++) {
 				var creature:Creature1 = new Creature1();
-				registerAgent(creature);
+				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
 				
 			}
-			for (var ia:int = 0; ia < 4; ia++) {
+			for (var ia:int = 0; ia < 10; ia++) {
 				var food:FoodAgent = new FoodAgent();				
-				registerAgent(food);				
+				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
 			}			
 		}
 		
@@ -106,6 +139,36 @@ package mas.enviro
 		public function set height(value:int):void 
 		{
 			enviro_height = value;
+		}
+		
+		public function get resourceMap():Array 
+		{
+			return _resourceMap;
+		}
+		
+		public function set resourceMap(value:Array):void 
+		{
+			_resourceMap = value;
+		}
+		
+		public function get blockMap():Array 
+		{
+			return _blockMap;
+		}
+		
+		public function set blockMap(value:Array):void 
+		{
+			_blockMap = value;
+		}
+		
+		public function get eventDispatcher():EventDispatcher 
+		{
+			return _eventDispatcher;
+		}
+		
+		public function set eventDispatcher(value:EventDispatcher):void 
+		{
+			_eventDispatcher = value;
 		}
 		
 		

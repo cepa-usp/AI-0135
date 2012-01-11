@@ -10,6 +10,7 @@ package model
 	import mas.agent.reasoning.IReasoning;
 	import mas.enviro.Environment;
 	import mas.agent.sensor.ISensor;
+	import model.creature1.Interest;
 	
 	/**
 	 * ...
@@ -30,9 +31,13 @@ package model
 		private var _mindState:int = MINDSTATE_IDLE;
 		private var _position:Point = new Point();
 		private var _environment:Environment;
-		private var currentAction:Action;
+		private var _currentAction:Action;
+		private var timer:Timer;
+		private var _intrMating:Interest = new Interest();
+		private var _intrFeeding:Interest = new Interest();
 		
-		protected var mindVars:Object;
+		
+		protected var _mindVars:Object = new Object();
 		private var actionQueue:Vector.<Action> = new Vector.<Action>();
 		protected var reasoning:Vector.<IReasoning> = new Vector.<IReasoning>();
 		protected var sensors:Vector.<ISensor> = new Vector.<ISensor>();
@@ -47,26 +52,39 @@ package model
 		
 		private function executeAction(e:TimerEvent= null):void {
 			if(currentAction!=null) currentAction.onFinish();
-			var skip:Boolean = false;
 			if (actionQueue.length > 0) {
 				currentAction = actionQueue.shift();
-				if (currentAction.cancelOthers) clearActionQueue();
+				//if (currentAction.cancelOthers) clearActionQueue();
 			} else {
-				if (currentAction!=null) {
-					if (currentAction.action == BioAction.ACTION_IDLE) skip = true;
+				think();				
+				if (actionQueue.length > 0) {
+					executeAction();
+					return;
+				} 
+				if (currentAction == null) {
+					currentAction = new Action(this, 1000, BioAction.ACTION_IDLE);
+					
 				}
-				currentAction = new Action(this, 1000, BioAction.ACTION_IDLE);
 			}
-			var timer:Timer = new Timer(currentAction.duration);						
+			timer = new Timer(currentAction.duration, 1);						
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, executeAction);
-			if (!skip) sendActionEvent(currentAction.action, currentAction.duration); 
-			if(currentAction!=null) currentAction.onStart();
+			//sendActionEvent(currentAction.action, currentAction.duration); 
+			currentAction.onStart();
+			timer.start();
 		}
 		
+		
+		//private function passou(e:TimerEvent = null) {
+			
+		//}
 		
 		
 		protected function clearActionQueue():void {
 			actionQueue = new Vector.<BioAction>();
+		}
+		
+		public function enqueueAction(a:Action):void {
+			actionQueue.push(a);
 		}
 		
 		public function recoverEnergy():void {
@@ -88,6 +106,7 @@ package model
 			environment = env;			
 			_position = init_position;
 			eventDispatcher.dispatchEvent(new Event(AgentEvent.INITIALIZED));
+			think();
 			executeAction();
 		}
 		
@@ -149,6 +168,11 @@ package model
 			return _mindState;
 		}
 		
+		public function set mindState(val:int):void 
+		{
+			_mindState = val;
+		}
+
 		
 		public function get limitingFactors():Vector.<LimitingFactorCurve> 
 		{
@@ -170,22 +194,14 @@ package model
 			_eventDispatcher.dispatchEvent(ev);
 		}
 		
-		public function sendActionEvent(action:int, duration:Number, destination:Point=null, direction:int=-1):void {
-			var str:String = "";
-			var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, this);
-			ev.actionType = action;
-			ev.duration = duration;			
-			ev.destination = destination;
-			ev.walkingDirection = direction;	
-			_eventDispatcher.dispatchEvent(ev);
 
-		}
 		
 		/* INTERFACE mas.agent.Agent */
 		
 		
 		public function think():void 
 		{
+			//trace("ag", this.id, " thinking")
 			for each(var sens:ISensor in sensors) {
 				sens.receive(this);
 			}
@@ -193,6 +209,13 @@ package model
 				reas.think(this);
 			}
 		}		
+		
+		/* INTERFACE mas.agent.Agent */
+		
+		public function get block():Boolean 
+		{
+			return true;
+		}
 		
 		public function get environment():Environment 
 		{
@@ -248,6 +271,47 @@ package model
 		{
 			_direction = value;
 		}
+		
+		public function get currentAction():Action 
+		{
+			return _currentAction;
+		}
+		
+		public function set currentAction(value:Action):void 
+		{
+			_currentAction = value;
+		}
+		
+		public function get intrMating():Interest 
+		{
+			return _intrMating;
+		}
+		
+		public function set intrMating(value:Interest):void 
+		{
+			_intrMating = value;
+		}
+		
+		public function get intrFeeding():Interest 
+		{
+			return _intrFeeding;
+		}
+		
+		public function set intrFeeding(value:Interest):void 
+		{
+			_intrFeeding = value;
+		}
+		
+		public function get mindVars():Object 
+		{
+			return _mindVars;
+		}
+		
+		public function set mindVars(value:Object):void 
+		{
+			_mindVars = value;
+		}
+		
 
 
 		
@@ -258,10 +322,11 @@ package model
 		public static const MINDSTATE_MATING:int = 4;		
 		public static const MINDSTATE_DEAD:int = 5;
 		
-		public static const DIR_UP = 8;
-		public static const DIR_DOWN = 2;
-		public static const DIR_LEFT = 6;
-		public static const DIR_RIGHT = 4;
+		public static const DIR_UP:int = 8;
+		public static const DIR_DOWN:int = 2;
+		public static const DIR_LEFT:int = 6;
+		public static const DIR_RIGHT:int = 4;
+
 		
 
 		

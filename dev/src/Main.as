@@ -28,7 +28,6 @@ package
 			// entry point
 			var env:Environment = new Environment;
 			env.createNewAgents();
-			env.init();
 			
 			var minimap:MiniMap = new MiniMap(env);
 			addChild(minimap)

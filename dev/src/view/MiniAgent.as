@@ -1,6 +1,7 @@
 package view 
 {
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import mas.agent.Agent;
 	import model.AgentEvent;
 	import model.creature1.Creature1;
@@ -57,8 +58,14 @@ package view
 		
 		private function onAgentActionChange(e:AgentEvent):void 
 		{
-			e.tag = this;
-			dispatchEvent(e);
+			var evt:AgentEvent = new AgentEvent(e.type, e.agent, true);
+			evt.tag = this;
+			evt.walkingDirection = e.walkingDirection;
+			evt.mindstate = e.mindstate;
+			evt.destination = e.destination;
+			evt.duration = e.duration;
+			//e.tag = this;
+			//dispatchEvent(evt);
 		}
 		
 		
