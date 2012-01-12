@@ -11,6 +11,8 @@ package mas.enviro
 	import mas.agent.Agent;
 	import mas.enviro.Region;
 	import model.AgentEvent;
+	import model.BioAction;
+	import model.BioAgent;
 	import model.Config;
 	import model.creature1.Creature1;
 	import model.EnvironmentEvent;
@@ -64,21 +66,22 @@ package mas.enviro
 			
 		}
 		
-		public function moveAgent(e:AgentEvent):void {
-			
-			// in this case destination is not destination itself but the agent's previous position
-			resourceMap[e.destination.x][e.destination.y] = null;
+		public function moveAgent(e:AgentEvent):void {			
+			// in this case destination is not destination itself but the agent's previous position			
+			var arrObjs:Array = resourceMap[e.destination.x][e.destination.y];
+			arrObjs.splice(arrObjs.indexOf(e.agent), 1);			
 			blockMap[e.destination.x][e.destination.y] = false;
-			resourceMap[e.agent.position.x][e.agent.position.y] = e.agent;
-			blockMap[e.agent.position.x][e.agent.position.y] = true;
-			
+			setAgentPosition(e.agent, e.agent.position);
 		}
 		
 		public function registerAgent(a:Agent, pos:Point):void {
 			agents.push(a);
 			a.eventDispatcher.addEventListener(AgentEvent.MOVING_COMPLETE, moveAgent);
-			blockMap[pos.x][pos.y] = a.block;
-			resourceMap[pos.x][pos.y] = a;
+			if (a is BioAgent) {
+				a.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, bindAgentAction);
+				a.eventDispatcher.addEventListener(AgentEvent.FEEDING_COMPLETE, feedAgent);
+			}
+			setAgentPosition(a, pos);
 			a.init(this, pos);	
 
 			var ev:EnvironmentEvent = new EnvironmentEvent(EnvironmentEvent.AGENT_CREATED);
@@ -86,6 +89,26 @@ package mas.enviro
 			eventDispatcher.dispatchEvent(ev);
 		}			
 		
+		private function bindAgentAction(e:AgentEvent):void 
+		{
+			switch(e.actionType) {
+				case BioAction.ACTION_EATING:
+				startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
+				break;
+			}
+		}
+		
+		private function setAgentPosition(a:Agent, pos:Point):void 
+		{
+			blockMap[pos.x][pos.y] = a.block;
+			if (resourceMap[pos.x][pos.y] == null) resourceMap[pos.x][pos.y] = new Array();
+			resourceMap[pos.x][pos.y].push(a);
+			blockMap[pos.x][pos.y] = true;
+		}
+		
+		public function exists(agt:Agent):Boolean {
+			return (agents.indexOf(agt)>=0)
+		}
 		
 		public function start():void {
 			run();
@@ -99,13 +122,29 @@ package mas.enviro
 			}
 		}
 		
+		private function startFeedAgent(agt:BioAgent, food:FoodAgent):void {
+			var arr:Array = resourceMap[food.position.x][food.position.y];
+			arr.splice(arr.indexOf(food), 1);
+			var idx:int = agents.indexOf(food);
+			agents.splice(idx, 1);
+			var ev:EnvironmentEvent = new EnvironmentEvent(EnvironmentEvent.AGENT_DESTROYED);
+			ev.agent = food;
+			eventDispatcher.dispatchEvent(ev);						
+		}
+		
+		private function feedAgent(e:AgentEvent) {
+			
+			BioAgent(e.agent).recoverEnergy(FoodAgent(e.tag).energyProvided);
+			
+		}
+		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 26; i++) {
+			for (var i:int = 0; i < 14; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
 				
 			}
-			for (var ia:int = 0; ia < 10; ia++) {
+			for (var ia:int = 0; ia < 30; ia++) {
 				var food:FoodAgent = new FoodAgent();				
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
 			}			

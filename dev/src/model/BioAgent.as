@@ -87,8 +87,8 @@ package model
 			actionQueue.push(a);
 		}
 		
-		public function recoverEnergy():void {
-			energy = current_maxenergy;
+		public function recoverEnergy(amnt:Number):void {
+			energy = Math.max(amnt, current_maxenergy);
 		}
 		
 		private function calculateMaxEnergy():void {
@@ -209,6 +209,13 @@ package model
 				reas.think(this);
 			}
 		}		
+		
+		/* INTERFACE mas.agent.Agent */
+		
+		public function get description():String 
+		{
+			return "creature [" + id.toString() + "]"
+		}
 		
 		/* INTERFACE mas.agent.Agent */
 		

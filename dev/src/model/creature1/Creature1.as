@@ -21,9 +21,9 @@ package model.creature1
 		
 		private function createReasoning():void 
 		{
-			var r:IReasoning;
-			r = new Reasoning_AutoEvaluate();
-			reasoning.push(r);
+			reasoning.push(new Reasoning_AutoEvaluate());
+			reasoning.push(new Reasoning_SearchFood());
+			
 		}
 		
 		public function createSensors():void {

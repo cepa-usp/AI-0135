@@ -6,6 +6,7 @@ package model.creature1
 	import mas.enviro.Environment;
 	import model.BioAction;
 	import model.BioAgent;
+	import model.Config;
 	
 	/**
 	 * This is a sensor emulating simple eyes with some panoramic view
@@ -25,7 +26,7 @@ package model.creature1
 	public class SimpleEyes implements ISensor
 	{
 		
-		private var maxDistance:int = 9;
+		private var maxDistance:int = 7;
 		public function SimpleEyes() 
 		{
 			
@@ -36,41 +37,46 @@ package model.creature1
 		public function receive(agt:Agent):void 
 		{
 			var agent:BioAgent = BioAgent(agt);
-			var arrDist:Array = new Array(maxDistance);
+			var arrDist:Array = new Array();
 			var range:int = 0;
 			var env:Environment = agt.environment;
-			var qt:int = 2;
-			
-			for (var d:int  = 1; d <= maxDistance; d++) {
+			var qt:int = 5;
+				for (var d:int  = 0; d <= maxDistance; d++) {
+				//trace("criatura ", agent.id, " dist ", d, " =======================")
 				var objs:Array = new Array();
 				var pos:Point = agt.position.clone();
 				var y:int = pos.y;
 				var x:int = pos.x;
-
+				
 				switch(agent.direction) {
 					case BioAgent.DIR_UP:
-						pos.y--;
-						for (pos.x = x - d; pos.x <= x + d; pos.x++) checkObjects(objs, pos, env);
+						pos.y-=d;
+						for (pos.x = x - d; pos.x <= x + d; pos.x++) {
+							checkObjects(objs, pos, env);
+						}
 						break;
 					case BioAgent.DIR_DOWN:
-						pos.y++;
-						for (pos.x = x - d; pos.x <= x + d; pos.x++) checkObjects(objs, pos, env);
+						pos.y+=d;
+						for (pos.x = x - d; pos.x <= x + d; pos.x++) {
+							checkObjects(objs, pos, env);
+						}
 						break;
 					case BioAgent.DIR_LEFT:
-						pos.x--;
-						for (pos.y = y - d; pos.y <= y + d; pos.y++) checkObjects(objs, pos, env);
+						pos.x-=d;
+						for (pos.y = y - d; pos.y <= y + d; pos.y++) {
+							checkObjects(objs, pos, env);
+						}
 						break;
 					case BioAgent.DIR_RIGHT:
-						pos.x--;
-						for (pos.y = y - d; pos.y <= y + d; pos.y++) checkObjects(objs, pos, env);
+						pos.x+=d;
+						for (pos.y = y - d; pos.y <= y + d; pos.y++) {
+							checkObjects(objs, pos, env);
+						}
 						break;
 				}				
 				range++;
-				if (objs.length > 0) {
-					arrDist[d - 1] = objs;
-				} else {
-					arrDist[d - 1] = null;
-				}
+				if (objs.length > 0) arrDist.push(objs);
+ 
 			}
 			agent.mindVars.focus = arrDist;
 			
@@ -82,7 +88,11 @@ package model.creature1
 				if (env.resourceMap.length <= pos.x) return;
 				if (env.resourceMap[pos.x].length <= pos.y) return;
 				if (env.resourceMap[pos.x][pos.y]!=null) {
-					objs.push(env.resourceMap[pos.x][pos.y]);
+					for each (var ag:Agent in env.resourceMap[pos.x][pos.y]) {
+						//trace(ag.description)
+						objs.push(ag);
+					}
+					
 				}
 			
 		}

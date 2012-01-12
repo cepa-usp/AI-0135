@@ -14,13 +14,14 @@ package model
 	public class FoodAgent extends BaseAgent implements Agent
 	{		
 		
-		private var energyProvided:int = 50;
+		private var _energyProvided:int = 50;
 		private var state:int = 0;
+		private var _id:int;
 		private var dispatcher:EventDispatcher = new EventDispatcher();
 		
 		public function FoodAgent() 
 		{
-			
+		id = Config.getId();	
 		}
 
 		private function die():void {
@@ -49,6 +50,38 @@ package model
 		public function get eventDispatcher():EventDispatcher 
 		{
 			return dispatcher;
+		}
+		
+		public function get id():int 
+		{
+			return _id;
+		}
+		
+		public function set id(value:int):void 
+		{
+			_id = value;
+		}
+		
+		public function select():void {
+			eventDispatcher.dispatchEvent(new Event(Event.CONNECT));
+		}
+		public function unselect():void {
+			eventDispatcher.dispatchEvent(new Event(Event.CLEAR));
+		}		
+		
+		
+		public function get description():String {
+			return "food [" + id.toString() + "]"
+		}
+		
+		public function get energyProvided():int 
+		{
+			return _energyProvided;
+		}
+		
+		public function set energyProvided(value:int):void 
+		{
+			_energyProvided = value;
 		}
 		
 		public static const STATE_NORMAL:int = 0;

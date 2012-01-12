@@ -2,6 +2,7 @@ package model.creature1.actions
 {
 	import mas.agent.action.Action;
 	import mas.agent.Agent;
+	import model.AgentEvent;
 	import model.BioAction;
 	import model.BioAgent;
 	import model.FoodAgent;
@@ -17,12 +18,26 @@ package model.creature1.actions
 		public function Creature1_Eat(food:FoodAgent, agt:BioAgent, duration:int) 
 		{
 			super(agt, duration, BioAction.ACTION_EATING);
-			this.food = food;
+			this.food = food;			
 		}
 		
-		override function onFinish() {
+		override public function onStart():void{
 			var bioag:BioAgent = BioAgent(agent);
-			bioag.recoverEnergy();
+			var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, bioag, true);
+			ev.tag = food;
+			ev.duration = this.duration;
+			ev.actionType = BioAction.ACTION_EATING;
+			ev.mindstate = bioag.mindState;
+			//trace("pediu pra comer")
+			bioag.eventDispatcher.dispatchEvent(ev);
+		}			
+		
+		override public function onFinish():void {
+			
+			var ev:AgentEvent = new AgentEvent(AgentEvent.FEEDING_COMPLETE, agent);
+			ev.tag = food;
+			ev.duration = 0;
+			BioAgent(agent).eventDispatcher.dispatchEvent(ev);
 		}	
 		
 	}

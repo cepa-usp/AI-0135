@@ -1,7 +1,9 @@
 package view 
 {
+	import com.eclecticdesignstudio.motion.Actuate;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.filters.GlowFilter;
 	import mas.agent.Agent;
 	import model.AgentEvent;
 	import model.creature1.Creature1;
@@ -16,22 +18,26 @@ package view
 		
 		private var _type:int = 0;
 		private var _agent:Agent;
+		private var pic:Sprite;
+		private var glowfilter:GlowFilter = new GlowFilter(0xFF0000, 1)
 		
 		public function MiniAgent(agt:Agent) 
 		{
 				this._agent = agt;
+				pic = new Sprite();
+				addChild(pic);
 		}
 		
 		
 		
 		public function draw():void {
 			if (_agent is Creature1) {
-				graphics.beginFill(0x004080, 1);
-				graphics.drawCircle(0, 0, 3);
+				pic.graphics.beginFill(0x004080, 1);
+				pic.graphics.drawCircle(0, 0, 3);
 			}
 			if (_agent is FoodAgent) {
-				graphics.beginFill(0xFF0080, 1);
-				graphics.drawRect( -2, -2, 4, 4);				
+				pic.graphics.beginFill(0xFF0080, 1);
+				pic.graphics.drawRect( -2, -2, 4, 4);				
 			}
 		}
 		
@@ -54,6 +60,17 @@ package view
 		{			
 			_agent = value;
 			_agent.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange)
+			_agent.eventDispatcher.addEventListener(Event.CONNECT, onGlow)
+			_agent.eventDispatcher.addEventListener(Event.CLEAR, unGlow)
+		}
+		
+		
+		private function unGlow(e:Event=null):void {
+			this.pic.filters = [];
+		}
+		private function onGlow(e:Event):void {
+			this.pic.filters = [glowfilter];
+
 		}
 		
 		private function onAgentActionChange(e:AgentEvent):void 

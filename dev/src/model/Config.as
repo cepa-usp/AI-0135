@@ -22,6 +22,12 @@ package model
 		public static const t:int = 500 // tempo de cada round, em milisegundos
 		
 		
+		public static function myTrace(...rest) : void {
+			trace(rest)
+		}
+			
+		
+		
 		public function Config() 
 		{
 			

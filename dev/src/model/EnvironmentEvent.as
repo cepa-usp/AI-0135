@@ -27,6 +27,7 @@ package model
 		}
 		
 		public static const AGENT_CREATED:String = "agentCreated";
+		public static const AGENT_DESTROYED:String = "agentDestroyed";
 		
 		public function get agent():Agent 
 		{

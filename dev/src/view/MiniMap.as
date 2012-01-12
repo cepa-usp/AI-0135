@@ -30,7 +30,20 @@ package view
 			enviro = environment;
 			addChild(agent_layer);
 			enviro.eventDispatcher.addEventListener(EnvironmentEvent.AGENT_CREATED, onAgentCreated)
+			enviro.eventDispatcher.addEventListener(EnvironmentEvent.AGENT_DESTROYED, onAgentDestroyed)
 			draw();
+		}
+		
+		private function onAgentDestroyed(e:EnvironmentEvent):void 
+		{
+			for each(var ma:MiniAgent in agts) {
+				if (ma.agent == e.agent) {
+					agts.splice(agts.indexOf(ma), 1);
+					agent_layer.removeChild(ma);
+					return;
+				}
+			}
+
 		}
 		
 		private function onAgentCreated(e:EnvironmentEvent):void 

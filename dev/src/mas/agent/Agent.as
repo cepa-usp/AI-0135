@@ -17,6 +17,7 @@ package mas.agent
 		function get environment():Environment;
 		function get block():Boolean;
 		function get position():Point;
+		function get description():String;
 	}
 
 }
