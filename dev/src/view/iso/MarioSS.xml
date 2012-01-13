@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:fc93622034a5108bed244d9adcb9d3e2$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="MarioSS.png" width="132" height="144">
+    <sprite n="front01" y="0" 	x="0" 	w="33" h="36"/>
+    <sprite n="front02" y="0" 	x="33" 	w="33" h="36"/>
+    <sprite n="front03" y="0" 	x="66" 	w="33" h="36"/>
+    <sprite n="front04" y="0"	x="99" 	w="33" h="36"/>
+	<sprite n="left01" 	y="36" 	x="0" 	w="33" h="36"/>
+    <sprite n="left02" 	y="36" 	x="33" 	w="33" h="36"/>
+    <sprite n="left03" 	y="36" 	x="66" 	w="33" h="36"/>
+    <sprite n="left04" 	y="36"	x="99" 	w="33" h="36"/>
+	<sprite n="right01" y="72" 	x="0" 	w="33" h="36"/>
+    <sprite n="right02" y="72" 	x="33" 	w="33" h="36"/>
+    <sprite n="right03" y="72" 	x="66" 	w="33" h="36"/>
+    <sprite n="right04" y="72"	x="99" 	w="33" h="36"/>
+	<sprite n="back01" 	y="108"	x="0" 	w="33" h="36"/>
+    <sprite n="back02" 	y="108"	x="33" 	w="33" h="36"/>
+    <sprite n="back03" 	y="108"	x="66" 	w="33" h="36"/>
+    <sprite n="back04" 	y="108"	x="99" 	w="33" h="36"/>
+</TextureAtlas>

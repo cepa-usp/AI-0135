@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e870c71f20ea8c2256c71e8e528be366$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="arvore.png" width="222" height="354">
+    <sprite n="arvore0001" x="2" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0002" x="46" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0003" x="90" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0004" x="134" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0005" x="178" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0006" x="2" y="46" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0007" x="46" y="46" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0008" x="90" y="46" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0010" x="178" y="46" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0011" x="2" y="90" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0012" x="46" y="90" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0013" x="90" y="90" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0014" x="134" y="90" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0015" x="178" y="90" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0016" x="2" y="134" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0017" x="46" y="134" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0018" x="90" y="134" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0019" x="134" y="134" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0020" x="178" y="134" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0021" x="2" y="178" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0022" x="46" y="178" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0023" x="90" y="178" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0024" x="134" y="178" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0025" x="178" y="178" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0026" x="2" y="222" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0027" x="46" y="222" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0028" x="90" y="222" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0029" x="134" y="222" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0031" x="2" y="266" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0032" x="46" y="266" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0033" x="90" y="266" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0034" x="134" y="266" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0035" x="178" y="266" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0036" x="2" y="310" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0037" x="46" y="310" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+    <sprite n="arvore0038" x="2" y="2" w="42" h="42" oX="288" oY="211" oW="618" oH="464"/>
+</TextureAtlas>

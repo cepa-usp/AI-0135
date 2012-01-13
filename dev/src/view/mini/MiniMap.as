@@ -1,4 +1,4 @@
-package view 
+package view.mini
 {
 	import as3isolib.core.EventListenerDescriptor;
 	import com.eclecticdesignstudio.motion.Actuate;
@@ -21,7 +21,6 @@ package view
 	public class MiniMap extends Sprite
 	{
 		private var agent_layer:Sprite = new Sprite();
-		
 		private var enviro:Environment;
 		private var agts:Vector.<MiniAgent> = new Vector.<MiniAgent>();
 		
@@ -55,7 +54,6 @@ package view
 				ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 				var miniag:MiniAgent = new MiniAgent(ag);
 				agts.push(miniag);
-				miniag.agent = ag;
 				miniag.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 				agent_layer.addChild(miniag)
 				

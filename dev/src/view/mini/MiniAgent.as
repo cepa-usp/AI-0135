@@ -1,6 +1,5 @@
-package view 
+package view.mini
 {
-	import com.eclecticdesignstudio.motion.Actuate;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.filters.GlowFilter;
@@ -19,7 +18,6 @@ package view
 		private var _type:int = 0;
 		private var _agent:Agent;
 		private var pic:Sprite;
-		private var glowfilter:GlowFilter = new GlowFilter(0xFF0000, 1)
 		
 		public function MiniAgent(agt:Agent) 
 		{
@@ -60,18 +58,10 @@ package view
 		{			
 			_agent = value;
 			_agent.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange)
-			_agent.eventDispatcher.addEventListener(Event.CONNECT, onGlow)
-			_agent.eventDispatcher.addEventListener(Event.CLEAR, unGlow)
 		}
 		
 		
-		private function unGlow(e:Event=null):void {
-			this.pic.filters = [];
-		}
-		private function onGlow(e:Event):void {
-			this.pic.filters = [glowfilter];
 
-		}
 		
 		private function onAgentActionChange(e:AgentEvent):void 
 		{
