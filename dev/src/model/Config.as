@@ -20,6 +20,15 @@ package model
 		
 		
 		public static const t:int = 500 // tempo de cada round, em milisegundos
+
+		public static function cut(x:Number):Number {
+			return Math.max(0, Math.min(x, 1));
+		}
+		
+		
+		public static function calcPermissividadeNascimento(n:int, nmax:int, deltaN:int):Number {
+			return 1;
+		}
 		
 		
 		public static function myTrace(...rest) : void {

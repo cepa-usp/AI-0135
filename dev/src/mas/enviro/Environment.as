@@ -14,6 +14,7 @@ package mas.enviro
 	import model.BioAction;
 	import model.BioAgent;
 	import model.Config;
+	import model.creature1.actions.Creature1_Born;
 	import model.creature1.Creature1;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
@@ -80,6 +81,7 @@ package mas.enviro
 			if (a is BioAgent) {
 				a.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, bindAgentAction);
 				a.eventDispatcher.addEventListener(AgentEvent.FEEDING_COMPLETE, feedAgent);
+				a.eventDispatcher.addEventListener(AgentEvent.MATING_COMPLETE, onMatingComplete);
 			}
 			setAgentPosition(a, pos);
 			a.init(this, pos);	
@@ -139,7 +141,7 @@ package mas.enviro
 		}
 		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 3; i++) {
+			for (var i:int = 0; i < 8; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
 				//registerAgent(creature, new Point(0, 0));
@@ -150,6 +152,15 @@ package mas.enviro
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
 				//registerAgent(food, new Point(0, 0));
 			}			
+		}
+		
+		public function onMatingComplete(e:AgentEvent) {
+			if (Config.calcPermissividadeNascimento(1, 2, 3)) {
+				var creature:Creature1 = new Creature1();
+				registerAgent(creature, e.agent.position.clone());
+				creature.mindState = BioAgent.MINDSTATE_IDLE;
+				creature.enqueueAction(new Creature1_Born(creature, 2000));				
+			}
 		}
 		
 		public function get agents():Vector.<Agent> 

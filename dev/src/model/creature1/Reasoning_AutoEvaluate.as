@@ -30,7 +30,8 @@ package model.creature1
 			var ic:Number = agent.intrFeeding.getValue()
 			var ia:Number = agent.intrMating.getValue()
 
-			agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
+			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
+			agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
 		}
 	}
 }

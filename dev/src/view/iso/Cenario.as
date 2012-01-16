@@ -139,11 +139,17 @@ package  view.iso
 					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
 				} else if (e.actionType == BioAction.ACTION_MATING) {
 					personagem.mudarMovimento("CREATURE1_MATE");
-					var newpos:Point = getScenePosition(e.destination);
-					Actuate.defaultEase = Linear.easeNone;
-					
-					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
-				}				
+				} else if (e.actionType == BioAction.ACTION_IDLE) {
+					personagem.mudarMovimento("CREATURE1_IDLE");
+				} else if (e.actionType == BioAction.ACTION_BORN) {
+					personagem.mudarMovimento("CREATURE1_BORN");
+				} else if (e.actionType == BioAction.ACTION_DEAD) {
+					personagem.mudarMovimento("CREATURE1_DEAD");
+				} else if (e.actionType == BioAction.ACTION_EATING) {
+					personagem.mudarMovimento("CREATURE1_EATING");
+				}
+
+
 			}
 
 		}
