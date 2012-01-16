@@ -23,6 +23,7 @@ package model.creature1
 		{
 			reasoning.push(new Reasoning_AutoEvaluate());
 			reasoning.push(new Reasoning_SearchFood());
+			reasoning.push(new Reasoning_SearchMate());
 			
 		}
 		

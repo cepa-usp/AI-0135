@@ -13,26 +13,29 @@ package model.creature1.actions
 	public class Creature1_Mate extends Action
 	{
 				
-		public var couple:BioAgent
+		private var couple:BioAgent
+		private var start:Boolean = false;
 		public function Creature1_Mate(agt:BioAgent, duration:Number, couple:BioAgent) 
 		{
 			super(agt, duration, BioAction.ACTION_MATING)
 			this.couple = couple;
+			start = (couple.mindState == BioAgent.MINDSTATE_MATING)
 			
 		}
 		
 		override public function onStart():void {
-			BioAgent(agent).direction = direction;
 			var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, agent);
 			ev.duration = duration;
 			ev.actionType = BioAction.ACTION_MATING;
-			ev.tag = couple;
+			ev.tag = couple;			
 			agent.eventDispatcher.dispatchEvent(ev);
 		}
 		
 		override public function onFinish():void {
-			var ev:AgentEvent = new AgentEvent(AgentEvent.MATING_COMPLETE, agent, true);
-			agent.eventDispatcher.dispatchEvent(ev);
+			if(start){
+				var ev:AgentEvent = new AgentEvent(AgentEvent.MATING_COMPLETE, agent, true);
+				agent.eventDispatcher.dispatchEvent(ev);
+			}
 			calculateEnergyCost();
 		}	
 		

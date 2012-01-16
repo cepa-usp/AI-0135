@@ -31,15 +31,15 @@ package model.creature1
 			var energy:Number = agent.energy;
 			var ic:Number = agent.intrFeeding.getValue()
 			var ia:Number = agent.intrMating.getValue()
-			var targetmate:FoodAgent = null;
+			var targetmate:BioAgent = null;
 			
 			var posWalk:Array = null;
 			var searchOther:Boolean = true;
 			if (agent.mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {				
 				if (agent.mindVars["targetmate"] != null) {
 					if (agent.environment.exists(Agent(agent.mindVars["targetmate"]))) {
-						targetfood = agent.mindVars["targetmate"];
-						bestPos = targetfood.position.clone();
+						targetmate = agent.mindVars["targetmate"];
+						bestPos = targetmate.position.clone();
 						posWalk = walkCloser(agent, bestPos.clone());
 						searchOther = false;
 					} else {
@@ -53,13 +53,14 @@ package model.creature1
 							if(agent.mindVars.focus[i]!=null){
 								for (var j:int = 0; j < agent.mindVars.focus[i].length; j++) {
 									if (agent.mindVars.focus[i][j] != null) {
-										
-										if (agent.mindVars.focus[i][j] is Creature1 && agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE) {
-											targetfood = agent.mindVars.focus[i][j]
-											bestPos = FoodAgent(agent.mindVars.focus[i][j]).position.clone();
-											
-											agent.mindVars.targetmate = agent.mindVars.focus[i][j];
-										}
+										var objfc:Object = agent.mindVars.focus[i][j];
+										if (objfc is Creature1 && objfc!=agent) {
+											if ( BioAgent(objfc).mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {
+												targetmate = BioAgent(objfc);
+												bestPos = Creature1(agent.mindVars.focus[i][j]).position.clone();
+												agent.mindVars.targetmate = targetmate;
+											}
+										}																				
 									}
 								}
 							}
@@ -85,9 +86,8 @@ package model.creature1
 				//trace(Point.distance(posWalk[1], bestPos))
 				if(Point.distance(posWalk[1], bestPos) <= 2){
 					agent.mindState = BioAgent.MINDSTATE_MATING
-					var mate:Creature1_Mate = new Creature1_Mate(targetmate, agent, 2000);					
-					//var mate:Creature1_Mate = new Creature1_Mate
-					agent.enqueueAction(eat)
+					var mate:Creature1_Mate = new Creature1_Mate(agent, 2000, targetmate);					
+					agent.enqueueAction(mate);
 				}
 			}
 			
