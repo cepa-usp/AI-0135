@@ -154,12 +154,12 @@ package mas.enviro
 			}			
 		}
 		
-		public function onMatingComplete(e:AgentEvent) {
-			if (Config.calcPermissividadeNascimento(1, 2, 3)) {
+		public function onMatingComplete(e:AgentEvent):void {
+			if (Config.calcPermissividadeNascimento(1, 2, 3) > Math.random()) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;
-				creature.enqueueAction(new Creature1_Born(creature, 2000));				
+				creature.enqueueAction(new Creature1_Born(creature, 10000));	
 			}
 		}
 		

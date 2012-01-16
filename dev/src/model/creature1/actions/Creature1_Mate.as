@@ -36,6 +36,7 @@ package model.creature1.actions
 				var ev:AgentEvent = new AgentEvent(AgentEvent.MATING_COMPLETE, agent, true);
 				agent.eventDispatcher.dispatchEvent(ev);
 			}
+			
 			calculateEnergyCost();
 		}	
 		

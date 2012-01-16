@@ -61,10 +61,11 @@ package model
 					executeAction();
 					return;
 				} 
-				if (currentAction == null) {
+				//if (currentAction == null) {
+					this.mindState = MINDSTATE_IDLE;
 					currentAction = new Action(this, 1000, BioAction.ACTION_IDLE);
 					
-				}
+				//}
 			}
 			timer = new Timer(currentAction.duration, 1);						
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, executeAction);
