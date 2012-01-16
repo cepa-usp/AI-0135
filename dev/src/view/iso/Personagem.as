@@ -27,7 +27,7 @@ package  view.iso
 			
 		}
 		
-		public function mudarMovimento(nomeMovimento:String) {
+		public function mudarMovimento(nomeMovimento:String):void {
 			if (currentMoveName.match(nomeMovimento)) return;
 			currentMoveName = nomeMovimento;
 			bitmapFrame.setMovimento(nomeMovimento);

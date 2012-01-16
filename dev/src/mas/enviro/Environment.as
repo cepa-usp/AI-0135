@@ -132,7 +132,7 @@ package mas.enviro
 			eventDispatcher.dispatchEvent(ev);						
 		}
 		
-		private function feedAgent(e:AgentEvent) {
+		private function feedAgent(e:AgentEvent):void {
 			
 			BioAgent(e.agent).recoverEnergy(FoodAgent(e.tag).energyProvided);
 			
