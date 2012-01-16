@@ -85,7 +85,7 @@ package model.creature1
 				//trace(Point.distance(posWalk[1], bestPos))
 				if(Point.distance(posWalk[1], bestPos) <= 2){
 					agent.mindState = BioAgent.MINDSTATE_MATING
-					var eat:Creature1_Eat = new Creature1_Eat(targetmate, agent, 2000);					
+					var mate:Creature1_Mate = new Creature1_Mate(targetmate, agent, 2000);					
 					//var mate:Creature1_Mate = new Creature1_Mate
 					agent.enqueueAction(eat)
 				}

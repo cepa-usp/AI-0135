@@ -137,7 +137,13 @@ package  view.iso
 					Actuate.defaultEase = Linear.easeNone;
 					
 					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
-				}							
+				} else if (e.actionType == BioAction.ACTION_MATING) {
+					personagem.mudarMovimento("CREATURE1_MATE");
+					var newpos:Point = getScenePosition(e.destination);
+					Actuate.defaultEase = Linear.easeNone;
+					
+					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
+				}				
 			}
 
 		}
