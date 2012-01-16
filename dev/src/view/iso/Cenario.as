@@ -12,6 +12,7 @@ package  view.iso
 	import as3isolib.graphics.Stroke;
 	import com.eclecticdesignstudio.motion.Actuate;
 	import com.eclecticdesignstudio.motion.easing.Linear;
+	import com.eclecticdesignstudio.motion.easing.Quad;
 	import fl.transitions.easing.None;
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
@@ -115,22 +116,26 @@ package  view.iso
 			return new Point(p.x*CELL_SIZE, p.y*CELL_SIZE);
 		}
 		
-		private function onAgentActionChange(e:AgentEvent):void 
-		{
-			var personagem:Personagem;
-			for each (var pers:view.iso.Personagem in personagens) {
-				if (pers.agent == e.agent) {						
-					personagem = pers;
-					break;
+		private function getPersonagem(a:Agent):view.iso.Personagem {
+				for each (var pers:view.iso.Personagem in personagens) {
+				if (pers.agent == a) {						
+					return pers;
 				}
 			}
+			return null;
+		}
+		
+		private function onAgentActionChange(e:AgentEvent):void 
+		{
+			var personagem:Personagem = getPersonagem(e.agent);
 			if (personagem == null) return;
 			
 			if (e.agent is Creature1) {
 				if (e.actionType == BioAction.ACTION_MOVING) {
 					personagem.mudarMovimento("CREATURE1_MOVE_" + e.walkingDirection.toString());
-					var newpos:Point = getScenePosition(e.agent.position);
+					var newpos:Point = getScenePosition(e.destination);
 					Actuate.defaultEase = Linear.easeNone;
+					
 					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
 				}							
 			}

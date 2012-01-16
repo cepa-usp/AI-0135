@@ -18,6 +18,7 @@ package  view.iso
 		private var _state:int = 0;
 		private var _adjust:int = 0;
 
+		private var mudou:Boolean = false;
 		private static const STATE_STOPPED:int = 0;
 		private static const STATE_PLAYING:int = 1;
 		
@@ -27,7 +28,7 @@ package  view.iso
 		}
 		
 		public function setMovimento(nomeMovimento:String):void {
-			currentFrame = 0;
+			currentFrame = 0;			
 			//if(Resources.movimentos[nomeMovimento]!=null) movimento = Resources.movimentos[nomeMovimento];
 			if (Resources.movimentos[nomeMovimento] != null) {
 				movimento = Movimento(Resources.movimentos[nomeMovimento]).sprites;
@@ -39,6 +40,7 @@ package  view.iso
 					this.y = 0;
 				}
 			}
+			
 		}
 		
 		public function play():void {
@@ -55,8 +57,8 @@ package  view.iso
 
 		private function changeGraphics(e:Event = null):void 
 		{
-			if (movimento == null) return;
-			
+			if (mudou) return;
+			if (movimento == null) return;			
 			this.bitmapData = movimento[currentFrame];
 			currentFrame++;
 			if (currentFrame == movimento.length) currentFrame = 0;			

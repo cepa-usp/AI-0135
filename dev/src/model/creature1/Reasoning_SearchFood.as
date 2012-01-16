@@ -76,12 +76,12 @@ package model.creature1
 		
 			if (posWalk != null) {
 				agent.direction = posWalk[0];				
-				var act:Creature1_Move = new Creature1_Move(agent, 300, posWalk[1].x, posWalk[1].y);
+				var act:Creature1_Move = new Creature1_Move(agent, 500, posWalk[1].x, posWalk[1].y);
 				agent.enqueueAction(act);
 			}
 			if (targetfood != null) {
 				//trace(Point.distance(posWalk[1], bestPos))
-				if(Point.distance(posWalk[1], bestPos) <= 2){
+				if(Point.distance(posWalk[1], bestPos) <= 1){
 					agent.mindState = BioAgent.MINDSTATE_OBTAINING_FOOD
 					var eat:Creature1_Eat = new Creature1_Eat(targetfood, agent, 2000);					
 					agent.enqueueAction(eat)
