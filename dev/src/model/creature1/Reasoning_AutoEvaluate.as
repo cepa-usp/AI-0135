@@ -33,7 +33,7 @@ package model.creature1
 			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 			var vv:Number = Math.random();
 			if(agent.mindState == BioAgent.MINDSTATE_IDLE){
-				if (vv < 0.2) {
+				if (vv < 0.3) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
 				} else if (vv < 0.9) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;

@@ -17,6 +17,7 @@ package model.creature1
 			super();
 			createSensors();
 			createReasoning();
+			this.expenditures = new Creature1Expenditures();
 		}
 		
 		private function createReasoning():void 

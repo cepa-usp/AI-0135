@@ -7,6 +7,8 @@ package mas.enviro
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	import flash.utils.Timer;
 	import mas.agent.Agent;
 	import mas.enviro.Region;
@@ -32,6 +34,7 @@ package mas.enviro
 		private var _resourceMap:Array;
 		private var _blockMap:Array;
 		private var _eventDispatcher:EventDispatcher = new EventDispatcher();
+		private var ageTimer:Timer;
 		
 		public function Environment() 
 		{
@@ -55,6 +58,20 @@ package mas.enviro
 		}
 		
 		
+		public function computeAges(e:TimerEvent = null):void {
+			if (e != null) {
+				for each(var a:Agent in agents) {
+					if (a is BioAgent) {
+						BioAgent(a).addAge()
+					}
+				}
+			} else {
+				ageTimer = new Timer(Config.ageTurn, 0) 
+				ageTimer.addEventListener(TimerEvent.TIMER, computeAges);
+				ageTimer.start();
+			}
+		}
+		
 		public function addRegion(r:Region):void {
 			regions.push(r);
 			var idx:int = regions.indexOf(r, 0);
@@ -75,6 +92,9 @@ package mas.enviro
 			setAgentPosition(e.agent, e.agent.position);
 		}
 		
+		
+		
+		
 		public function registerAgent(a:Agent, pos:Point):void {
 			agents.push(a);
 			a.eventDispatcher.addEventListener(AgentEvent.MOVING_COMPLETE, moveAgent);
@@ -82,6 +102,7 @@ package mas.enviro
 				a.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, bindAgentAction);
 				a.eventDispatcher.addEventListener(AgentEvent.FEEDING_COMPLETE, feedAgent);
 				a.eventDispatcher.addEventListener(AgentEvent.MATING_COMPLETE, onMatingComplete);
+				a.eventDispatcher.addEventListener(AgentEvent.TERMINATED, onAgentTerminated);
 			}
 			setAgentPosition(a, pos);
 			a.init(this, pos);	
@@ -90,6 +111,11 @@ package mas.enviro
 			ev.agent = a;
 			eventDispatcher.dispatchEvent(ev);
 		}			
+		
+		private function onAgentTerminated(e:AgentEvent):void 
+		{
+			deleteAgent(e.agent);
+		}
 		
 		private function bindAgentAction(e:AgentEvent):void 
 		{
@@ -114,24 +140,37 @@ package mas.enviro
 		
 		public function start():void {
 			run();
-			var t:Timer = new Timer(Config.t, 0);
-			t.addEventListener(TimerEvent.TIMER, run)
+			
 		}
 		
 		private function run(e:Event = null):void {
 			for each (var a:Agent in agents) {
 				a.think();
 			}
+			
+			
 		}
 		
 		private function startFeedAgent(agt:BioAgent, food:FoodAgent):void {
-			var arr:Array = resourceMap[food.position.x][food.position.y];
-			arr.splice(arr.indexOf(food), 1);
-			var idx:int = agents.indexOf(food);
+			deleteAgent(food);					
+		}
+		
+		private function deleteAgent(ag:Agent):void {
+			var arr:Array = resourceMap[ag.position.x][ag.position.y];
+			arr.splice(arr.indexOf(ag), 1);
+			var idx:int = agents.indexOf(ag);
 			agents.splice(idx, 1);
 			var ev:EnvironmentEvent = new EnvironmentEvent(EnvironmentEvent.AGENT_DESTROYED);
-			ev.agent = food;
+			ev.agent = ag;
 			eventDispatcher.dispatchEvent(ev);						
+		}
+		
+		private function countSpecies(c:Class):int {
+			var i:int = 0;
+			for each (var a:Agent in agents) {
+				if (a is c) i++;
+			}
+			return i;
 		}
 		
 		private function feedAgent(e:AgentEvent):void {
@@ -141,7 +180,7 @@ package mas.enviro
 		}
 		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 8; i++) {
+			for (var i:int = 0; i < 20; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
 				//registerAgent(creature, new Point(0, 0));
@@ -151,11 +190,17 @@ package mas.enviro
 				var food:FoodAgent = new FoodAgent();				
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
 				//registerAgent(food, new Point(0, 0));
-			}			
+			}		
+			computeAges();
 		}
 		
 		public function onMatingComplete(e:AgentEvent):void {
-			if (Config.calcPermissividadeNascimento(1, 2, 3) > Math.random()) {
+			var objclass:Class =  Class(getDefinitionByName(getQualifiedClassName(e.agent)))
+			var qt:int = countSpecies(objclass);
+			var pstar:Number = Config.calcPermissividadeNascimento(qt, 30, 6);
+			var prob:Number = Math.random();
+			trace("qt, pstar, prob: ", qt, pstar, prob)
+			if (pstar > prob) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;

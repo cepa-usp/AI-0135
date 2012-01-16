@@ -33,6 +33,7 @@ package model
 		private var _environment:Environment;
 		private var _currentAction:Action;
 		private var timer:Timer;
+		private var _expenditures:IExpenditure;
 		private var _intrMating:Interest = new Interest();
 		private var _intrFeeding:Interest = new Interest();
 		
@@ -92,8 +93,15 @@ package model
 			energy = Math.max(amnt, current_maxenergy);
 		}
 		
+		public function addAge():void {
+			age++;
+			calculateMaxEnergy();
+			calculateVelocity();
+		}
+		
 		private function calculateMaxEnergy():void {
 			current_maxenergy = initial_maxenergy * Math.pow(Math.E, (age * -1) / Config.DEFAULT_BIOAGENT_OLDAGE);
+			energy = Math.min(current_maxenergy, energy);
 		}
 		
 		private function calculateVelocity():void {
@@ -123,9 +131,19 @@ package model
 			
 		}
 		
-		public function calculateEnergyExpenditure():void {
+		public function calculateEnergyExpenditure(expense:Point):void {
 			var x:int = 1;
 			energy = energy - x;
+			//if(id==20) trace (id, _current_maxenergy, energy)
+			var v:Number = -Math.max((1 - )
+			
+			
+			if (energy <= 0) {
+				this.mindState = MINDSTATE_DEAD;
+				var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, this);				
+				ev.actionType = BioAction.ACTION_DEAD;
+				eventDispatcher.dispatchEvent(ev);
+			}
 		}
 		
 		public function get energy():Number 
@@ -318,6 +336,16 @@ package model
 		public function set mindVars(value:Object):void 
 		{
 			_mindVars = value;
+		}
+		
+		public function get expenditures():IExpenditure 
+		{
+			return _expenditures;
+		}
+		
+		public function set expenditures(value:IExpenditure):void 
+		{
+			_expenditures = value;
 		}
 		
 
