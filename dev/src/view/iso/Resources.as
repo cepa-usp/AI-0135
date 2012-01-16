@@ -3,6 +3,7 @@ package  view.iso
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
@@ -14,13 +15,24 @@ package  view.iso
 	 
 	public final class Resources 
 	{
+		[Embed(source = "bkg.png")]
+		public static var Bkg:Class;
+		public static var BkgBmpd:BitmapData = new Bkg().bitmapData;
+		
+		[Embed(source = "sand.png")]
+		public static var Sand:Class;
+		public static var SandB:BitmapData = new Sand().bitmapData;
+		
 		public static var movimentos:Dictionary = new Dictionary(); /// String, Vector<BitmapData>
 		
-		public static function carregarMovimento(nomeMovimento:String, bounds:Rectangle, moviesrc:MovieClip, frameIni:int = 1, frameFim:int = -1) {
+		public static function carregarMovimento(nomeMovimento:String, bounds:Rectangle, moviesrc:MovieClip, deslocamento:Point = null, frameIni:int = 1, frameFim:int = -1):void {
 			if (frameFim == -1) frameFim = moviesrc.totalFrames;
-			var bd:Vector.<BitmapData> = new Vector.<BitmapData>();
-			bd = convertToBMPList(moviesrc, bounds);
-			movimentos[nomeMovimento] = bd;
+			//var bd:Vector.<BitmapData> = new Vector.<BitmapData>();
+			//bd = convertToBMPList(moviesrc, bounds);
+			//movimentos[nomeMovimento] = bd;
+			
+			var mov:Movimento = new Movimento(nomeMovimento, convertToBMPList(moviesrc, bounds), deslocamento);
+			movimentos[nomeMovimento] = mov;
 			
 		}
 

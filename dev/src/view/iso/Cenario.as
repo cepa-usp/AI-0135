@@ -30,6 +30,7 @@ package  view.iso
 	import model.BioAgent;
 	import model.creature1.Creature1;
 	import model.EnvironmentEvent;
+	import model.FoodAgent;
 	
 	/**
 	 * ...
@@ -52,14 +53,12 @@ package  view.iso
 		public function Cenario(environment:Environment):void 
 		{
 			enviro = environment;
-
-
 		}
 		
 		public function init():void {
 			setupVariables();
 			setupIsoLib();
-			createScenario();
+			//createScenario();
 			//stage.addEventListener(MouseEvent.CLICK, center);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, panViewIni);
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, viewZoom);
@@ -67,20 +66,20 @@ package  view.iso
 			enviro.eventDispatcher.addEventListener(EnvironmentEvent.AGENT_DESTROYED, onAgentDestroyed)
 			
 			// adiciona os agentes 
-			for each(var ag:Agent in enviro.agents) addNewAgent(ag);							
+			for each(var ag:Agent in enviro.agents) addNewAgent(ag);
+			sceneObj.render();
 		}
-
-	
+		
 		private function onAgentDestroyed(e:EnvironmentEvent):void 
 		{
 			for each(var pers:Personagem in personagens) {
 				if (pers.agent == e.agent) {
 					personagens.splice(personagens.indexOf(pers), 1);
-					scene.removeChild(pers);
+					if(e.agent is FoodAgent) sceneObj.removeChild(pers);
+					else scene.removeChild(pers);
 					return;
 				}
 			}
-
 		}
 		
 		private function onAgentCreated(e:EnvironmentEvent):void 
@@ -93,19 +92,25 @@ package  view.iso
 		}		
 		
 		public function addNewAgent(ag:Agent):void {
-				ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
-				var newChar:Personagem = new Personagem(ag);
-				personagens.push(newChar);			
-				//newChar.agent = ag;
-				scene.addChild(newChar);
-				var pos:Point = ag.position.clone();
+			var newChar:Personagem;
+			newChar = new Personagem(ag);
+			personagens.push(newChar);
+			ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
+			if (ag is FoodAgent) {
+				sceneObj.addChild(newChar);
+			}else {	
+				//ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 				
-
-				newChar.x = getScenePosition(pos).x;
-				newChar.y = getScenePosition(pos).y;
-				newChar.draw();
+				scene.addChild(newChar);
+			}
+			var pos:Point = ag.position.clone();
+				
+			newChar.x = getScenePosition(pos).x;
+			newChar.y = getScenePosition(pos).y;
+			newChar.draw();
 		}		
-				// TODO:ajustar posição		
+		
+		// TODO:ajustar posição		
 		public function getScenePosition(p:Point):Point {
 			return new Point(p.x*CELL_SIZE, p.y*CELL_SIZE);
 		}
@@ -120,7 +125,7 @@ package  view.iso
 				}
 			}
 			if (personagem == null) return;
-
+			
 			if (e.agent is Creature1) {
 				if (e.actionType == BioAction.ACTION_MOVING) {
 					personagem.mudarMovimento("CREATURE1_MOVE_" + e.walkingDirection.toString());
@@ -150,7 +155,7 @@ package  view.iso
 		{
 			var iso:IsoSprite;
 			var array:Array; // = Resources.parseXMLA(new Resources.XMLSheetA);
-			return;
+			
 			for (var i:int = 0; i < GRID_SIZE.x; i++) 
 			{
 				for (var j:int = 0; j < GRID_SIZE.y; j++) 
@@ -218,15 +223,6 @@ package  view.iso
 			view.centerOnPt(view.localToIso(new Pt(stage.mouseX, stage.mouseY)));
 		}
 		
-		
-
-
-
-		
-
-		
-
-		
 		/**
 		 * Cria a grid (pode ser omitida no projeto final).
 		 * Cria a cena, onde serão inseridos os personagens e cenário.
@@ -248,14 +244,14 @@ package  view.iso
 			view.centerOnPt(center_point);
 			view.addScene(sceneObj);
 			view.addScene(scene);
-			scene.addChild(grid);
+			//scene.addChild(grid);
 			
-			//var bg:Bitmap; // = new Bitmap(Resources.BkgBmpd);
-			//bg.x = -bg.width / 2;
-			//bg.y = -100;
+			var bg:Bitmap = new Bitmap(Resources.BkgBmpd);
+			bg.x = -bg.width / 2;
+			bg.y = -100;
 			
-			//view.backgroundContainer.addChild(bg);
-			//view.rangeOfMotionTarget = bg;
+			view.backgroundContainer.addChild(bg);
+			view.rangeOfMotionTarget = bg;
 		
 			addChild(view);
 			

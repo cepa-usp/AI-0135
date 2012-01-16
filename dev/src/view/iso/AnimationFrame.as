@@ -28,7 +28,17 @@ package  view.iso
 		
 		public function setMovimento(nomeMovimento:String):void {
 			currentFrame = 0;
-			if(Resources.movimentos[nomeMovimento]!=null) movimento = Resources.movimentos[nomeMovimento];
+			//if(Resources.movimentos[nomeMovimento]!=null) movimento = Resources.movimentos[nomeMovimento];
+			if (Resources.movimentos[nomeMovimento] != null) {
+				movimento = Movimento(Resources.movimentos[nomeMovimento]).sprites;
+				if (Movimento(Resources.movimentos[nomeMovimento]).deslocamento != null) {
+					this.x = Movimento(Resources.movimentos[nomeMovimento]).deslocamento.x;
+					this.y = Movimento(Resources.movimentos[nomeMovimento]).deslocamento.y;
+				}else {
+					this.x = 0;
+					this.y = 0;
+				}
+			}
 		}
 		
 		public function play():void {

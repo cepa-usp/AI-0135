@@ -139,14 +139,16 @@ package mas.enviro
 		}
 		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 14; i++) {
+			for (var i:int = 0; i < 50; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
+				//registerAgent(creature, new Point(0, 0));
 				
 			}
-			for (var ia:int = 0; ia < 30; ia++) {
+			for (var ia:int = 0; ia < 150; ia++) {
 				var food:FoodAgent = new FoodAgent();				
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
+				//registerAgent(food, new Point(0, 0));
 			}			
 		}
 		

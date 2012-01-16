@@ -331,8 +331,8 @@ package model
 		
 		public static const DIR_UP:int = 8;
 		public static const DIR_DOWN:int = 2;
-		public static const DIR_LEFT:int = 6;
-		public static const DIR_RIGHT:int = 4;
+		public static const DIR_LEFT:int = 4;
+		public static const DIR_RIGHT:int = 6;
 
 		
 

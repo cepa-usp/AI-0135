@@ -1,6 +1,7 @@
 package 
 {
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Timer;
 	import mas.enviro.Environment;
@@ -47,10 +48,12 @@ package
 		}
 		
 		private function addAnimations():void {
-			Resources.carregarMovimento("CREATURE1_INICIAL", new Rectangle( -25, -25, 50, 50), new RodaDir())
-			Resources.carregarMovimento("FOODAGENT_INICIAL", new Rectangle(-20,-22,41,44), new grass())
-			Resources.carregarMovimento("CREATURE1_MOVE_6", new Rectangle( -25, -25, 50, 50), new Luigi())
-			Resources.carregarMovimento("CREATURE1_MOVE_4", new Rectangle( -25, -25, 50, 50), new RodaEsq())
+			Resources.carregarMovimento("CREATURE1_INICIAL", new Rectangle( 0, 0, 18, 35), new Mario_down(), new Point(-9, -18));
+			Resources.carregarMovimento("FOODAGENT_INICIAL", new Rectangle( -20, -22, 41, 44), new grass(), new Point(-20, -22));
+			Resources.carregarMovimento("CREATURE1_MOVE_4", new Rectangle( 0, 0, 18, 35), new Mario_up(), new Point(-9, -18));
+			Resources.carregarMovimento("CREATURE1_MOVE_6", new Rectangle( 0, 0, 18, 35), new Mario_down(), new Point(-9, -18));
+			Resources.carregarMovimento("CREATURE1_MOVE_2", new Rectangle( 0, 0, 18, 35), new Mario_left(), new Point(-9, -18));
+			Resources.carregarMovimento("CREATURE1_MOVE_8", new Rectangle( 0, 0, 18, 35), new Mario_right(), new Point(-9, -18));
 		}
 		
 	}

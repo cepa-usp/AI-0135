@@ -51,6 +51,7 @@
     <element path="lib\as3isolib.v1.core.swc" />
     <element path="lib\graph.swc" />
     <element path="lib\teste.swc" />
+    <element path="lib\marios.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
