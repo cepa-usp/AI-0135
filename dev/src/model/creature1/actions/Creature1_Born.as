@@ -13,8 +13,6 @@ package model.creature1.actions
 		public function Creature1_Born(agt:BioAgent, duration:int) 
 		{
 			super(agt, duration, BioAction.ACTION_BORN);
-			
-			
 		}	
 	}
 	

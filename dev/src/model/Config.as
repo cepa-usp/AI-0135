@@ -7,9 +7,9 @@ package model
 	 */
 	public class Config 
 	{
-		public static const DEFAULT_MAX_BIOAGENT_ENERGY:int = 200;
+		public static const DEFAULT_MAX_BIOAGENT_ENERGY:int = 2000; // 200e/dia
 		public static const DEFAULT_MAX_BIOAGENT_ENERGY_MODIFIER:int = 20;
-		public static const DEFAULT_BIOAGENT_OLDAGE:int = 120; // em turnos; é o tE, onde a energia do ser seja aprox. 37% da máxima;
+		public static const DEFAULT_BIOAGENT_OLDAGE:int = 10; // em turnos; é o tE, onde a energia do ser seja aprox. 37% da máxima;
 		public static const DEFAULT_BIOAGENT_MAXVEL:int = 50; // velocidade maxima de desloc. do individuo (u.d.s por turno)
 		public static const DEFAULT_BIOAGENT_EV:int = 20; // velocidade do individuo qdo tiver 63% da vel max
 		
@@ -19,15 +19,16 @@ package model
 		private static var lastId:int = 0;
 		
 		
-		public static const t:int = 500 // tempo de cada round, em milisegundos
-
+		public static const t:int = 1000 // tempo de cada round, em milisegundos
+		public static const ageTurn:int = 1 * t;
+		
 		public static function cut(x:Number):Number {
 			return Math.max(0, Math.min(x, 1));
 		}
 		
 		
 		public static function calcPermissividadeNascimento(n:int, nmax:int, deltaN:int):Number {
-			return 1;
+			return cut(0.5 + (nmax-n)/deltaN);
 		}
 		
 		

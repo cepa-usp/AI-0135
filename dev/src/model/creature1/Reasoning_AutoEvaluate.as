@@ -31,7 +31,16 @@ package model.creature1
 			var ia:Number = agent.intrMating.getValue()
 
 			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
-			agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
+			var vv:Number = Math.random();
+			if(agent.mindState == BioAgent.MINDSTATE_IDLE){
+				if (vv < 0.3) {
+					agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
+				} else if (vv < 0.9) {
+					agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
+				}
+			}
+			
+			
 		}
 	}
 }
