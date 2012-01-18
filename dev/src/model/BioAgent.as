@@ -135,7 +135,7 @@ package model
 			var x:int = 1;
 			energy = energy - x;
 			//if(id==20) trace (id, _current_maxenergy, energy)
-			var v:Number = -Math.max((1 - )
+			//var v:Number = -Math.max((1 - )
 			
 			
 			if (energy <= 0) {
