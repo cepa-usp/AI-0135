@@ -10,7 +10,10 @@ package model
 	import mas.agent.reasoning.IReasoning;
 	import mas.enviro.Environment;
 	import mas.agent.sensor.ISensor;
+	import mas.enviro.Region;
 	import model.creature1.Interest;
+	import model.creature1.Interest_Feeding;
+	import model.creature1.Interest_Mating;
 	
 	/**
 	 * ...
@@ -22,11 +25,10 @@ package model
 		private var _energy:Number = 0;
 		private var _id:int = 0;
 		private var _direction:int = 2;
-		private var _initial_maxenergy:Number = 100;
-		private var _current_maxenergy:Number = 100;
+		private var _initial_maxenergy:Number = 2000;
+		private var _current_maxenergy:Number = 2000;
 		private var _age:int = 0; // age in turns
-		private var _velocity:int = Config.DEFAULT_BIOAGENT_MAXVEL;
-		private var turnsToRefresh:int = 10; private var refreshTurn:int = 0;
+		private var _velocity:Number = Config.DEFAULT_BIOAGENT_MAXVEL;
 		private var _limitingFactors:Vector.<LimitingFactorCurve> = new Vector.<LimitingFactorCurve>();		
 		private var _mindState:int = MINDSTATE_IDLE;
 		private var _position:Point = new Point();
@@ -34,8 +36,8 @@ package model
 		private var _currentAction:Action;
 		private var timer:Timer;
 		private var _expenditures:IExpenditure;
-		private var _intrMating:Interest = new Interest();
-		private var _intrFeeding:Interest = new Interest();
+		private var _intrMating:Interest_Mating = new Interest_Mating(0.2, 0.6);
+		private var _intrFeeding:Interest_Feeding = new Interest_Feeding(0.1, 1);
 		
 		
 		protected var _mindVars:Object = new Object();
@@ -45,6 +47,9 @@ package model
 		
 		///private var sensors:Vector.<>
 		
+		public function stopTimer():void {
+			timer.stop();
+		}
 		
 		public function BioAgent() 
 		{
@@ -90,13 +95,17 @@ package model
 		}
 		
 		public function recoverEnergy(amnt:Number):void {
-			energy = Math.max(amnt, current_maxenergy);
+			energy += amnt;
+			energy = Math.min(energy, current_maxenergy);
 		}
 		
 		public function addAge():void {
 			age++;
 			calculateMaxEnergy();
 			calculateVelocity();
+			if (id == Config.viewId) {
+				trace("new maxenergy/vel: ", _current_maxenergy, velocity)
+			}
 		}
 		
 		private function calculateMaxEnergy():void {
@@ -110,8 +119,8 @@ package model
 		
 		public function init(env:Environment, init_position:Point):void
 		{
-			refreshTurn = Math.random() * turnsToRefresh;
 			initial_maxenergy  = Config.createBioAgentEnergy();
+			energy = _initial_maxenergy;
 			environment = env;			
 			_position = init_position;
 			eventDispatcher.dispatchEvent(new Event(AgentEvent.INITIALIZED));
@@ -121,21 +130,18 @@ package model
 		
 
 
-		public function refresh():void
-		{
-			if (age % turnsToRefresh == refreshTurn) { // dessa forma, os agentes não processarão todos ao mesmo tempo, diminuindo possível latência
-				calculateMaxEnergy();
-				calculateVelocity();
-			}
-			
-			
-		}
-		
 		public function calculateEnergyExpenditure(expense:Point):void {
-			var x:int = 1;
-			energy = energy - x;
-			//if(id==20) trace (id, _current_maxenergy, energy)
-			//var v:Number = -Math.max((1 - )
+			var maxret:Number = Number.NEGATIVE_INFINITY;
+			for each (var c:LimitingFactorCurve in limitingFactors) {
+				var parameter:String = c.getFactorName;
+				var reg:Region = environment.getRegion(position);
+				var valor:Number = reg.getResourceValue(parameter);				
+				var f:Number = c.calculateTolerance(valor);
+				var ret:Number = ((1 - f) * expense.y) - (f * expense.x);
+				if (ret > maxret) maxret = ret;
+			}
+			if(id==Config.viewId) trace(energy, " - ", maxret, " -> ", parameter)
+			energy += maxret;
 			
 			
 			if (energy <= 0) {
@@ -167,12 +173,12 @@ package model
 			_age = value;
 		}
 		
-		public function get velocity():int 
+		public function get velocity():Number 
 		{
 			return _velocity;
 		}
 		
-		public function set velocity(value:int):void 
+		public function set velocity(value:Number):void
 		{
 			_velocity = value;
 		}
@@ -308,22 +314,22 @@ package model
 			_currentAction = value;
 		}
 		
-		public function get intrMating():Interest 
+		public function get intrMating():Interest_Mating 
 		{
 			return _intrMating;
 		}
 		
-		public function set intrMating(value:Interest):void 
+		public function set intrMating(value:Interest_Mating):void 
 		{
 			_intrMating = value;
 		}
 		
-		public function get intrFeeding():Interest 
+		public function get intrFeeding():Interest_Feeding 
 		{
 			return _intrFeeding;
 		}
 		
-		public function set intrFeeding(value:Interest):void 
+		public function set intrFeeding(value:Interest_Feeding):void 
 		{
 			_intrFeeding = value;
 		}

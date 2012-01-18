@@ -7,6 +7,7 @@ package mas.enviro
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.Timer;
@@ -17,6 +18,7 @@ package mas.enviro
 	import model.BioAgent;
 	import model.Config;
 	import model.creature1.actions.Creature1_Born;
+	import model.creature1.actions.Creature1_Die;
 	import model.creature1.Creature1;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
@@ -35,6 +37,7 @@ package mas.enviro
 		private var _blockMap:Array;
 		private var _eventDispatcher:EventDispatcher = new EventDispatcher();
 		private var ageTimer:Timer;
+		private var hour:int = 0;
 		
 		public function Environment() 
 		{
@@ -58,16 +61,34 @@ package mas.enviro
 		}
 		
 		
-		public function computeAges(e:TimerEvent = null):void {
+		public function getRegion(p:Point):Region {
+			var sel:Region = null;
+			for each(var r:Region in regions) {
+				if (pointintorect(p, r.area)) sel = r;
+			}
+			return sel;
+		}
+		
+		private function pointintorect(p:Point, r:Rectangle):Boolean {
+			return (p.x >= r.x && p.x <= (r.width + r.x) && p.y >= r.y && r.y <= (r.height + r.y));
+		}
+		
+		public function computeHours(e:TimerEvent = null):void {
 			if (e != null) {
-				for each(var a:Agent in agents) {
+				hour++;
+				var a:Agent;
+				for each(a in agents) {
 					if (a is BioAgent) {
-						BioAgent(a).addAge()
+						BioAgent(a).calculateEnergyExpenditure(BioAgent(a).expenditures.expDefault);
+						if (hour == Config.ageTurn) {
+							BioAgent(a).addAge()
+						}
 					}
 				}
+				if (hour == Config.ageTurn) hour = 0;
 			} else {
-				ageTimer = new Timer(Config.ageTurn, 0) 
-				ageTimer.addEventListener(TimerEvent.TIMER, computeAges);
+				ageTimer = new Timer(Config.hourTurn, 0) 
+				ageTimer.addEventListener(TimerEvent.TIMER, computeHours);
 				ageTimer.start();
 			}
 		}
@@ -99,6 +120,7 @@ package mas.enviro
 			agents.push(a);
 			a.eventDispatcher.addEventListener(AgentEvent.MOVING_COMPLETE, moveAgent);
 			if (a is BioAgent) {
+				
 				a.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, bindAgentAction);
 				a.eventDispatcher.addEventListener(AgentEvent.FEEDING_COMPLETE, feedAgent);
 				a.eventDispatcher.addEventListener(AgentEvent.MATING_COMPLETE, onMatingComplete);
@@ -121,8 +143,11 @@ package mas.enviro
 		{
 			switch(e.actionType) {
 				case BioAction.ACTION_EATING:
-				startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
-				break;
+					startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
+					break;
+				case BioAction.ACTION_DEAD:
+					BioAgent(e.agent).enqueueAction(new Creature1_Die(BioAgent(e.agent), 1000));	
+					break;
 			}
 		}
 		
@@ -191,7 +216,7 @@ package mas.enviro
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
 				//registerAgent(food, new Point(0, 0));
 			}		
-			computeAges();
+			computeHours();
 		}
 		
 		public function onMatingComplete(e:AgentEvent):void {

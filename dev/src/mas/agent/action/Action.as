@@ -26,10 +26,7 @@ package mas.agent.action
 			return ev;
 		}
 		
-		
-		protected function calculateEnergyCost():void {
-			
-		}
+
 		
 		public function onStart():void {
 			

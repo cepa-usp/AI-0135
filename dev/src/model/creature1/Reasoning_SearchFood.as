@@ -5,6 +5,7 @@ package model.creature1
 	import mas.agent.reasoning.IReasoning;
 	import mas.enviro.Environment;
 	import model.BioAgent;
+	import model.Config;
 	import model.creature1.actions.Creature1_Eat;
 	import model.creature1.actions.Creature1_Move;
 	import model.FoodAgent;
@@ -28,8 +29,8 @@ package model.creature1
 			var agent:BioAgent = BioAgent(agt);			
 			if (agent.mindState != BioAgent.MINDSTATE_SEARCHING_FOOD) return;
 			var energy:Number = agent.energy;
-			var ic:Number = agent.intrFeeding.getValue()
-			var ia:Number = agent.intrMating.getValue()
+			//var ic:Number = agent.intrFeeding.getValue()
+			//var ia:Number = agent.intrMating.getValue()
 			var targetfood:FoodAgent = null;
 			
 			var posWalk:Array = null;
@@ -76,14 +77,14 @@ package model.creature1
 		
 			if (posWalk != null) {
 				agent.direction = posWalk[0];				
-				var act:Creature1_Move = new Creature1_Move(agent, 500, posWalk[1].x, posWalk[1].y);
+				var act:Creature1_Move = new Creature1_Move(agent, Config.t*(agent.velocity/100), posWalk[1].x, posWalk[1].y);
 				agent.enqueueAction(act);
 			}
 			if (targetfood != null) {
 				//trace(Point.distance(posWalk[1], bestPos))
 				if(Point.distance(posWalk[1], bestPos) <= 1){
 					agent.mindState = BioAgent.MINDSTATE_OBTAINING_FOOD
-					var eat:Creature1_Eat = new Creature1_Eat(targetfood, agent, 2000);					
+					var eat:Creature1_Eat = new Creature1_Eat(targetfood, agent, 2*Config.t);					
 					agent.enqueueAction(eat)
 				}
 			}

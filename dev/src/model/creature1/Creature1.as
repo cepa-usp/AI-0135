@@ -4,6 +4,7 @@ package model.creature1
 	import mas.agent.reasoning.IReasoning;
 	import mas.agent.sensor.ISensor;
 	import model.BioAgent;
+	import model.creature1.curves.Temperature;
 	
 	/**
 	 * ...
@@ -18,6 +19,7 @@ package model.creature1
 			createSensors();
 			createReasoning();
 			this.expenditures = new Creature1Expenditures();
+			this.limitingFactors.push(new Temperature());
 		}
 		
 		private function createReasoning():void 

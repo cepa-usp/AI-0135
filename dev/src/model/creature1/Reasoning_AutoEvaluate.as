@@ -27,18 +27,19 @@ package model.creature1
 		{
 			var agent:BioAgent = BioAgent(agt);			
 			var energy:Number = agent.energy;
-			var ic:Number = agent.intrFeeding.getValue()
-			var ia:Number = agent.intrMating.getValue()
+			var ic:Number = agent.intrFeeding.getValue(agent.energy)
+			var ia:Number = agent.intrMating.getValue(agent.energy)
 
 			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 			var vv:Number = Math.random();
-			if(agent.mindState == BioAgent.MINDSTATE_IDLE){
-				if (vv < 0.3) {
+				if (vv < ic) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
-				} else if (vv < 0.9) {
+				} else if (vv < ia) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
+				} else {
+					agent.mindState = BioAgent.MINDSTATE_IDLE;
 				}
-			}
+			
 			
 			
 		}

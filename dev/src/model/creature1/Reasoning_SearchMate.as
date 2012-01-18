@@ -5,6 +5,7 @@ package model.creature1
 	import mas.agent.reasoning.IReasoning;
 	import mas.enviro.Environment;
 	import model.BioAgent;
+	import model.Config;
 	import model.creature1.actions.Creature1_Eat;
 	import model.creature1.actions.Creature1_Mate;
 	import model.creature1.actions.Creature1_Move;
@@ -29,8 +30,6 @@ package model.creature1
 			var agent:BioAgent = BioAgent(agt);			
 			if (agent.mindState != BioAgent.MINDSTATE_SEARCHING_MATE) return;
 			var energy:Number = agent.energy;
-			var ic:Number = agent.intrFeeding.getValue()
-			var ia:Number = agent.intrMating.getValue()
 			var targetmate:BioAgent = null;
 			
 			var posWalk:Array = null;
@@ -79,14 +78,15 @@ package model.creature1
 		
 			if (posWalk != null) {
 				agent.direction = posWalk[0];				
-				var act:Creature1_Move = new Creature1_Move(agent, 300, posWalk[1].x, posWalk[1].y);
+				var act:Creature1_Move = new Creature1_Move(agent, Config.t*(agent.velocity/100), posWalk[1].x, posWalk[1].y);
 				agent.enqueueAction(act);
 			}
 			if (targetmate != null) {
 				//trace(Point.distance(posWalk[1], bestPos))
-				if(Point.distance(posWalk[1], bestPos) <= 2){
+				if (posWalk[1] == null) return;
+				if(Point.distance(posWalk[1], bestPos) <= 1){
 					agent.mindState = BioAgent.MINDSTATE_MATING
-					var mate:Creature1_Mate = new Creature1_Mate(agent, 2000, targetmate);					
+					var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);					
 					agent.enqueueAction(mate);
 				}
 			}

@@ -14,7 +14,7 @@ package model
 	public class FoodAgent extends BaseAgent implements Agent
 	{		
 		
-		private var _energyProvided:int = 50;
+		private var _energyProvided:int = 700;
 		private var state:int = 0;
 		private var _id:int;
 		private var dispatcher:EventDispatcher = new EventDispatcher();

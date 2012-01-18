@@ -40,6 +40,11 @@ package model.creature1.actions
 			calculateEnergyCost();
 		}	
 		
+		private function calculateEnergyCost():void 
+		{
+			BioAgent(agent).calculateEnergyExpenditure(BioAgent(agent).expenditures.expMating);
+		}
+		
 		
 	}
 	
