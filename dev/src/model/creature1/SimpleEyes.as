@@ -1,5 +1,6 @@
 package model.creature1 
 {
+	import flash.events.Event;
 	import flash.geom.Point;
 	import mas.agent.Agent;
 	import mas.agent.sensor.ISensor;
@@ -33,10 +34,11 @@ package model.creature1
 		}
 		
 		/* INTERFACE mas.agent.sensor.ISensor */
-		
+		private var agent:BioAgent;
 		public function receive(agt:Agent):void 
 		{
-			var agent:BioAgent = BioAgent(agt);
+			this.agent = BioAgent(agt);
+			if(Config.SHOW_VISION) if (BioAgent(agent).id == Config.viewId) agent.eventDispatcher.dispatchEvent(new Event(Event.SELECT_ALL));
 			var arrDist:Array = new Array();
 			var range:int = 0;
 			var env:Environment = agt.environment;
@@ -88,9 +90,14 @@ package model.creature1
 				if (env.resourceMap.length <= pos.x) return;
 				if (env.resourceMap[pos.x].length <= pos.y) return;
 				if (env.resourceMap[pos.x][pos.y]!=null) {
-					for each (var ag:Agent in env.resourceMap[pos.x][pos.y]) {
+				
+					
+					for each (var agg:Agent in env.resourceMap[pos.x][pos.y]) {
 						//trace(ag.description)
-						objs.push(ag);
+						if(Config.SHOW_VISION) if (BioAgent(agent).id == Config.viewId) agg.eventDispatcher.dispatchEvent(new Event(Event.SELECT));
+						objs.push(agg);
+						
+						
 					}
 					
 				}

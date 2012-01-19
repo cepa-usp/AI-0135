@@ -33,6 +33,7 @@ package  view.iso
 		{
 			this._agent = agt;
 			addEventListener(MouseEvent.CLICK, showdata);
+			agent.eventDispatcher.addEventListener(Event.SELECT, setFocus);
 			
 		}
 		
@@ -48,6 +49,19 @@ package  view.iso
 				Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0xFF8000)]
 				
 				
+			}
+		}
+		public function setFocus(e:Event):void {
+			focus(true);
+		}
+		
+		public function focus(val:Boolean):void {
+			if (val) {
+				if (this.actualSprites.length == 0) return;
+				Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0x80FFFF)]
+			} else {
+				if (this.actualSprites.length == 0) return;
+				Bitmap(this.actualSprites[0]).filters = []
 			}
 		}
 		

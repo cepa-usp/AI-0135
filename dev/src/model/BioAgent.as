@@ -1,5 +1,6 @@
 package model 
 {
+	import as3isolib.core.EventListenerDescriptor;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
@@ -28,6 +29,8 @@ package model
 		private var _initial_maxenergy:Number = 2000;
 		private var _current_maxenergy:Number = 2000;
 		private var _age:int = 0; // age in turns
+		
+		private var _selected:Boolean = false;
 		private var _velocity:Number = Config.DEFAULT_BIOAGENT_MAXVEL;
 		private var _limitingFactors:Vector.<LimitingFactorCurve> = new Vector.<LimitingFactorCurve>();		
 		private var _mindState:int = MINDSTATE_IDLE;
@@ -69,10 +72,11 @@ package model
 				} 
 				//if (currentAction == null) {
 					this.mindState = MINDSTATE_IDLE;
-					currentAction = new Action(this, 1000, BioAction.ACTION_IDLE);
+					currentAction = new Action(this, Config.t, BioAction.ACTION_IDLE);
 					
 				//}
 			}
+			if (currentAction.duration <= 0) return;
 			timer = new Timer(currentAction.duration, 1);						
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, executeAction);
 			//sendActionEvent(currentAction.action, currentAction.duration); 
@@ -114,7 +118,8 @@ package model
 		}
 		
 		private function calculateVelocity():void {
-			velocity = Config.DEFAULT_BIOAGENT_MAXVEL * (1 - Math.pow(Math.E, (energy * -1)/Config.DEFAULT_BIOAGENT_EV))
+			velocity = Config.DEFAULT_BIOAGENT_MAXVEL * (1 - Math.pow(Math.E, (energy * -1) / Config.DEFAULT_BIOAGENT_EV))
+
 		}
 		
 		public function init(env:Environment, init_position:Point):void
@@ -140,7 +145,7 @@ package model
 				var ret:Number = ((1 - f) * expense.y) - (f * expense.x);
 				if (ret > maxret) maxret = ret;
 			}
-			if(id==Config.viewId) trace(energy, " - ", maxret, " -> ", parameter)
+			if(id==Config.viewId) trace(energy.toFixed(0), " - ", maxret.toFixed(0), " -> ", parameter, "   -   " + mindstatenames[this.mindState])
 			energy += maxret;
 			
 			
@@ -227,6 +232,7 @@ package model
 		public function think():void 
 		{
 			//trace("ag", this.id, " thinking")
+			if (mindState == MINDSTATE_DEAD) return;
 			for each(var sens:ISensor in sensors) {
 				sens.receive(this);
 			}
@@ -234,6 +240,13 @@ package model
 				reas.think(this);
 			}
 		}		
+		
+		/* INTERFACE mas.agent.Agent */
+		
+		public function select(val:Boolean):void 
+		{			
+			eventDispatcher.dispatchEvent(new Event(Event.SELECT));
+		}
 		
 		/* INTERFACE mas.agent.Agent */
 		
@@ -354,6 +367,12 @@ package model
 			_expenditures = value;
 		}
 		
+		public function get selected():Boolean 
+		{
+			return _selected;
+		}
+		
+		
 
 
 		
@@ -369,6 +388,7 @@ package model
 		public static const DIR_LEFT:int = 4;
 		public static const DIR_RIGHT:int = 6;
 
+		private var mindstatenames:Array = ["IDLE", "SEARCH FOOD", "OBT. FOOD", "SEARCH MATE", "MATING", "DEAD"];
 		
 
 		
