@@ -8,15 +8,16 @@ package model.creature1
 	public class Interest 
 	{
 		
-		private var min:Number = 0;
-		private var max:Number = 1;
+		protected var min:Number = 0;
+		protected var max:Number = 1;
 	
-		public function Interest() 
+		public function Interest(min:Number, max:Number) 
 		{
-			
+			this.min = min;
+			this.max = max;
 		}
 		
-		public function getValue():Number {
+		public function getValue(e:Number):Number {
 			return max;
 		}
 		

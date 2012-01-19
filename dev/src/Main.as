@@ -7,6 +7,7 @@ package
 	import mas.enviro.Environment;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import mas.enviro.Region;
 	import model.BioAgent;
 	import model.creature1.Creature1;
 	import model.LimitingFactorCurve;
@@ -35,6 +36,7 @@ package
 			addAnimations();
 			
 			var env:Environment = new Environment;
+			setEnvironment(env);
 			env.createNewAgents();
 			
 			//var minimap:MiniMap = new MiniMap(env);
@@ -45,6 +47,14 @@ package
 			addChild(cenario);
 			cenario.init();
 			
+		}
+		
+		
+		private function setEnvironment(env:Environment):void {
+			var r:Region = new Region(new Rectangle(0, 0, env.width - 1, env.height - 1));
+			r.resources[Region.TYPE_TEMPERATURE] = 21;
+			r.resources[Region.TYPE_PH] = 7;
+			env.addRegion(r)
 		}
 		
 		private function addAnimations():void {

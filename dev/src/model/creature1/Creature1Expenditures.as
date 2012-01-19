@@ -29,7 +29,7 @@ package model.creature1
 		
 		public function get expWalking():Point 
 		{
-			return new Point(150, 550)
+			return new Point(6, 30)
 		}
 		
 		public function get expDefault():Point 

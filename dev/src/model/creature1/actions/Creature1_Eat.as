@@ -32,6 +32,12 @@ package model.creature1.actions
 			bioag.eventDispatcher.dispatchEvent(ev);
 		}			
 		
+		
+		private function calculateEnergyCost():void 
+		{
+			BioAgent(agent).calculateEnergyExpenditure(BioAgent(agent).expenditures.expFeeding);
+		}
+		
 		override public function onFinish():void {
 			
 			var ev:AgentEvent = new AgentEvent(AgentEvent.FEEDING_COMPLETE, agent);
