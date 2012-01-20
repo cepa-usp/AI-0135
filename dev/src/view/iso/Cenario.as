@@ -21,6 +21,7 @@ package  view.iso
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.PerspectiveProjection;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.setInterval;
@@ -66,6 +67,7 @@ package  view.iso
 			enviro.eventDispatcher.addEventListener(EnvironmentEvent.AGENT_CREATED, onAgentCreated)
 			enviro.eventDispatcher.addEventListener(EnvironmentEvent.AGENT_DESTROYED, onAgentDestroyed)
 			
+			
 			// adiciona os agentes 
 			for each(var ag:Agent in enviro.agents) addNewAgent(ag);
 			sceneObj.render();
@@ -75,6 +77,7 @@ package  view.iso
 		{
 			for each(var pers:Personagem in personagens) {
 				if (pers.agent == e.agent) {
+					
 					personagens.splice(personagens.indexOf(pers), 1);
 					if(e.agent is FoodAgent) sceneObj.removeChild(pers);
 					else scene.removeChild(pers);
@@ -99,11 +102,14 @@ package  view.iso
 			ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 			if (ag is FoodAgent) {
 				sceneObj.addChild(newChar);
+				sceneObj.render()
 			}else {	
 				//ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 				
 				scene.addChild(newChar);
+				
 			}
+			ag.eventDispatcher.addEventListener(Event.SELECT_ALL, clearFocus);
 			var pos:Point = ag.position.clone();
 				
 			newChar.x = getScenePosition(pos).x;
@@ -217,6 +223,12 @@ package  view.iso
 			inicialClickPos = new Point(stage.mouseX, stage.mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, panView);
 			stage.addEventListener(MouseEvent.MOUSE_UP, panViewEnd);
+		}
+		
+		public function clearFocus(e:Event = null):void {
+			for each (var p:view.iso.Personagem in personagens) {
+				p.focus(false);
+			}
 		}
 		
 		private function panView(e:MouseEvent):void 

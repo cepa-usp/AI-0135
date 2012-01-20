@@ -31,10 +31,12 @@ package model.creature1
 			var ia:Number = agent.intrMating.getValue(agent.energy)
 
 			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
+			
+			
 			var vv:Number = Math.random();
-				if (vv < ic) {
+				if (vv < ia) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
-				} else if (vv < ia) {
+				} else if (vv < ic) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 				} else {
 					agent.mindState = BioAgent.MINDSTATE_IDLE;

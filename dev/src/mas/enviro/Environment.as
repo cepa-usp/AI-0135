@@ -73,6 +73,39 @@ package mas.enviro
 			return (p.x >= r.x && p.x <= (r.width + r.x) && p.y >= r.y && r.y <= (r.height + r.y));
 		}
 		
+		
+		public function addFood():void {
+				var qtde:int = Math.random() * 7;
+				
+				for (var i:int = 0; i < qtde;i++ ) {
+					var food:FoodAgent = new FoodAgent();				
+					var pos:Point = getFreePosition();
+					registerAgent(food, pos);					
+				}
+		}
+		
+		public function getFreePosition():Point {
+			var x:int = Math.random() * this.width;
+			var y:int = Math.random() * this.height;
+			var cont:Boolean = true;
+			
+			while (cont) {
+				if (x == this.width) x = 0;
+				if (y == this.height) y = 0;
+				if (resourceMap[x][y] == null) {
+					return(new Point(x, y));
+				} else {
+					if (resourceMap[x][y].length == 0) {
+						return(new Point(x, y));
+					}
+				}
+				x++;
+				y++;
+			}
+			return null;
+		}
+		
+		
 		public function computeHours(e:TimerEvent = null):void {
 			if (e != null) {
 				hour++;
@@ -85,7 +118,10 @@ package mas.enviro
 						}
 					}
 				}
-				if (hour == Config.ageTurn) hour = 0;
+				if (hour == Config.ageTurn) {
+					addFood();
+					hour = 0;
+				}
 			} else {
 				ageTimer = new Timer(Config.hourTurn, 0) 
 				ageTimer.addEventListener(TimerEvent.TIMER, computeHours);
@@ -207,7 +243,7 @@ package mas.enviro
 		public function createNewAgents():void {
 			for (var i:int = 0; i < 20; i++) {
 				var creature:Creature1 = new Creature1();
-				registerAgent(creature, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));
+				registerAgent(creature, getFreePosition());
 				//registerAgent(creature, new Point(0, 0));
 				
 			}

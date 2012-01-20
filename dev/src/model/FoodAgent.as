@@ -62,8 +62,9 @@ package model
 			_id = value;
 		}
 		
-		public function select():void {
-			eventDispatcher.dispatchEvent(new Event(Event.CONNECT));
+		public function select(val:Boolean):void {
+			//eventDispatcher.dispatchEvent(new Event(Event.CONNECT));
+			eventDispatcher.dispatchEvent(new Event(Event.SELECT));
 		}
 		public function unselect():void {
 			eventDispatcher.dispatchEvent(new Event(Event.CLEAR));
@@ -73,6 +74,8 @@ package model
 		public function get description():String {
 			return "food [" + id.toString() + "]"
 		}
+		
+	
 		
 		public function get energyProvided():int 
 		{

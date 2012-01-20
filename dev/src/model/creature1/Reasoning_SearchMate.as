@@ -30,6 +30,7 @@ package model.creature1
 			var agent:BioAgent = BioAgent(agt);			
 			if (agent.mindState != BioAgent.MINDSTATE_SEARCHING_MATE) return;
 			var energy:Number = agent.energy;
+			//if(agent.energy < DEFAULT_BIOAGENT_Ec)
 			var targetmate:BioAgent = null;
 			
 			var posWalk:Array = null;
@@ -80,16 +81,18 @@ package model.creature1
 				agent.direction = posWalk[0];				
 				var act:Creature1_Move = new Creature1_Move(agent, Config.t*(agent.velocity/100), posWalk[1].x, posWalk[1].y);
 				agent.enqueueAction(act);
+
+				if (targetmate != null) {
+					//trace(Point.distance(posWalk[1], bestPos))
+					if (posWalk[1] == null) return;
+					if(Point.distance(posWalk[1], bestPos) <= 1){
+						agent.mindState = BioAgent.MINDSTATE_MATING
+						var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);					
+						agent.enqueueAction(mate);
+					}
+				}				
 			}
-			if (targetmate != null) {
-				//trace(Point.distance(posWalk[1], bestPos))
-				if (posWalk[1] == null) return;
-				if(Point.distance(posWalk[1], bestPos) <= 1){
-					agent.mindState = BioAgent.MINDSTATE_MATING
-					var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);					
-					agent.enqueueAction(mate);
-				}
-			}
+
 			
 		}
 		
