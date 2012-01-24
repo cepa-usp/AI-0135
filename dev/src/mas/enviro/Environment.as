@@ -19,6 +19,7 @@ package mas.enviro
 	import model.Config;
 	import model.creature1.actions.Creature1_Born;
 	import model.creature1.actions.Creature1_Die;
+	import model.creature1.actions.Creature1_Idle;
 	import model.creature1.Creature1;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
@@ -265,7 +266,8 @@ package mas.enviro
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;
-				creature.enqueueAction(new Creature1_Born(creature, 10000));	
+				creature.enqueueAction(new Creature1_Born(creature, 3 * Config.t));	
+				creature.enqueueAction(new Creature1_Idle(creature, 10 * Config.t));
 			}
 		}
 		
