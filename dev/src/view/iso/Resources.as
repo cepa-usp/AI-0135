@@ -48,7 +48,7 @@ package  view.iso
 			{
 				object.gotoAndStop(i);				
 				var item:BitmapData = new BitmapData(bounds.width, bounds.height, true, 0x000000);				
-				var matrix:Matrix = new Matrix(1, 0, 0, 1, -bounds.x, -bounds.y);				
+				var matrix:Matrix = new Matrix(1, 0, 0, 1, -bounds.left, -bounds.top);				
 				item.draw(object, matrix);
 				listBmp.push(item);
 			}		
@@ -73,11 +73,15 @@ package  view.iso
 				var bds:Rectangle = object.getBounds(object);
 				if (bds.width > bounds.width) {
 					bounds.width = bds.width;
-					bounds.x = bds.x;
 				}
 				if (bds.height > bounds.height) {
 					bounds.height = bds.height;
-					bounds.y = bds.y;
+				}
+				if (bds.left < bounds.left) {
+					bounds.left = bds.left;
+				}
+				if (bds.top < bounds.top) {
+					bounds.top = bds.top;
 				}
 			}
 			
