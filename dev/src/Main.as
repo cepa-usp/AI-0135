@@ -58,13 +58,25 @@ package
 		}
 		
 		private function addAnimations():void {
-			Resources.carregarMovimento("FOODAGENT_INICIAL"/*, new Rectangle( -20, -22, 41, 44)*/, new grass()/*, new Point(-20, -22)*/);
-			Resources.carregarMovimento("CREATURE1_INICIAL"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);
-			Resources.carregarMovimento("CREATURE1_IDLE"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);
-			Resources.carregarMovimento("CREATURE1_MOVE_4"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_up()/*, new Point(-9, -18)*/);
-			Resources.carregarMovimento("CREATURE1_MOVE_6"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_down()/*, new Point(-9, -18)*/);
-			Resources.carregarMovimento("CREATURE1_MOVE_2"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_left()/*, new Point(-9, -18)*/);
-			Resources.carregarMovimento("CREATURE1_MOVE_8"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_right()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("FOODAGENT_INICIAL"/*, new Rectangle( -20, -22, 41, 44)*/, new grass()/*, new Point(-20, -22)*/);
+			//Resources.carregarMovimento("CREATURE1_INICIAL"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("CREATURE1_IDLE"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("CREATURE1_MOVE_4"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_up()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("CREATURE1_MOVE_6"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_down()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("CREATURE1_MOVE_2"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_left()/*, new Point(-9, -18)*/);
+			//Resources.carregarMovimento("CREATURE1_MOVE_8"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_right()/*, new Point(-9, -18)*/);
+			
+			Resources.carregarMovimento("FOODAGENT_INICIAL", new grass());
+			Resources.carregarMovimento("CREATURE1_INICIAL", new C1_nascendo());
+			Resources.carregarMovimento("CREATURE1_IDLE", new C1_idle());
+			Resources.carregarMovimento("CREATURE1_MOVE_4", new C1_up());
+			Resources.carregarMovimento("CREATURE1_MOVE_6", new C1_down());
+			Resources.carregarMovimento("CREATURE1_MOVE_2", new C1_left());
+			Resources.carregarMovimento("CREATURE1_MOVE_8", new C1_right());
+			Resources.carregarMovimento("CREATURE1_BORN", new C1_nascendo());
+			Resources.carregarMovimento("CREATURE1_DEAD", new C1_morrendo());
+			Resources.carregarMovimento("CREATURE1_EATING", new C1_Comendo());
+			Resources.carregarMovimento("CREATURE1_MATE", new C1_Acasalando());
 		}
 		
 	}
