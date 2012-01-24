@@ -243,7 +243,7 @@ package mas.enviro
 		public function createNewAgents():void {
 			for (var i:int = 0; i < 20; i++) {
 				var creature:Creature1 = new Creature1();
-				registerAgent(creature, getFreePosition());
+				registerAgent(creature, getFreePosition()); 
 				//registerAgent(creature, new Point(0, 0));
 				
 			}
