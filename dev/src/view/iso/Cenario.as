@@ -154,10 +154,7 @@ package  view.iso
 				} else if (e.actionType == BioAction.ACTION_EATING) {
 					personagem.mudarMovimento("CREATURE1_EATING");
 				}
-
-
 			}
-
 		}
 		
 		private var zoom:Number = 1;
@@ -172,6 +169,57 @@ package  view.iso
 				if(zoom > 0.6) zoom -=  0.10;
 			}
 			view.currentZoom = zoom;
+			
+			var currentPt:Pt = view.currentPt;
+			var strZoom:String;
+			if (zoom == 1) strZoom = "1";
+			else strZoom = zoom.toFixed(1);
+			
+			if (currentPt.y < zoomProp[strZoom].ymin) currentPt.y = zoomProp[strZoom].ymin;
+			if (currentPt.y > zoomProp[strZoom].ymax) currentPt.y = zoomProp[strZoom].ymax;
+			if (currentPt.x > zoomProp[strZoom].xmax) currentPt.x = zoomProp[strZoom].xmax;
+			if (currentPt.x < zoomProp[strZoom].xmin) currentPt.x = zoomProp[strZoom].xmin;
+			
+			view.centerOnPt(currentPt, false);
+		}
+		
+		private var zoomProp:Object = {
+			1: {
+				ymin: 202,
+				ymax: 998,
+				xmin: -900,
+				xmax:897
+			},
+			0.9: {
+				ymin: 236,
+				ymax: 964,
+				xmin: -854,
+				xmax: 851
+			},
+			0.8: {
+				ymin: 278,
+				ymax: 923,
+				xmin: -800,
+				xmax: 797
+			},
+			0.7: {
+				ymin: 330,
+				ymax: 869,
+				xmin: -728,
+				xmax: 726
+			},
+			0.6: {
+				ymin: 402,
+				ymax: 798,
+				xmin: -633,
+				xmax: 631
+			},
+			0.5: {
+				ymin: 502,
+				ymax: 698,
+				xmin: -500,
+				xmax: 497
+			}
 		}
 		
 		private function createScenario():void 
@@ -245,6 +293,7 @@ package  view.iso
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, panView);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, panViewEnd);
+			trace("currentPt: " + view.currentPt);
 		}
 		
 		private function center(e:MouseEvent):void 
