@@ -293,7 +293,6 @@ package  view.iso
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, panView);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, panViewEnd);
-			trace("currentPt: " + view.currentPt);
 		}
 		
 		private function center(e:MouseEvent):void 
