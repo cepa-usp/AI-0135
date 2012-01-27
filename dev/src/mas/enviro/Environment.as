@@ -13,14 +13,15 @@ package mas.enviro
 	import flash.utils.Timer;
 	import mas.agent.Agent;
 	import mas.enviro.Region;
+	import model.actions.BioAgent_Born;
+	import model.actions.BioAgent_Die;
+	import model.actions.BioAgent_Idle;
 	import model.AgentEvent;
 	import model.BioAction;
 	import model.BioAgent;
 	import model.Config;
-	import model.creature1.actions.Creature1_Born;
-	import model.creature1.actions.Creature1_Die;
-	import model.creature1.actions.Creature1_Idle;
 	import model.creature1.Creature1;
+	import model.creature2.Creature2;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
 	
@@ -183,7 +184,7 @@ package mas.enviro
 					startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
 					break;
 				case BioAction.ACTION_DEAD:
-					BioAgent(e.agent).enqueueAction(new Creature1_Die(BioAgent(e.agent), 3000));	
+					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 3000));	
 					break;
 			}
 		}
@@ -242,12 +243,16 @@ package mas.enviro
 		}
 		
 		public function createNewAgents():void {
-			for (var i:int = 0; i < 20; i++) {
+			var i:int  = 0;
+			for (i = 0; i < 15; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, getFreePosition()); 
-				//registerAgent(creature, new Point(0, 0));
 				
 			}
+			for (i = 0; i < 15; i++) {
+				var creature2:Creature2 = new Creature2();
+				registerAgent(creature2, getFreePosition()); 			
+			}			
 			for (var ia:int = 0; ia < 50; ia++) {
 				var food:FoodAgent = new FoodAgent();				
 				registerAgent(food, new Point(Math.floor(Math.random()*enviro_width), Math.floor(Math.random()*enviro_height)));				
@@ -266,8 +271,8 @@ package mas.enviro
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;
-				creature.enqueueAction(new Creature1_Born(creature, 3 * Config.t));	
-				creature.enqueueAction(new Creature1_Idle(creature, 10 * Config.t));
+				creature.enqueueAction(new BioAgent_Born(creature, 3 * Config.t));	
+				creature.enqueueAction(new BioAgent_Idle(creature, 10 * Config.t));
 			}
 		}
 		

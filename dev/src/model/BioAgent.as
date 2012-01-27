@@ -12,9 +12,8 @@ package model
 	import mas.enviro.Environment;
 	import mas.agent.sensor.ISensor;
 	import mas.enviro.Region;
-	import model.creature1.actions.Creature1_Born;
-	import model.creature1.actions.Creature1_Idle;
-	import model.creature1.Interest;
+	import model.actions.BioAgent_Idle;
+	import model.Interest;
 	import model.creature1.Interest_Feeding;
 	import model.creature1.Interest_Mating;
 	
@@ -74,7 +73,7 @@ package model
 				} 
 				//if (currentAction == null) {
 					this.mindState = MINDSTATE_IDLE;
-					currentAction = new Creature1_Idle(this, Config.t*2);
+					currentAction = new BioAgent_Idle(this, Config.t*2);
 					
 				//}
 			}

@@ -1,4 +1,4 @@
-package model.creature1 
+package model.creature2
 {
 	import model.Config;
 	import model.Interest;

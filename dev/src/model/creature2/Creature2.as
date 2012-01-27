@@ -1,28 +1,27 @@
-package model.creature1
+package model.creature2
 {
 	import mas.agent.action.Action;
 	import mas.agent.reasoning.IReasoning;
 	import mas.agent.sensor.ISensor;
 	import model.BioAgent;
-	import model.creature1.curves.Temperature;
+	import model.creature2.curves.Temperature;
 	import model.Reasoning_AutoEvaluate;
 	import model.Reasoning_SearchFood;
-	import model.creature1.Reasoning_SearchMate;
 	import model.SimpleEyes;
 	
 	/**
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class Creature1 extends BioAgent
+	public class Creature2 extends BioAgent
 	{
 		
-		public function Creature1() 
+		public function Creature2() 
 		{
 			super();
 			createSensors();
 			createReasoning();
-			this.expenditures = new Creature1Expenditures();
+			this.expenditures = new Creature2Expenditures();
 			this.limitingFactors.push(new Temperature());
 		}
 		

@@ -1,4 +1,4 @@
-package model.creature1 
+package model.creature2
 {
 	import flash.geom.Point;
 	import mas.agent.Agent;
@@ -6,18 +6,19 @@ package model.creature1
 	import mas.enviro.Environment;
 	import model.BioAgent;
 	import model.Config;
-	import model.creature1.actions.Creature1_Eat;
-	import model.creature1.actions.Creature1_Move;
+	import model.creature2.actions.Creature2_Mate;
+	import model.creature2.actions.Creature2_Move;
+	import model.creature2.Creature2;
 	import model.FoodAgent;
 	
 	/**
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class Reasoning_SearchFood  implements IReasoning
+	public class Reasoning_SearchMate  implements IReasoning
 	{
 		
-		public function Reasoning_SearchFood() 
+		public function Reasoning_SearchMate() 
 		{
 			
 		}
@@ -27,23 +28,22 @@ package model.creature1
 		{
 			
 			var agent:BioAgent = BioAgent(agt);			
-			if (agent.mindState != BioAgent.MINDSTATE_SEARCHING_FOOD) return;
+			if (agent.mindState != BioAgent.MINDSTATE_SEARCHING_MATE) return;
 			var energy:Number = agent.energy;
-			//var ic:Number = agent.intrFeeding.getValue()
-			//var ia:Number = agent.intrMating.getValue()
-			var targetfood:FoodAgent = null;
+			//if(agent.energy < DEFAULT_BIOAGENT_Ec)
+			var targetmate:BioAgent = null;
 			
 			var posWalk:Array = null;
 			var searchOther:Boolean = true;
-			if (agent.mindState == BioAgent.MINDSTATE_SEARCHING_FOOD) {				
-				if (agent.mindVars["targetfood"] != null) {
-					if (agent.environment.exists(Agent(agent.mindVars["targetfood"]))) {
-						targetfood = agent.mindVars["targetfood"];
-						bestPos = targetfood.position.clone();
+			if (agent.mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {				
+				if (agent.mindVars["targetmate"] != null) {
+					if (agent.environment.exists(Agent(agent.mindVars["targetmate"]))) {
+						targetmate = agent.mindVars["targetmate"];
+						bestPos = targetmate.position.clone();
 						posWalk = walkCloser(agent, bestPos.clone());
 						searchOther = false;
 					} else {
-						agent.mindVars["targetfood"] = null;
+						agent.mindVars["targetmate"] = null;
 					}
 				} 
 				if(searchOther) {
@@ -53,12 +53,14 @@ package model.creature1
 							if(agent.mindVars.focus[i]!=null){
 								for (var j:int = 0; j < agent.mindVars.focus[i].length; j++) {
 									if (agent.mindVars.focus[i][j] != null) {
-										if (agent.mindVars.focus[i][j] is FoodAgent) {
-											targetfood = agent.mindVars.focus[i][j]
-											bestPos = FoodAgent(agent.mindVars.focus[i][j]).position.clone();
-											
-											agent.mindVars.targetfood = agent.mindVars.focus[i][j];
-										}
+										var objfc:Object = agent.mindVars.focus[i][j];
+										if (objfc is Creature2 && objfc!=agent) {
+											if ( BioAgent(objfc).mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {
+												targetmate = BioAgent(objfc);
+												bestPos = Creature2(agent.mindVars.focus[i][j]).position.clone();
+												agent.mindVars.targetmate = targetmate;
+											}
+										}																				
 									}
 								}
 							}
@@ -77,17 +79,20 @@ package model.creature1
 		
 			if (posWalk != null) {
 				agent.direction = posWalk[0];				
-				var act:Creature1_Move = new Creature1_Move(agent, Config.t*(agent.velocity/100), posWalk[1].x, posWalk[1].y);
+				var act:Creature2_Move = new Creature2_Move(agent, Config.t*(agent.velocity/100), posWalk[1].x, posWalk[1].y);
 				agent.enqueueAction(act);
+
+				if (targetmate != null) {
+					//trace(Point.distance(posWalk[1], bestPos))
+					if (posWalk[1] == null) return;
+					if(Point.distance(posWalk[1], bestPos) <= 1){
+						agent.mindState = BioAgent.MINDSTATE_MATING
+						var mate:Creature2_Mate = new Creature2_Mate(agent, 2*Config.t, targetmate);					
+						agent.enqueueAction(mate);
+					}
+				}				
 			}
-			if (targetfood != null) {
-				//trace(Point.distance(posWalk[1], bestPos))
-				if(Point.distance(posWalk[1], bestPos) <= 1){
-					agent.mindState = BioAgent.MINDSTATE_OBTAINING_FOOD
-					var eat:Creature1_Eat = new Creature1_Eat(targetfood, agent, 2*Config.t);					
-					agent.enqueueAction(eat)
-				}
-			}
+
 			
 		}
 		

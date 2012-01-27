@@ -1,4 +1,4 @@
-package model.creature1 
+package model
 {
 	
 	/**

@@ -1,4 +1,4 @@
-package model.creature1.actions 
+package model.actions 
 {
 	import mas.agent.action.Action;
 	import model.AgentEvent;
@@ -9,10 +9,10 @@ package model.creature1.actions
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class Creature1_Idle  extends Action
+	public class BioAgent_Idle  extends Action
 	{
 		
-		public function Creature1_Idle(agt:BioAgent, duration:int) 
+		public function BioAgent_Idle(agt:BioAgent, duration:int) 
 		{
 			super(agt, duration, BioAction.ACTION_IDLE);
 		}

@@ -31,6 +31,7 @@ package  view.iso
 	import model.BioAction;
 	import model.BioAgent;
 	import model.creature1.Creature1;
+	import model.creature2.Creature2;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
 	
@@ -135,11 +136,11 @@ package  view.iso
 		{
 			var personagem:Personagem = getPersonagem(e.agent);
 			if (personagem == null) return;
-			
+			var newpos:Point 
 			if (e.agent is Creature1) {
 				if (e.actionType == BioAction.ACTION_MOVING) {
 					personagem.mudarMovimento("CREATURE1_MOVE_" + e.walkingDirection.toString());
-					var newpos:Point = getScenePosition(e.destination);
+					newpos = getScenePosition(e.destination);
 					Actuate.defaultEase = Linear.easeNone;
 					
 					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
@@ -155,6 +156,26 @@ package  view.iso
 					personagem.mudarMovimento("CREATURE1_EATING");
 				}
 			}
+			
+			if (e.agent is Creature2) {
+				if (e.actionType == BioAction.ACTION_MOVING) {
+					personagem.mudarMovimento("CREATURE2_MOVE_" + e.walkingDirection.toString());
+					newpos = getScenePosition(e.destination);
+					Actuate.defaultEase = Linear.easeNone;
+					
+					Actuate.tween(personagem, e.duration/1000, { x:newpos.x,  y:newpos.y})
+				} else if (e.actionType == BioAction.ACTION_MATING) {
+					personagem.mudarMovimento("CREATURE2_MATE");
+				} else if (e.actionType == BioAction.ACTION_IDLE) {
+					personagem.mudarMovimento("CREATURE2_IDLE");
+				} else if (e.actionType == BioAction.ACTION_BORN) {
+					personagem.mudarMovimento("CREATURE2_BORN");
+				} else if (e.actionType == BioAction.ACTION_DEAD) {
+					personagem.mudarMovimento("CREATURE2_DEAD");
+				} else if (e.actionType == BioAction.ACTION_EATING) {
+					personagem.mudarMovimento("CREATURE2_EATING");
+				}
+			}			
 		}
 		
 		private var zoom:Number = 1;
