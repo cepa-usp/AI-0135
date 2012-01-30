@@ -342,7 +342,7 @@ package  view.iso
 			view.centerOnPt(center_point);
 			view.addScene(sceneObj);
 			view.addScene(scene);
-			//scene.addChild(grid);
+			scene.addChild(grid);
 			
 			var bg:Bitmap = new Bitmap(Resources.BkgBmpd);
 			bg.x = -bg.width / 2;
