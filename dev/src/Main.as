@@ -66,7 +66,7 @@ package
 			//Resources.carregarMovimento("CREATURE1_MOVE_2"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_left()/*, new Point(-9, -18)*/);
 			//Resources.carregarMovimento("CREATURE1_MOVE_8"/*, new Rectangle( 0, 0, 18, 35)*/, new Mario_right()/*, new Point(-9, -18)*/);
 			
-			Resources.carregarMovimento("FOODAGENT_INICIAL", new grass());
+			Resources.carregarMovimento("FOODAGENT_INICIAL", new Folhas());
 			Resources.carregarMovimento("CREATURE1_INICIAL", new C1_nascendo());
 			Resources.carregarMovimento("CREATURE1_IDLE", new C1_idle());
 			Resources.carregarMovimento("CREATURE1_MOVE_4", new C1_up());
@@ -77,6 +77,7 @@ package
 			Resources.carregarMovimento("CREATURE1_DEAD", new C1_morrendo());
 			Resources.carregarMovimento("CREATURE1_EATING", new C1_Comendo());
 			Resources.carregarMovimento("CREATURE1_MATE", new C1_Acasalando());
+			
 			
 			Resources.carregarMovimento("CREATURE2_INICIAL"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);
 			Resources.carregarMovimento("CREATURE2_IDLE"/*, new Rectangle( 0, 0, 18, 35)*/, new StickMan()/*, new Point(-9, -18)*/);

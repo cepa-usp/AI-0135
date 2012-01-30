@@ -21,7 +21,7 @@ package model
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class BioAgent implements Agent 
+	public class BioAgent extends BaseAgent implements Agent 
 	{
 		private var _eventDispatcher:EventDispatcher = new EventDispatcher();
 		private var _energy:Number = 0;
@@ -35,8 +35,6 @@ package model
 		private var _velocity:Number = Config.DEFAULT_BIOAGENT_MAXVEL;
 		private var _limitingFactors:Vector.<LimitingFactorCurve> = new Vector.<LimitingFactorCurve>();		
 		private var _mindState:int = MINDSTATE_IDLE;
-		private var _position:Point = new Point();
-		private var _environment:Environment;
 		private var _currentAction:Action;
 		private var timer:Timer;
 		private var _expenditures:IExpenditure;
@@ -123,11 +121,11 @@ package model
 
 		}
 		
-		public function init(env:Environment, init_position:Point):void
+		override public function init(env:Environment, init_position:Point):void
 		{
 			initial_maxenergy  = Config.createBioAgentEnergy();
 			energy = _initial_maxenergy;
-			environment = env;			
+			_environment = env;			
 			_position = init_position;
 			eventDispatcher.dispatchEvent(new Event(AgentEvent.INITIALIZED));
 			think();
@@ -263,20 +261,7 @@ package model
 			return true;
 		}
 		
-		public function get environment():Environment 
-		{
-			return _environment;
-		}
-		
-		public function set environment(enviro:Environment):void 
-		{
-			_environment = enviro;
-		}
-		
-		public function get position():Point 
-		{
-			return _position;
-		}
+
 		
 		public function get initial_maxenergy():Number 
 		{

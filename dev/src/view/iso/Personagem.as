@@ -5,6 +5,7 @@ package  view.iso
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.filters.DropShadowFilter;
 	import flash.filters.GlowFilter;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -27,6 +28,7 @@ package  view.iso
 		private var _agent:Agent;		
 		private var bitmapFrame:AnimationFrame = new AnimationFrame();
 		private var currentMoveName:String = "";
+		private var shadow:DropShadowFilter = new DropShadowFilter(4, 90, 0, 0.7, 8, 8, 1);
 
 		
 		public function Personagem(agt:Agent) 
@@ -34,6 +36,7 @@ package  view.iso
 			this._agent = agt;
 			addEventListener(MouseEvent.CLICK, showdata);
 			agent.eventDispatcher.addEventListener(Event.SELECT, setFocus);
+			
 			
 		}
 		
@@ -46,7 +49,7 @@ package  view.iso
 				trace("energia: ", BioAgent(agent).energy )
 				trace("energia max: ", BioAgent(agent).current_maxenergy )
 				trace("idade: ", BioAgent(agent).age )
-				Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0xFF8000)]
+				//Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0xFF8000)]
 				
 				
 			}
@@ -61,7 +64,7 @@ package  view.iso
 				Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0x80FFFF)]
 			} else {
 				if (this.actualSprites.length == 0) return;
-				Bitmap(this.actualSprites[0]).filters = []
+				Bitmap(this.actualSprites[0]).filters = [shadow]
 			}
 		}
 		
@@ -78,7 +81,7 @@ package  view.iso
 			mudarMovimento(str);
 			bitmapFrame.play();
 
-			
+			//Bitmap(this.actualSprites[0]).filters = [shadow]
 		}		
 		
 

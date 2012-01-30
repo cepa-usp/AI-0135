@@ -9,12 +9,18 @@ package model
 	 */
 	public class BaseAgent 
 	{
-		private var _environment:Environment;
-		private var _position:Point;
+		protected var _environment:Environment;
+		protected var _position:Point;
+		protected var extrablocks:Vector.<Point> = new Vector.<Point>();
 		
 		public function BaseAgent() 
 		{
 			
+		}
+		
+		public function addblock(x:int, y:int):BaseAgent {
+			extrablocks.push(new Point(x, y));
+			return this;
 		}
 		
 		public function init(env:Environment, init_position:Point):void 
