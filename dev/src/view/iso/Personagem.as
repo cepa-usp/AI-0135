@@ -28,12 +28,17 @@ package  view.iso
 		private var _agent:Agent;		
 		private var bitmapFrame:AnimationFrame = new AnimationFrame();
 		private var currentMoveName:String = "";
-		private var shadow:DropShadowFilter = new DropShadowFilter(4, 90, 0, 0.7, 8, 8, 1);
-
+		private var shadow:DropShadowFilter = new DropShadowFilter(7, 90, 0, 0.5, 8, 8, 1, 1, false, false, true);
+		private var s:Sprite = new Sprite();
 		
 		public function Personagem(agt:Agent) 
 		{
 			this._agent = agt;
+			
+			//s.graphics.beginFill(0, 1);
+			//s.graphics.drawEllipse(-12, -5, 25, 13);
+			
+			
 			addEventListener(MouseEvent.CLICK, showdata);
 			agent.eventDispatcher.addEventListener(Event.SELECT, setFocus);
 			
@@ -61,10 +66,11 @@ package  view.iso
 		public function focus(val:Boolean):void {
 			if (val) {
 				if (this.actualSprites.length == 0) return;
-				Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0x80FFFF)]
+				//Bitmap(this.actualSprites[0]).filters = [new GlowFilter(0x80FFFF)]
 			} else {
 				if (this.actualSprites.length == 0) return;
-				Bitmap(this.actualSprites[0]).filters = [shadow]
+				//Bitmap(this.actualSprites[0]).filters = []
+				//Sprite(this.actualSprites[0]).filters = []
 			}
 		}
 		
@@ -72,7 +78,7 @@ package  view.iso
 			if (currentMoveName.match(nomeMovimento)) return;
 			currentMoveName = nomeMovimento;
 			bitmapFrame.setMovimento(nomeMovimento);
-			this.sprites = [bitmapFrame];
+			this.sprites = [s, bitmapFrame];
 		}
 		
 		public function draw():void {
@@ -82,6 +88,7 @@ package  view.iso
 			bitmapFrame.play();
 
 			//Bitmap(this.actualSprites[0]).filters = [shadow]
+			Sprite(this.sprites[0]).filters = []
 		}		
 		
 

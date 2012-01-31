@@ -14,7 +14,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'30/1/2012'</value>
+      <value>'31/1/2012'</value>
     </define>
     <source-path append="true">
       <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\src</path-element>
@@ -29,7 +29,7 @@
       <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\teste.swc</path-element>
       <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\marios.swc</path-element>
       <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\stickMan.swc</path-element>
-      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\C1.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\C2.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

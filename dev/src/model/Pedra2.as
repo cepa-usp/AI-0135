@@ -6,10 +6,10 @@ package model
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class Pedra1 extends BaseAgent implements Agent
+	public class Pedra2 extends BaseAgent implements Agent
 	{
 		
-		public function Pedra1() 
+		public function Pedra2() 
 		{
 			_block = true;
 			this.addblock(1, 0)
@@ -33,7 +33,7 @@ package model
 		
 		public function get description():String 
 		{
-			return "pedra 1"
+			return "pedra 2"
 		}
 		
 		public function select(val:Boolean):void 

@@ -34,9 +34,9 @@ package model
 			
 			
 			var vv:Number = Math.random();
-				if (vv < ia) {
+				if (vv < ia && agent.age>0) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_MATE;
-				} else if (vv < ic) {
+				} else if (vv < ic || agent.age==0) {
 					agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 				} else {
 					agent.mindState = BioAgent.MINDSTATE_IDLE;

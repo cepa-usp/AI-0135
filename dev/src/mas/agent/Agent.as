@@ -14,7 +14,7 @@ package mas.agent
 		function init(env:Environment, init_position:Point):void;
 		function get eventDispatcher():EventDispatcher 		
 		function get environment():Environment;
-		function get block():Boolean;
+		//function get block():Boolean;
 		function get position():Point;
 		function get description():String;
 		function select(val:Boolean):void;

@@ -4,7 +4,7 @@ package model.creature2.actions
 	import model.AgentEvent;
 	import model.BioAction;
 	import model.BioAgent;
-	import model.creature1.Creature1;
+
 	
 	/**
 	 * ...

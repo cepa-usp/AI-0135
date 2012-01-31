@@ -28,12 +28,15 @@ package  view.iso
 	import mas.agent.Agent;
 	import mas.enviro.Environment;
 	import model.AgentEvent;
+	import model.Arvore1;
+	import model.Arvore2;
 	import model.BioAction;
 	import model.BioAgent;
 	import model.creature1.Creature1;
 	import model.creature2.Creature2;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
+	import model.Pedra1;
 	
 	/**
 	 * ...
@@ -48,6 +51,8 @@ package  view.iso
 		private var grid:IsoGrid;
 		private var scene:IsoScene;
 		private var sceneObj:IsoScene;
+		private var sceneZ1:IsoScene;
+		
 		private var view:IsoView;		
 		private var personagens:Vector.<Personagem>;	
 		private var enviro:Environment;
@@ -98,24 +103,44 @@ package  view.iso
 		
 		public function addNewAgent(ag:Agent):void {
 			var newChar:Personagem;
+			var copa:Personagem;
 			newChar = new Personagem(ag);
 			personagens.push(newChar);
 			ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
-			if (ag is FoodAgent) {
+			if (ag is FoodAgent || ag is Pedra1) {
 				sceneObj.addChild(newChar);
 				sceneObj.render()
-			}else {	
+			}else if (ag is Arvore1) {				
+				sceneObj.addChild(newChar);
+				sceneObj.render()
+				var ag2:Arvore2;
+				ag2 = new Arvore2();
+				
+				ag2.position = new Point(ag.position.x, ag.position.y);
+				
+				copa = new Personagem(ag2);
+				personagens.push(copa);
+				sceneZ1.addChild(copa);
+				sceneZ1.render();
+				
+			}else{	
 				//ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 				
 				scene.addChild(newChar);
 				
 			}
+			
 			ag.eventDispatcher.addEventListener(Event.SELECT_ALL, clearFocus);
 			var pos:Point = ag.position.clone();
 				
 			newChar.x = getScenePosition(pos).x;
 			newChar.y = getScenePosition(pos).y;
 			newChar.draw();
+			if (copa != null) {
+				copa.x = getScenePosition(pos).x;
+				copa.y = getScenePosition(pos).y;
+				copa.draw();
+			}
 		}		
 		
 		// TODO:ajustar posição		
@@ -284,6 +309,7 @@ package  view.iso
 				
 			}
 			sceneObj.render();
+			
 		}
 		
 		private var inicialClickPos:Point;
@@ -336,12 +362,14 @@ package  view.iso
 			
 			scene = new IsoScene();
 			sceneObj = new IsoScene();
+			sceneZ1 = new IsoScene();
 			
 			view = new IsoView();
 			view.setSize(VIEW_SIZE.x, VIEW_SIZE.y);
 			view.centerOnPt(center_point);
 			view.addScene(sceneObj);
 			view.addScene(scene);
+			view.addScene(sceneZ1);
 			//scene.addChild(grid);
 			
 			var bg:Bitmap = new Bitmap(Resources.BkgBmpd);

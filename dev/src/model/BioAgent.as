@@ -23,7 +23,7 @@ package model
 	 */
 	public class BioAgent extends BaseAgent implements Agent 
 	{
-		private var _eventDispatcher:EventDispatcher = new EventDispatcher();
+
 		private var _energy:Number = 0;
 		private var _id:int = 0;
 		private var _direction:int = 2;
@@ -56,6 +56,7 @@ package model
 		public function BioAgent() 
 		{
 			id = Config.getId();
+			_block = true;
 		}
 		
 		private function executeAction(e:TimerEvent= null):void {
@@ -187,10 +188,6 @@ package model
 			_velocity = value;
 		}
 		
-		public function get eventDispatcher():EventDispatcher 
-		{
-			return _eventDispatcher;
-		}
 		
 		public function get mindState():int 
 		{
@@ -252,13 +249,6 @@ package model
 		public function get description():String 
 		{
 			return "creature [" + id.toString() + "]"
-		}
-		
-		/* INTERFACE mas.agent.Agent */
-		
-		public function get block():Boolean 
-		{
-			return true;
 		}
 		
 

@@ -62,7 +62,7 @@ package  view.iso
 			this.bitmapData = movimento[currentFrame];
 			currentFrame++;
 			if (currentFrame == movimento.length) currentFrame = 0;			
-			if (state == STATE_PLAYING) setTimeout(changeGraphics, 50 + _adjust);
+			if (state == STATE_PLAYING) setTimeout(changeGraphics, 41 + _adjust);
 
 		}
 		

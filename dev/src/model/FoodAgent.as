@@ -22,6 +22,7 @@ package model
 		public function FoodAgent() 
 		{
 		id = Config.getId();	
+		_block = true;
 		}
 
 		private function die():void {
@@ -39,18 +40,7 @@ package model
 			// nothing
 		}
 		
-		/* INTERFACE mas.agent.Agent */
-		
-		public function get block():Boolean 
-		{
-			return false;
-		}
-	
-		
-		public function get eventDispatcher():EventDispatcher 
-		{
-			return dispatcher;
-		}
+				
 		
 		public function get id():int 
 		{

@@ -17,6 +17,8 @@ package mas.enviro
 	import model.actions.BioAgent_Die;
 	import model.actions.BioAgent_Idle;
 	import model.AgentEvent;
+	import model.Arvore1;
+	import model.BaseAgent;
 	import model.BioAction;
 	import model.BioAgent;
 	import model.Config;
@@ -24,6 +26,8 @@ package mas.enviro
 	import model.creature2.Creature2;
 	import model.EnvironmentEvent;
 	import model.FoodAgent;
+	import model.Pedra1;
+	import model.Pedra2;
 	
 	/**
 	 * ...
@@ -148,27 +152,37 @@ package mas.enviro
 			var arrObjs:Array = resourceMap[e.destination.x][e.destination.y];
 			arrObjs.splice(arrObjs.indexOf(e.agent), 1);			
 			blockMap[e.destination.x][e.destination.y] = false;
-			setAgentPosition(e.agent, e.agent.position);
+			setAgentPosition(BaseAgent(e.agent), e.agent.position);
 		}
 		
 		
+		public function fillExtraBlocks(a:BaseAgent):void {
+			for each(var p:Point in a.extrablocks) {
+				var x:int = p.x + a.position.x;
+				var y:int = p.y + a.position.y;
+				if (x >= resourceMap.length) continue;
+				if (y >= resourceMap[x].length) continue;
+				resourceMap[x][y] = [a];
+				blockMap[x][y] = true;
+			}
+		}
 		
 		
-		public function registerAgent(a:Agent, pos:Point):void {
+		public function registerAgent(a:BaseAgent, pos:Point):void {
 			agents.push(a);
 			a.eventDispatcher.addEventListener(AgentEvent.MOVING_COMPLETE, moveAgent);
-			if (a is BioAgent) {
-				
+			if (a is BioAgent) {				
 				a.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, bindAgentAction);
 				a.eventDispatcher.addEventListener(AgentEvent.FEEDING_COMPLETE, feedAgent);
 				a.eventDispatcher.addEventListener(AgentEvent.MATING_COMPLETE, onMatingComplete);
 				a.eventDispatcher.addEventListener(AgentEvent.TERMINATED, onAgentTerminated);
 			}
-			setAgentPosition(a, pos);
+			setAgentPosition(a, pos);			
 			a.init(this, pos);	
+			fillExtraBlocks(a);			
 
 			var ev:EnvironmentEvent = new EnvironmentEvent(EnvironmentEvent.AGENT_CREATED);
-			ev.agent = a;
+			ev.agent = Agent(a);
 			eventDispatcher.dispatchEvent(ev);
 		}			
 		
@@ -184,12 +198,12 @@ package mas.enviro
 					startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
 					break;
 				case BioAction.ACTION_DEAD:
-					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 3000));	
+					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 4900));	
 					break;
 			}
 		}
 		
-		private function setAgentPosition(a:Agent, pos:Point):void 
+		private function setAgentPosition(a:BaseAgent, pos:Point):void 
 		{
 			blockMap[pos.x][pos.y] = a.block;
 			if (resourceMap[pos.x][pos.y] == null) resourceMap[pos.x][pos.y] = new Array();
@@ -244,6 +258,25 @@ package mas.enviro
 		
 		public function createNewAgents():void {
 			var i:int  = 0;
+
+			for (i = 0; i < 1; i++) {
+				var pedra2:Pedra2 = new Pedra2();
+				registerAgent(pedra2, getFreePosition()); 
+				
+			}
+
+			for (i = 0; i < 3; i++) {
+				var pedra1:Pedra1 = new Pedra1();
+				registerAgent(pedra1, getFreePosition()); 
+				
+			}
+			
+			for (i = 0; i < 15; i++) {
+				var arvore1:Arvore1 = new Arvore1();
+				registerAgent(arvore1, getFreePosition()); 
+				
+			}
+
 			for (i = 0; i < 15; i++) {
 				var creature:Creature1 = new Creature1();
 				registerAgent(creature, getFreePosition()); 
@@ -268,10 +301,10 @@ package mas.enviro
 			var prob:Number = Math.random();
 			trace("qt, pstar, prob: ", qt, pstar, prob)
 			if (pstar > prob) {
-				var creature:Creature1 = new Creature1();
+				var creature:BioAgent = new objclass();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;
-				creature.enqueueAction(new BioAgent_Born(creature, 3 * Config.t));	
+				creature.enqueueAction(new BioAgent_Born(creature, 1000));	
 				creature.enqueueAction(new BioAgent_Idle(creature, 10 * Config.t));
 			}
 		}

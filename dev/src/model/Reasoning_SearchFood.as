@@ -32,6 +32,7 @@ package model
 			//var ic:Number = agent.intrFeeding.getValue()
 			//var ia:Number = agent.intrMating.getValue()
 			var targetfood:FoodAgent = null;
+			if (energy < 0) return;
 			
 			var posWalk:Array = null;
 			var searchOther:Boolean = true;
@@ -82,6 +83,7 @@ package model
 			}
 			if (targetfood != null) {
 				//trace(Point.distance(posWalk[1], bestPos))
+				
 				if(Point.distance(posWalk[1], bestPos) <= 1){
 					agent.mindState = BioAgent.MINDSTATE_OBTAINING_FOOD
 					var eat:Creature1_Eat = new Creature1_Eat(targetfood, agent, 2*Config.t);					

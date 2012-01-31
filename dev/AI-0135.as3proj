@@ -53,7 +53,7 @@
     <element path="lib\teste.swc" />
     <element path="lib\marios.swc" />
     <element path="lib\stickMan.swc" />
-    <element path="lib\C1.swc" />
+    <element path="lib\C2.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

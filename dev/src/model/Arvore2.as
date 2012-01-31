@@ -6,22 +6,12 @@ package model
 	 * ...
 	 * @author Arthur Tofani
 	 */
-	public class Pedra1 extends BaseAgent implements Agent
+	public class Arvore2 extends BaseAgent implements Agent
 	{
 		
-		public function Pedra1() 
+		public function Arvore2() 
 		{
-			_block = true;
-			this.addblock(1, 0)
-				.addblock(2, 0)
-				.addblock(3, 0)
-				.addblock(1, 1)
-				.addblock(2, 1)
-				.addblock(3, 1)
-				.addblock(4, 1)
-				.addblock(1, 2)
-
-				
+			_block = false;			
 		}
 		
 		/* INTERFACE mas.agent.Agent */
@@ -33,7 +23,7 @@ package model
 		
 		public function get description():String 
 		{
-			return "pedra 1"
+			return "copa arvore"
 		}
 		
 		public function select(val:Boolean):void 
