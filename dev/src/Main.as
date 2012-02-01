@@ -13,6 +13,7 @@ package
 	import model.LimitingFactorCurve;
 	import view.iso.Cenario;
 	import view.iso.Resources;
+	import view.iso.SliderComp;
 	import view.mini.MiniMap;
 	
 	
@@ -22,6 +23,10 @@ package
 	 */
 	public class Main extends Sprite 
 	{
+		private var controlTemp:SliderComp;
+		private var controlPh:SliderComp;
+		private var controlHumidade:SliderComp;
+		private var controlTime:SliderComp;
 		
 		public function Main():void 
 		{
@@ -35,7 +40,7 @@ package
 			
 			addAnimations();
 			
-			var env:Environment = new Environment;
+			var env:Environment = new Environment();
 			setEnvironment(env);
 			env.createNewAgents();
 			
@@ -47,6 +52,36 @@ package
 			addChild(cenario);
 			cenario.init();
 			
+			configControls();
+			
+		}
+		
+		private var widthSlider:Number = 160;
+		private var nSliders:int = 4;
+		
+		private function configControls():void 
+		{
+			var spaceBetweenSliders:Number = (800 - nSliders * widthSlider) / (nSliders + 1);
+			
+			controlTemp = new SliderComp("Temperatura", 0, 100, 1, 10, widthSlider);
+			controlTemp.x = spaceBetweenSliders;
+			controlTemp.y = 570;
+			addChild(controlTemp);
+			
+			controlPh = new SliderComp("Ph", 0, 100, 1, 10, widthSlider);
+			controlPh.x = 2 * spaceBetweenSliders + widthSlider;
+			controlPh.y = 570;
+			addChild(controlPh);
+			
+			controlHumidade = new SliderComp("Humidade", 0, 100, 1, 10, widthSlider);
+			controlHumidade.x = 3 * spaceBetweenSliders +  2 * widthSlider;
+			controlHumidade.y = 570;
+			addChild(controlHumidade);
+			
+			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
+			controlTime.x = 4 * spaceBetweenSliders + 3 * widthSlider;
+			controlTime.y = 570;
+			addChild(controlTime);
 		}
 		
 		

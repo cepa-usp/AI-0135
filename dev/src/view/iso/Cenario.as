@@ -13,6 +13,7 @@ package  view.iso
 	import com.eclecticdesignstudio.motion.Actuate;
 	import com.eclecticdesignstudio.motion.easing.Linear;
 	import com.eclecticdesignstudio.motion.easing.Quad;
+	import fl.controls.BaseButton;
 	import fl.transitions.easing.None;
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
@@ -317,6 +318,7 @@ package  view.iso
 		private var inicialClickPos:Point;
 		private function panViewIni(e:MouseEvent):void 
 		{
+			if (e.target is BaseButton) return;
 			inicialClickPos = new Point(stage.mouseX, stage.mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, panView);
 			stage.addEventListener(MouseEvent.MOUSE_UP, panViewEnd);

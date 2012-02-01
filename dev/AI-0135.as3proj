@@ -54,6 +54,7 @@
     <element path="lib\marios.swc" />
     <element path="lib\stickMan.swc" />
     <element path="lib\C2.swc" />
+    <element path="lib\Slider.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
