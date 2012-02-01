@@ -105,6 +105,7 @@ package  view.iso
 			var newChar:Personagem;
 			var copa:Personagem;
 			newChar = new Personagem(ag);
+			newChar.setSize(40, 40, 200);
 			personagens.push(newChar);
 			ag.eventDispatcher.addEventListener(AgentEvent.ACTION_CHANGED, onAgentActionChange);
 			if (ag is FoodAgent || ag is Pedra1) {
@@ -136,6 +137,7 @@ package  view.iso
 			newChar.x = getScenePosition(pos).x;
 			newChar.y = getScenePosition(pos).y;
 			newChar.draw();
+			
 			if (copa != null) {
 				copa.x = getScenePosition(pos).x;
 				copa.y = getScenePosition(pos).y;

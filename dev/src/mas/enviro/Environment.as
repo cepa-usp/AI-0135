@@ -198,7 +198,7 @@ package mas.enviro
 					startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
 					break;
 				case BioAction.ACTION_DEAD:
-					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 4900));	
+					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 8000));	
 					break;
 			}
 		}
@@ -304,7 +304,7 @@ package mas.enviro
 				var creature:BioAgent = new objclass();
 				registerAgent(creature, e.agent.position.clone());
 				creature.mindState = BioAgent.MINDSTATE_IDLE;
-				creature.enqueueAction(new BioAgent_Born(creature, 1000));	
+				creature.enqueueAction(new BioAgent_Born(creature, 3000));	
 				creature.enqueueAction(new BioAgent_Idle(creature, 10 * Config.t));
 			}
 		}

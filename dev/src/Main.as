@@ -68,6 +68,7 @@ package
 			
 			Resources.carregarMovimento("FOODAGENT_INICIAL", new Moita());
 			Resources.carregarMovimento("CREATURE1_INICIAL", new C1_nascendo());
+			//Resources.carregarMovimento("CREATURE1_INICIAL", new C1_idle());
 			Resources.carregarMovimento("CREATURE1_IDLE", new C1_idle());
 			Resources.carregarMovimento("CREATURE1_MOVE_4", new C1_up());
 			Resources.carregarMovimento("CREATURE1_MOVE_6", new C1_down());
@@ -87,6 +88,7 @@ package
 			
 			
 			Resources.carregarMovimento("CREATURE2_INICIAL", new CriaturaNascendo2());
+			//Resources.carregarMovimento("CREATURE2_INICIAL", new CriaturaParada2());
 			Resources.carregarMovimento("CREATURE2_IDLE", new CriaturaParada2());
 			Resources.carregarMovimento("CREATURE2_MOVE_4", new CriaturaUp2());
 			Resources.carregarMovimento("CREATURE2_MOVE_6", new CriaturaFrente2());
