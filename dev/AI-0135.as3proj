@@ -5,7 +5,7 @@
     <movie disabled="False" />
     <movie input="" />
     <movie path="bin\AI0135.swf" />
-    <movie fps="30" />
+    <movie fps="120" />
     <movie width="800" />
     <movie height="600" />
     <movie version="10" />
@@ -55,6 +55,7 @@
     <element path="lib\stickMan.swc" />
     <element path="lib\C2.swc" />
     <element path="lib\Slider.swc" />
+    <element path="lib\SliderComp.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

@@ -23,10 +23,12 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		private var controlTemp:SliderComp;
-		private var controlPh:SliderComp;
-		private var controlHumidade:SliderComp;
-		private var controlTime:SliderComp;
+		//private var controlTemp:SliderComp;
+		//private var controlPh:SliderComp;
+		//private var controlHumidade:SliderComp;
+		//private var controlTime:SliderComp;
+		
+		private var compSlider:CompSlider;
 		
 		public function Main():void 
 		{
@@ -52,36 +54,47 @@ package
 			addChild(cenario);
 			cenario.init();
 			
-			configControls();
+			var configSlider:Object = {
+				temp: {
+					minimum: 5,
+					maximum: 95,
+					tick: 5,
+					snap: 1,
+					inicial: 20
+				},
+				ph: {
+					minimum: 0,
+					maximum: 7,
+					tick: 1,
+					snap: 0.5,
+					inicial: 4
+				},
+				umidade: {
+					minimum: 0,
+					maximum: 100,
+					tick: 10,
+					snap: 1,
+					inicial: 30
+				}
+			}
+			
+			configControls(configSlider);
 			
 		}
 		
-		private var widthSlider:Number = 160;
-		private var nSliders:int = 4;
-		
-		private function configControls():void 
+		private function configControls(config:Object):void 
 		{
-			var spaceBetweenSliders:Number = (800 - nSliders * widthSlider) / (nSliders + 1);
+			compSlider = new CompSlider(config);
+			addChild(compSlider);
+			compSlider.x = 10;
+			compSlider.y = 10;
 			
-			controlTemp = new SliderComp("Temperatura", 0, 100, 1, 10, widthSlider);
-			controlTemp.x = spaceBetweenSliders;
-			controlTemp.y = 570;
-			addChild(controlTemp);
-			
-			controlPh = new SliderComp("Ph", 0, 100, 1, 10, widthSlider);
-			controlPh.x = 2 * spaceBetweenSliders + widthSlider;
-			controlPh.y = 570;
-			addChild(controlPh);
-			
-			controlHumidade = new SliderComp("Humidade", 0, 100, 1, 10, widthSlider);
-			controlHumidade.x = 3 * spaceBetweenSliders +  2 * widthSlider;
-			controlHumidade.y = 570;
-			addChild(controlHumidade);
-			
+			/*
 			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
 			controlTime.x = 4 * spaceBetweenSliders + 3 * widthSlider;
 			controlTime.y = 570;
 			addChild(controlTime);
+			*/
 		}
 		
 		
