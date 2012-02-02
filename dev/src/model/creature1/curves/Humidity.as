@@ -20,8 +20,8 @@ package model.creature1.curves
 		{
 			return "humidity"
 		}
-		private var xlo:Number  = 5
-		private var xhi:Number = 45
+		private var xlo:Number  = 30
+		private var xhi:Number = 100
 		
 		public function calculateTolerance(val:Number):Number 
 		{

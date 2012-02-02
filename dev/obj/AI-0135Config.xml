@@ -14,28 +14,28 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'02/02/2012'</value>
+      <value>'2/2/2012'</value>
     </define>
     <source-path append="true">
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\src</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib</path-element>
-      <path-element>D:\Projetos\CEPALib\AS3\src</path-element>
-      <path-element>C:\Program Files (x86)\Adobe\Adobe Flash CS5\Common\Configuration\ActionScript 3.0\projects\Flash\src</path-element>
-      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\src</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\CEPALib\AS3\src</path-element>
+      <path-element>C:\Arquivos de programas\Adobe\Adobe Flash CS5\Common\Configuration\ActionScript 3.0\projects\Flash\src</path-element>
+      <path-element>C:\Arquivos de programas\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\as3isolib.v1.core.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\graph.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\teste.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\marios.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\stickMan.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\C2.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\Slider.swc</path-element>
-      <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\lib\SliderComp.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\as3isolib.v1.core.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\graph.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\teste.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\marios.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\stickMan.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\C2.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\Slider.swc</path-element>
+      <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\lib\SliderComp.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\Projetos\05 - GitHub\AI-0135\dev\src\Main.as</path-element>
+    <path-element>C:\Documents and Settings\Arthur Tofani\Desktop\GitHub\AI-0135\dev\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

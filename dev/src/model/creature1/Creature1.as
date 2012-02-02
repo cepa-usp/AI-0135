@@ -4,6 +4,8 @@ package model.creature1
 	import mas.agent.reasoning.IReasoning;
 	import mas.agent.sensor.ISensor;
 	import model.BioAgent;
+	import model.creature1.curves.Humidity;
+	import model.creature1.curves.Ph;
 	import model.creature1.curves.Temperature;
 	import model.Reasoning_AutoEvaluate;
 	import model.Reasoning_SearchFood;
@@ -24,6 +26,9 @@ package model.creature1
 			createReasoning();
 			this.expenditures = new Creature1Expenditures();
 			this.limitingFactors.push(new Temperature());
+			this.limitingFactors.push(new Ph());
+			this.limitingFactors.push(new Humidity());
+			
 		}
 		
 		private function createReasoning():void 

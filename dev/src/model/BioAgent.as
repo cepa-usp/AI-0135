@@ -136,17 +136,17 @@ package model
 
 
 		public function calculateEnergyExpenditure(expense:Point):void {
-			var maxret:Number = Number.NEGATIVE_INFINITY;
+			var maxret:Number = Number.POSITIVE_INFINITY;
 			for each (var c:LimitingFactorCurve in limitingFactors) {
 				var parameter:String = c.getFactorName;
 				var reg:Region = environment.getRegion(position);
 				var valor:Number = reg.getResourceValue(parameter);				
 				var f:Number = c.calculateTolerance(valor);
 				var ret:Number = ((1 - f) * expense.y) - (f * expense.x);
-				if (ret > maxret) maxret = ret;
+				if (ret < maxret) maxret = ret;
 			}
-			if(id==Config.viewId) trace(energy.toFixed(0), " - ", maxret.toFixed(0), " -> ", parameter, "   -   " + mindstatenames[this.mindState])
-			energy += maxret;
+			//if(id==Config.viewId) trace(energy.toFixed(0), " - ", maxret.toFixed(0), " -> ", parameter, "   -   " + mindstatenames[this.mindState])
+			energy += (Math.abs(maxret) * -1);
 			
 			
 			if (energy <= 0) {

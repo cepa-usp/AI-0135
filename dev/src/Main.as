@@ -29,6 +29,7 @@ package
 		//private var controlTime:SliderComp;
 		
 		private var compSlider:CompSlider;
+		private var env:Environment;
 		
 		public function Main():void 
 		{
@@ -42,7 +43,7 @@ package
 			
 			addAnimations();
 			
-			var env:Environment = new Environment();
+			env = new Environment();
 			setEnvironment(env);
 			env.createNewAgents();
 			
@@ -89,7 +90,7 @@ package
 			compSlider.x = 10;
 			compSlider.y = 10;
 			compSlider.temperatura = 80;
-			
+			compSlider.addEventListener(Event.CHANGE, changeParameters)
 			/*
 			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
 			controlTime.x = 4 * spaceBetweenSliders + 3 * widthSlider;
@@ -98,11 +99,19 @@ package
 			*/
 		}
 		
+		private function changeParameters(e:Event):void 
+		{
+			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_TEMPERATURE,  compSlider.temperatura);
+			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_PH,  compSlider.ph);
+			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_HUMIDITY,  compSlider.umidade);
+		}
+		
 		
 		private function setEnvironment(env:Environment):void {
 			var r:Region = new Region(new Rectangle(0, 0, env.width - 1, env.height - 1));
 			r.resources[Region.TYPE_TEMPERATURE] = 21;
-			r.resources[Region.TYPE_PH] = 7;
+			r.resources[Region.TYPE_PH] = 5;
+			r.resources[Region.TYPE_HUMIDITY] = 60;
 			env.addRegion(r)
 		}
 		

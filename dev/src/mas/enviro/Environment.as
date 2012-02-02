@@ -299,7 +299,7 @@ package mas.enviro
 			var qt:int = countSpecies(objclass);
 			var pstar:Number = Config.calcPermissividadeNascimento(qt, 30, 6);
 			var prob:Number = Math.random();
-			trace("qt, pstar, prob: ", qt, pstar, prob)
+			//trace("qt, pstar, prob: ", qt, pstar, prob)
 			if (pstar > prob) {
 				var creature:BioAgent = new objclass();
 				registerAgent(creature, e.agent.position.clone());

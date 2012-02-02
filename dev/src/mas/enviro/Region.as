@@ -25,9 +25,15 @@ package mas.enviro
 			return Number.NaN;
 		}
 		
+		public function setResourceValue(resourceName:String, value:Number):void {
+			if (resources[resourceName] != null) {
+				resources[resourceName] = value;
+			}
+		}		
+		
 		public static const TYPE_TEMPERATURE:String  = "temperature";
 		public static const TYPE_PH:String  = "ph";
-		public static const TYPE_PRESSURE:String  = "pressure";
+		public static const TYPE_HUMIDITY:String  = "humidity";
 		
 		public function get area():Rectangle 
 		{

@@ -20,8 +20,8 @@ package model.creature2.curves
 		{
 			return "ph"
 		}
-		private var xlo:Number  = 5
-		private var xhi:Number = 45
+		private var xlo:Number  = 0
+		private var xhi:Number = 7
 		
 		public function calculateTolerance(val:Number):Number 
 		{
