@@ -76,7 +76,7 @@ package
 			
 			txtTemp = this.temp;
 			txtPh = this.pH;
-			txtUmidade = this.umidade;
+			txtUmidade = this.umid;
 		}
 		
 		private function configureComponents(config:Object):void 
@@ -142,6 +142,38 @@ package
 			}
 		}
 		
+		public function get temperatura():Number
+		{
+			return sliderTemp.value;
+		}
+		
+		public function get ph():Number
+		{
+			return sliderPh.value;
+		}
+		
+		public function get umidade():Number
+		{
+			return sliderUmidade.value;
+		}
+		
+		public function set temperatura(value:Number):void
+		{
+			sliderTemp.value = value;
+			updateTextFields(null);
+		}
+		
+		public function set ph(value:Number):void
+		{
+			sliderPh.value = value;
+			updateTextFields(null);
+		}
+		
+		public function set umidade(value:Number):void
+		{
+			sliderUmidade.value = value;
+			updateTextFields(null);
+		}
 	}
 
 }

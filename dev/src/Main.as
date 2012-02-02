@@ -88,6 +88,7 @@ package
 			addChild(compSlider);
 			compSlider.x = 10;
 			compSlider.y = 10;
+			compSlider.temperatura = 80;
 			
 			/*
 			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
