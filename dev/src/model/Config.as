@@ -27,7 +27,7 @@ package model
 		public static const t:int = 1000 // tempo de cada round, em milisegundos
 		public static const hourTurn:int = 3 * t; // os calculos de gasto de energia são em 'horas', baseadas no valor de t.
 		public static const ageTurn:int = 4; // os calculos de idade são feitos em um determinado ciclo de 'horas'.
-		
+		public static var time:Number = 41;
 		
 		public static function cut(x:Number):Number {
 			return Math.max(0, Math.min(x, 1));

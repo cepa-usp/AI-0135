@@ -32,8 +32,33 @@ package
 		private const closePosSliders:Number = -90;
 		private const openPosSliders:Number = 92;
 		
-		public function CompSlider(config:Object) 
+		public function CompSlider(config:Object = null) 
 		{
+			if (config == null) {
+				config = {
+					temp: {
+						minimum: 5,
+						maximum: 95,
+						tick: 5,
+						snap: 1,
+						inicial: 20
+					},
+					ph: {
+						minimum: 0,
+						maximum: 7,
+						tick: 1,
+						snap: 0.5,
+						inicial: 4
+					},
+					umidade: {
+						minimum: 0,
+						maximum: 100,
+						tick: 10,
+						snap: 1,
+						inicial: 30
+					}
+				}
+			}
 			makeConections();
 			configureComponents(config);
 			addListeners();

@@ -7,6 +7,7 @@ package  view.iso
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
+	import model.Config;
 	/**
 	 * ...
 	 * @author Alexandre
@@ -62,7 +63,7 @@ package  view.iso
 			this.bitmapData = movimento[currentFrame];
 			currentFrame++;
 			if (currentFrame == movimento.length) currentFrame = 0;			
-			if (state == STATE_PLAYING) setTimeout(changeGraphics, 41 + _adjust);
+			if (state == STATE_PLAYING) setTimeout(changeGraphics, Config.time + _adjust);
 
 		}
 		

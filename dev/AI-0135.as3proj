@@ -5,7 +5,7 @@
     <movie disabled="False" />
     <movie input="" />
     <movie path="bin\AI0135.swf" />
-    <movie fps="120" />
+    <movie fps="30" />
     <movie width="800" />
     <movie height="600" />
     <movie version="10" />
