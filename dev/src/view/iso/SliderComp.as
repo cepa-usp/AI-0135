@@ -15,11 +15,11 @@ package view.iso
 		private var slider:Slider;
 		private var label:TextField;
 		private var widthSlider:Number;
-		private var labelTxt:String;
+		private var _labelTxt:String;
 		
 		private var borda:Number = 5;
 		
-		public function SliderComp(label:String, min:Number, max:Number, snapInt:Number, tickInt:Number, width:Number) 
+		public function SliderComp(label:String, min:Number, max:Number, snapInt:Number, tickInt:Number, width:Number, ini:Number) 
 		{
 			widthSlider = width;
 			labelTxt = label;
@@ -28,6 +28,7 @@ package view.iso
 			slider = new Slider();
 			slider.minimum = min;
 			slider.maximum = max;
+			slider.value = ini;
 			slider.snapInterval = snapInt;
 			slider.tickInterval = tickInt;
 			slider.width = width - 2 * borda;
@@ -56,8 +57,24 @@ package view.iso
 				label.selectable = false;
 				addChild(label);
 			}
-			label.text = labelTxt + ": " + String(slider.value);
+			label.text = labelTxt + ": " + String(slider.value);			
+			
+			dispatchEvent(new Event(Event.CHANGE, true));
 			label.x = (widthSlider - label.width) / 2 + borda;
+		}
+		
+		public function getValue():Number {
+			return slider.value;
+		}
+		
+		public function get labelTxt():String 
+		{
+			return _labelTxt;
+		}
+		
+		public function set labelTxt(value:String):void 
+		{
+			_labelTxt = value;
 		}
 		
 	}

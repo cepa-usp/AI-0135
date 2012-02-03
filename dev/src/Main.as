@@ -9,6 +9,7 @@ package
 	import flash.events.Event;
 	import mas.enviro.Region;
 	import model.BioAgent;
+	import model.Config;
 	import model.creature1.Creature1;
 	import model.LimitingFactorCurve;
 	import view.iso.Cenario;
@@ -26,7 +27,7 @@ package
 		//private var controlTemp:SliderComp;
 		//private var controlPh:SliderComp;
 		//private var controlHumidade:SliderComp;
-		//private var controlTime:SliderComp;
+		private var controlTime:SliderComp;
 		
 		private var compSlider:CompSlider;
 		private var env:Environment;
@@ -91,12 +92,21 @@ package
 			compSlider.y = 10;
 			compSlider.temperatura = 80;
 			compSlider.addEventListener(Event.CHANGE, changeParameters)
-			/*
-			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
-			controlTime.x = 4 * spaceBetweenSliders + 3 * widthSlider;
+			
+			controlTime = new SliderComp("Tempo", 100, 1200, 50, 500, 400, 300);
+			controlTime.x = 100;
 			controlTime.y = 570;
+			controlTime.addEventListener(Event.CHANGE, changeTime)
 			addChild(controlTime);
-			*/
+			
+		}
+		
+		private function changeTime(e:Event):void 
+		{
+			Config.t = (1200 - controlTime.getValue()) + 100;
+			//controlTime.labelTxt = int(Config.tpadrao / controlTime.getValue()).toString();
+			
+			
 		}
 		
 		private function changeParameters(e:Event):void 

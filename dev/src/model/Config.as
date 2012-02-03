@@ -1,5 +1,6 @@
 package model 
 {
+	import flash.geom.Point;
 	
 	/**
 	 * ...
@@ -22,12 +23,17 @@ package model
 		public static var viewId:int = 1;
 		
 		private static var lastId:int = 0;
+				
 		
-		
-		public static const t:int = 1000 // tempo de cada round, em milisegundos
 		public static const hourTurn:int = 3 * t; // os calculos de gasto de energia são em 'horas', baseadas no valor de t.
 		public static const ageTurn:int = 4; // os calculos de idade são feitos em um determinado ciclo de 'horas'.
-		public static var time:Number = 41;
+		
+		public static var tpadrao:int = 1000 // tempo de cada round, em milisegundos
+		public static var t:int = 1200 // tempo de cada round, em milisegundos
+		public static function get time():Number {
+			var nnn:Point = Point.interpolate(new Point(1000, 40), new Point(100, 5), t/tpadrao);
+			return  nnn.y;
+		}
 		
 		public static function cut(x:Number):Number {
 			return Math.max(0, Math.min(x, 1));
