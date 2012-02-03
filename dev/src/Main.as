@@ -26,7 +26,7 @@ package
 		//private var controlTemp:SliderComp;
 		//private var controlPh:SliderComp;
 		//private var controlHumidade:SliderComp;
-		//private var controlTime:SliderComp;
+		private var controlTime:SliderComp;
 		
 		private var compSlider:CompSlider;
 		private var env:Environment;
@@ -91,12 +91,12 @@ package
 			compSlider.y = 10;
 			compSlider.temperatura = 80;
 			compSlider.addEventListener(Event.CHANGE, changeParameters)
-			/*
-			controlTime = new SliderComp("Tempo", 0, 100, 1, 10, widthSlider);
-			controlTime.x = 4 * spaceBetweenSliders + 3 * widthSlider;
+			
+			controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
+			controlTime.x = 100;
 			controlTime.y = 570;
 			addChild(controlTime);
-			*/
+			
 		}
 		
 		private function changeParameters(e:Event):void 
