@@ -28,11 +28,17 @@ package model
 		public static const hourTurn:int = 3 * t; // os calculos de gasto de energia são em 'horas', baseadas no valor de t.
 		public static const ageTurn:int = 4; // os calculos de idade são feitos em um determinado ciclo de 'horas'.
 		
+<<<<<<< HEAD
 		public static var tpadrao:int = 1000 // tempo de cada round, em milisegundos
 		public static var t:int = 1200 // tempo de cada round, em milisegundos
 		public static function get time():Number {
 			var nnn:Point = Point.interpolate(new Point(1000, 40), new Point(100, 5), t/tpadrao);
 			return  nnn.y;
+=======
+		public static var t:int = 1000 // tempo de cada round, em milisegundos
+		public static function get time():Number {
+			return  40;
+>>>>>>> af8b1d3dc5cc4291fb29d89a2cd83567021913dc
 		}
 		
 		public static function cut(x:Number):Number {
