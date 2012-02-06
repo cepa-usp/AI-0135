@@ -93,17 +93,13 @@ package
 			compSlider.temperatura = 80;
 			compSlider.addEventListener(Event.CHANGE, changeParameters)
 			
-<<<<<<< HEAD
-			controlTime = new SliderComp("Tempo", 100, 1200, 50, 500, 400, 300);
-=======
-			controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
->>>>>>> af8b1d3dc5cc4291fb29d89a2cd83567021913dc
-			controlTime.x = 100;
+			controlTime = new SliderComp("Tempo", 100, 1200, 50, 200, 400, 300);
+			//controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
+			controlTime.x = 200;
 			controlTime.y = 570;
 			controlTime.addEventListener(Event.CHANGE, changeTime)
 			addChild(controlTime);
 			
-<<<<<<< HEAD
 		}
 		
 		private function changeTime(e:Event):void 
@@ -111,9 +107,6 @@ package
 			Config.t = (1200 - controlTime.getValue()) + 100;
 			//controlTime.labelTxt = int(Config.tpadrao / controlTime.getValue()).toString();
 			
-			
-=======
->>>>>>> af8b1d3dc5cc4291fb29d89a2cd83567021913dc
 		}
 		
 		private function changeParameters(e:Event):void 

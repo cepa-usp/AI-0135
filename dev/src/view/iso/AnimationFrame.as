@@ -61,8 +61,9 @@ package  view.iso
 			if (mudou) return;
 			if (movimento == null) return;			
 			this.bitmapData = movimento[currentFrame];
-			currentFrame++;
-			if (currentFrame == movimento.length) currentFrame = 0;			
+			if (Config.time < 10) currentFrame += 2;
+			else currentFrame++;
+			if (currentFrame >= movimento.length) currentFrame = 0;
 			if (state == STATE_PLAYING) setTimeout(changeGraphics, Config.time + _adjust);
 
 		}

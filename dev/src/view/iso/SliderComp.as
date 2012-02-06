@@ -56,8 +56,11 @@ package view.iso
 				label.y = 10;
 				label.selectable = false;
 				addChild(label);
+				//label.text = labelTxt;
+				//label.x = (widthSlider - label.width) / 2 + borda;
 			}
-			label.text = labelTxt + ": " + String(slider.value);			
+			if (slider.value == 300) label.text = labelTxt + ": Normal";
+			else label.text = labelTxt;
 			
 			dispatchEvent(new Event(Event.CHANGE, true));
 			label.x = (widthSlider - label.width) / 2 + borda;

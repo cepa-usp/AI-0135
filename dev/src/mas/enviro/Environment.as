@@ -198,11 +198,8 @@ package mas.enviro
 					startFeedAgent(BioAgent(e.agent), FoodAgent(e.tag));
 					break;
 				case BioAction.ACTION_DEAD:
-<<<<<<< HEAD
 					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 10 * Config.t));	
-=======
-					BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 8 * Config.t));	
->>>>>>> af8b1d3dc5cc4291fb29d89a2cd83567021913dc
+					//BioAgent(e.agent).enqueueAction(new BioAgent_Die(BioAgent(e.agent), 8 * Config.t));	
 					break;
 			}
 		}
