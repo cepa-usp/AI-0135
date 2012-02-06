@@ -81,7 +81,7 @@ package mas.enviro
 		
 		
 		public function addFood():void {
-				var qtde:int = Math.random() * 7;
+				var qtde:int = (Math.random() * 7) + 5;
 				
 				for (var i:int = 0; i < qtde;i++ ) {
 					var food:FoodAgent = new FoodAgent();				
