@@ -81,6 +81,11 @@ package mas.enviro
 		
 		
 		public function addFood():void {
+				var qtfood = 0;
+				for each (var a:Agent in agents) {
+					if (a is FoodAgent) qtfood++;
+				}
+				if (qtfood > Config.MAX_FOOD_IN_STAGE) return;
 				var qtde:int = (Math.random() * 7) + 5;
 				
 				for (var i:int = 0; i < qtde;i++ ) {

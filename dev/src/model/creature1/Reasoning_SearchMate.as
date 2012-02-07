@@ -88,7 +88,7 @@ package model.creature1
 					if (posWalk[1] == null) return;
 					if(Point.distance(posWalk[1], bestPos) <= 1){
 						agent.mindState = BioAgent.MINDSTATE_MATING
-						var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);					
+						var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);
 						agent.enqueueAction(mate);
 					}
 				}				

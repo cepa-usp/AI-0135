@@ -8,6 +8,7 @@ package model
 	 */
 	public class Config 
 	{
+		static public const MAX_FOOD_IN_STAGE:int = 40;
 		public static const DEFAULT_MAX_BIOAGENT_ENERGY:int = 2000; // 200e/dia
 		public static const DEFAULT_MAX_BIOAGENT_ENERGY_MODIFIER:int = 10; // percentage
 		public static const DEFAULT_BIOAGENT_OLDAGE:int = 10; // em anos; é o tE, onde a energia do ser seja aprox. 37% da máxima;
@@ -19,7 +20,7 @@ package model
 		public static const DEFAULT_BIOAGENT_Ec:int = 600;
 		public static const DEFAULT_BIOAGENT_Ea:int = 800;
 		public static const DEFAULT_BIOAGENT_EC:int = 1200;
-		public static var SHOW_VISION:Boolean = true;
+		public static var SHOW_VISION:Boolean = false;
 		public static var viewId:int = 1;
 		
 		private static var lastId:int = 0;
@@ -30,6 +31,7 @@ package model
 		
 		public static var tpadrao:int = 1000 // tempo de cada round, em milisegundos
 		public static var t:int = 1200 // tempo de cada round, em milisegundos
+		
 		public static function get time():Number {
 			var nnn:Point = Point.interpolate(new Point(1000, 40), new Point(100, 5), t/tpadrao);
 			return  nnn.y;

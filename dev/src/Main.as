@@ -1,8 +1,11 @@
 package 
 {
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.ui.Keyboard;
 	import flash.utils.Timer;
 	import mas.enviro.Environment;
 	import flash.display.Sprite;
@@ -27,10 +30,10 @@ package
 		//private var controlTemp:SliderComp;
 		//private var controlPh:SliderComp;
 		//private var controlHumidade:SliderComp;
-		private var controlTime:SliderComp;
-		
+		private var controlTime:SliderComp;		
 		private var compSlider:CompSlider;
 		private var env:Environment;
+		private var cenario:Cenario;
 		
 		public function Main():void 
 		{
@@ -40,21 +43,25 @@ package
 		
 		private function init(e:Event = null):void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
+			removeEventListener(Event.ADDED_TO_STAGE, init);			
 			
 			addAnimations();
+			reset();
 			
+		}
+		
+
+		
+		private function reset():void {
+
 			env = new Environment();
 			setEnvironment(env);
 			env.createNewAgents();
 			
-			//var minimap:MiniMap = new MiniMap(env);
-			//addChild(minimap)
-			
-			
-			var cenario:Cenario = new Cenario(env);
+			cenario = new Cenario(env);
 			addChild(cenario);
 			cenario.init();
+			
 			
 			var configSlider:Object = {
 				temp: {
@@ -81,7 +88,6 @@ package
 			}
 			
 			configControls(configSlider);
-			
 		}
 		
 		private function configControls(config:Object):void 
@@ -100,7 +106,24 @@ package
 			controlTime.addEventListener(Event.CHANGE, changeTime)
 			addChild(controlTime);
 			
+			var s:Sprite = new Sprite();
+			s.graphics.beginFill(0x800000);
+			s.graphics.drawRect(0, 0, 20, 20);			
+			s.addEventListener(MouseEvent.CLICK, getMouse)
+			addChild(s);
+			s.x = 600;
+			s.y = 10;
+			
+			
 		}
+		
+		private function getMouse(e:MouseEvent):void 
+		{
+				trace("reset")
+				reset();
+		}
+		
+
 		
 		private function changeTime(e:Event):void 
 		{
