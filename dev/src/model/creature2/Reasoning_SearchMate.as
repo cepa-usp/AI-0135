@@ -47,23 +47,15 @@ package model.creature2
 					}
 				} 
 				if(searchOther) {
-					if (agent.mindVars["focus"] != null) {
+					if (agent.mindVars["nearestMate"] != null) {
 						var bestPos:Point = null;
-						for (var i:int = 0; i < agent.mindVars.focus.length; i++) {
-							if(agent.mindVars.focus[i]!=null){
-								for (var j:int = 0; j < agent.mindVars.focus[i].length; j++) {
-									if (agent.mindVars.focus[i][j] != null) {
-										var objfc:Object = agent.mindVars.focus[i][j];
-										if (objfc is Creature2 && objfc!=agent) {
-											if ( BioAgent(objfc).mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {
-												targetmate = BioAgent(objfc);
-												bestPos = Creature2(agent.mindVars.focus[i][j]).position.clone();
-												agent.mindVars.targetmate = targetmate;
-											}
-										}																				
-									}
+						if(agent.mindVars.nearestMate!=null){
+							var objfc:Object = agent.mindVars.nearestMate;
+								if ( BioAgent(objfc).mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {
+									targetmate = BioAgent(objfc);
+									bestPos = targetmate.position.clone();
+									agent.mindVars.targetmate = targetmate;
 								}
-							}
 						}
 						if (bestPos != null) {
 							posWalk = walkCloser(agent, bestPos.clone());

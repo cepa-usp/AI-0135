@@ -30,7 +30,7 @@ package model
 			var nearestMate:BioAgent = null;
 			var distance:Number = 999999;
 			
-			for (var a:Agent in agent.environment.agents) {
+			for each (var a:Agent in agent.environment.agents) {
 				if (a == agent) continue;
 				if (getQualifiedClassName(a).match(getQualifiedClassName(agent))) {
 					if (BioAgent(a).mindState == BioAgent.MINDSTATE_SEARCHING_MATE) {

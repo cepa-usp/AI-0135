@@ -86,7 +86,7 @@ package mas.enviro
 					if (a is FoodAgent) qtfood++;
 				}
 				if (qtfood > Config.MAX_FOOD_IN_STAGE) return;
-				var qtde:int = (Math.random() * 7) + 5;
+				var qtde:int = (Math.random() * 7) + 15;
 				
 				for (var i:int = 0; i < qtde;i++ ) {
 					var food:FoodAgent = new FoodAgent();				

@@ -7,6 +7,7 @@ package model.creature1
 	import model.creature1.curves.Humidity;
 	import model.creature1.curves.Ph;
 	import model.creature1.curves.Temperature;
+	import model.MateFinder;
 	import model.Reasoning_AutoEvaluate;
 	import model.Reasoning_SearchFood;
 	import model.creature1.Reasoning_SearchMate;
@@ -42,6 +43,9 @@ package model.creature1
 		public function createSensors():void {
 			var s:ISensor;
 			s = new SimpleEyes();
+			sensors.push(s);
+			
+			s = new MateFinder();
 			sensors.push(s);
 		}
 		
