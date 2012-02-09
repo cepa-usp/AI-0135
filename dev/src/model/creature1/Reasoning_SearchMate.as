@@ -83,6 +83,7 @@ package model.creature1
 						agent.mindState = BioAgent.MINDSTATE_MATING
 						var mate:Creature1_Mate = new Creature1_Mate(agent, 2*Config.t, targetmate);
 						agent.enqueueAction(mate);
+
 					}
 				}				
 			}

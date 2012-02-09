@@ -13,6 +13,10 @@ package model.creature1.curves
 		{
 			
 		}
+		public function get f():Number 
+		{
+			return 0.2;
+		}
 		
 		/* INTERFACE model.LimitingFactorCurve */
 		

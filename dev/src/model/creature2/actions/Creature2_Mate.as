@@ -27,6 +27,7 @@ package model.creature2.actions
 			var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, agent);
 			ev.duration = duration;
 			ev.actionType = BioAction.ACTION_MATING;
+			couple.cancelActions();
 			ev.tag = couple;			
 			agent.eventDispatcher.dispatchEvent(ev);
 		}

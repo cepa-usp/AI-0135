@@ -277,10 +277,11 @@ package mas.enviro
 				
 			}
 			
+			var ppos:Point = new Point(0, 0);
 			for (i = 0; i < 15; i++) {
-				var arvore1:Arvore1 = new Arvore1();
-				registerAgent(arvore1, getFreePosition()); 
-				
+				var arvore1:Arvore1 = new Arvore1();				
+				registerAgent(arvore1, ppos); 
+				ppos = getFreePosition()
 			}
 
 			for (i = 0; i < 15; i++) {

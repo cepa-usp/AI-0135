@@ -112,6 +112,11 @@ package model
 			}
 		}
 		
+		public function cancelActions():void {
+			actionQueue = new Vector.<Action>();
+			timer.reset();
+		}
+		
 		private function calculateMaxEnergy():void {
 			current_maxenergy = initial_maxenergy * Math.pow(Math.E, (age * -1) / Config.DEFAULT_BIOAGENT_OLDAGE);
 			energy = Math.min(current_maxenergy, energy);
@@ -142,11 +147,15 @@ package model
 				var reg:Region = environment.getRegion(position);
 				var valor:Number = reg.getResourceValue(parameter);				
 				var f:Number = c.calculateTolerance(valor);
-				var ret:Number = ((1 - f) * expense.y) - (f * expense.x);
+				var ret:Number = ((1 - f) * expense.y) + (f * expense.x);
 				if (ret < maxret) maxret = ret;
 			}
+			
+			
+			
+			
 			//if(id==Config.viewId) trace(energy.toFixed(0), " - ", maxret.toFixed(0), " -> ", parameter, "   -   " + mindstatenames[this.mindState])
-			energy += (Math.abs(maxret) * -1);
+			energy -= maxret;
 			
 			
 			if (energy <= 0) {

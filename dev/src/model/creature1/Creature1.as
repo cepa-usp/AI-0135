@@ -27,7 +27,7 @@ package model.creature1
 			createReasoning();
 			this.expenditures = new Creature1Expenditures();
 			this.limitingFactors.push(new Temperature());
-			this.limitingFactors.push(new Ph());
+		//	this.limitingFactors.push(new Ph());
 			this.limitingFactors.push(new Humidity());
 			
 		}

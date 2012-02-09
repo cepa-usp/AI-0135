@@ -30,6 +30,15 @@ package model
 			var ic:Number = agent.intrFeeding.getValue(agent.energy)
 			var ia:Number = agent.intrMating.getValue(agent.energy)
 
+			if (agent is Creature1) {
+				trace(ia);
+			}
+
+			
+			for each (var l:LimitingFactorCurve in agent.limitingFactors) {
+				var num:Number = agent.environment.getRegion(agent.position).getResourceValue(l.getFactorName);
+				//if (l.x < l.f) ia = 0;
+			}
 			//agent.mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 			
 			

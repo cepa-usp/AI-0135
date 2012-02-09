@@ -23,6 +23,10 @@ package model.creature2.curves
 		private var xlo:Number  = 5
 		private var xhi:Number = 45
 		
+		public function get f():Number 
+		{
+			return 0.2;
+		}		
 		public function calculateTolerance(val:Number):Number 
 		{
 			var res:Number = ((4 * (val - xhi) * (val - xlo)) / Math.pow(xhi - xlo, 2)) * -1;

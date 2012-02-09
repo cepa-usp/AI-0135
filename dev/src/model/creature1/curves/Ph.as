@@ -33,6 +33,11 @@ package model.creature1.curves
 		public function cut(val:Number):Number {
 			return Math.max(0, Math.min(val, 1));
 		}
+
+		public function get f():Number 
+		{
+			return 0.2;
+		}
 		
 	}
 	

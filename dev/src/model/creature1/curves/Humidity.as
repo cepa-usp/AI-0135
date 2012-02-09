@@ -20,8 +20,9 @@ package model.creature1.curves
 		{
 			return "humidity"
 		}
-		private var xlo:Number  = 30
-		private var xhi:Number = 100
+		private var _xlo:Number  = 30
+		private var _xhi:Number = 100
+		
 		
 		public function calculateTolerance(val:Number):Number 
 		{
@@ -32,6 +33,32 @@ package model.creature1.curves
 		
 		public function cut(val:Number):Number {
 			return Math.max(0, Math.min(val, 1));
+		}
+		
+
+		public function get f():Number 
+		{
+			return 0.2;
+		}
+		
+		public function get xlo():Number 
+		{
+			return _xlo;
+		}
+		
+		public function set xlo(value:Number):void 
+		{
+			_xlo = value;
+		}
+		
+		public function get xhi():Number 
+		{
+			return _xhi;
+		}
+		
+		public function set xhi(value:Number):void 
+		{
+			_xhi = value;
 		}
 		
 	}

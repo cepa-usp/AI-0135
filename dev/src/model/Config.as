@@ -20,7 +20,7 @@ package model
 		public static const DEFAULT_BIOAGENT_Ec:int = 600;
 		public static const DEFAULT_BIOAGENT_Ea:int = 800;
 		public static const DEFAULT_BIOAGENT_EC:int = 1200;
-		public static var SHOW_VISION:Boolean = false;
+		public static var SHOW_VISION:Boolean = true;
 		public static var viewId:int = 1;
 		
 		private static var lastId:int = 0;

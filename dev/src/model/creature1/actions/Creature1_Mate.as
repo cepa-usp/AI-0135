@@ -27,6 +27,7 @@ package model.creature1.actions
 			var ev:AgentEvent = new AgentEvent(AgentEvent.ACTION_CHANGED, agent);
 			ev.duration = duration;
 			ev.actionType = BioAction.ACTION_MATING;
+			couple.cancelActions();
 			ev.tag = couple;			
 			agent.eventDispatcher.dispatchEvent(ev);
 		}
@@ -38,6 +39,7 @@ package model.creature1.actions
 			}
 			
 			calculateEnergyCost();
+			BioAgent(agent).mindState = BioAgent.MINDSTATE_SEARCHING_FOOD;
 		}	
 		
 		private function calculateEnergyCost():void 
