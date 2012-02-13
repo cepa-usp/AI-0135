@@ -19,6 +19,7 @@ package  view.iso
 	import fl.transitions.TweenEvent;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -206,7 +207,7 @@ package  view.iso
 			}			
 		}
 		
-		private var zoom:Number = 1;
+		public var zoom:Number = 1;
 		private function viewZoom(e:MouseEvent):void
 		{
 			if(e.delta > 0)
@@ -219,6 +220,12 @@ package  view.iso
 			}
 			view.currentZoom = zoom;
 			
+			verifyCameraLimits();
+			dispatchEvent(new Event(Event.RESIZE, true));
+		}
+		
+		private function verifyCameraLimits():void
+		{
 			var currentPt:Pt = view.currentPt;
 			var strZoom:String;
 			if (zoom == 1) strZoom = "1";
@@ -230,6 +237,24 @@ package  view.iso
 			if (currentPt.x < zoomProp[strZoom].xmin) currentPt.x = zoomProp[strZoom].xmin;
 			
 			view.centerOnPt(currentPt, false);
+		}
+		
+		public function zoomInFunc(e:MouseEvent = null):void
+		{
+			if (zoom < 1) {
+				zoom +=  0.10;
+				view.currentZoom = zoom;
+				verifyCameraLimits();
+			}
+		}
+		
+		public function zoomOutFunc(e:MouseEvent = null):void
+		{
+			if (zoom > 0.6) {
+				zoom -=  0.10;
+				view.currentZoom = zoom;
+				verifyCameraLimits();
+			}
 		}
 		
 		private var zoomProp:Object = {
@@ -319,7 +344,7 @@ package  view.iso
 		private function panViewIni(e:MouseEvent):void 
 		{
 			if (e.target is BaseButton) return;
-			inicialClickPos = new Point(stage.mouseX, stage.mouseY);
+			inicialClickPos = new Point(mouseX, mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, panView);
 			stage.addEventListener(MouseEvent.MOUSE_UP, panViewEnd);
 		}
@@ -332,12 +357,12 @@ package  view.iso
 		
 		private function panView(e:MouseEvent):void 
 		{
-			var mousePos:Point = new Point(stage.mouseX, stage.mouseY);
+			var mousePos:Point = new Point(mouseX, mouseY);
 			
 			var difPos:Point = new Point(mousePos.x - inicialClickPos.x, mousePos.y - inicialClickPos.y);
 			view.panBy( -difPos.x, -difPos.y);
 			
-			inicialClickPos = new Point(stage.mouseX, stage.mouseY);
+			inicialClickPos = new Point(mouseX, mouseY);
 		}
 		
 		private function panViewEnd(e:MouseEvent):void 

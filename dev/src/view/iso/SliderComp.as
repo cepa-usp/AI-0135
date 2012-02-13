@@ -59,15 +59,25 @@ package view.iso
 				//label.text = labelTxt;
 				//label.x = (widthSlider - label.width) / 2 + borda;
 			}
+			setText();
+			dispatchEvent(new Event(Event.CHANGE, true));
+		}
+		
+		private function setText():void
+		{
 			if (slider.value == 300) label.text = labelTxt + ": Normal";
 			else label.text = labelTxt;
 			
-			dispatchEvent(new Event(Event.CHANGE, true));
 			label.x = (widthSlider - label.width) / 2 + borda;
 		}
 		
 		public function getValue():Number {
 			return slider.value;
+		}
+		
+		public function setValue(value:Number):void{
+			slider.value = value;
+			setText();
 		}
 		
 		public function get labelTxt():String 

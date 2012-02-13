@@ -81,7 +81,7 @@ package mas.enviro
 		
 		
 		public function addFood():void {
-				var qtfood = 0;
+				var qtfood:Number = 0;
 				for each (var a:Agent in agents) {
 					if (a is FoodAgent) qtfood++;
 				}

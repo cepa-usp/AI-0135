@@ -56,6 +56,7 @@
     <element path="lib\C2.swc" />
     <element path="lib\Slider.swc" />
     <element path="lib\SliderComp.swc" />
+    <element path="lib\visual.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

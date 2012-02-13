@@ -34,6 +34,12 @@ package
 		private var compSlider:CompSlider;
 		private var env:Environment;
 		private var cenario:Cenario;
+		private var btns:Botoes;
+		private var borda:Borda;
+		private var zoomBtns:ZoomBtns;
+		
+		private var cmdBorda:Sprite;
+		private var cmdAtividade:Sprite;
 		
 		public function Main():void 
 		{
@@ -52,15 +58,29 @@ package
 		
 
 		
-		private function reset():void {
-
+		private function reset():void 
+		{
+			if (cmdAtividade == null) {
+				cmdAtividade = new Sprite();
+				addChild(cmdAtividade);
+			}
+			
+			if (cmdBorda == null) {
+				cmdBorda = new Sprite();
+				addChild(cmdBorda);
+			}
+			
 			env = new Environment();
 			setEnvironment(env);
 			env.createNewAgents();
 			
+			//if (cenario != null) {
+				//cmdAtividade.removeChild(cenario);
+			//}
 			cenario = new Cenario(env);
-			addChild(cenario);
+			cmdAtividade.addChild(cenario);
 			cenario.init();
+			cenario.addEventListener(Event.RESIZE, verifyZoom);
 			
 			
 			var configSlider:Object = {
@@ -88,32 +108,101 @@ package
 			}
 			
 			configControls(configSlider);
+			verifyZoom();
 		}
 		
 		private function configControls(config:Object):void 
 		{
-			compSlider = new CompSlider(config);
-			addChild(compSlider);
-			compSlider.x = 10;
-			compSlider.y = 10;
+			if(compSlider == null){
+				compSlider = new CompSlider(config);
+				cmdBorda.addChild(compSlider);
+				compSlider.x = 10;
+				compSlider.y = 10;
+				compSlider.addEventListener(Event.CHANGE, changeParameters)
+			}
 			compSlider.temperatura = 80;
-			compSlider.addEventListener(Event.CHANGE, changeParameters)
 			
-			controlTime = new SliderComp("Tempo", 100, 1200, 50, 200, 400, 300);
-			//controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
-			controlTime.x = 200;
-			controlTime.y = 570;
-			controlTime.addEventListener(Event.CHANGE, changeTime)
-			addChild(controlTime);
+			if(controlTime == null){
+				controlTime = new SliderComp("Tempo", 100, 1200, 50, 200, 400, 300);
+				//controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
+				controlTime.x = 200;
+				controlTime.y = 565;
+				controlTime.addEventListener(Event.CHANGE, changeTime)
+				cmdBorda.addChild(controlTime);
+			}
+			controlTime.setValue(300);
 			
-			var s:Sprite = new Sprite();
-			s.graphics.beginFill(0x800000);
-			s.graphics.drawRect(0, 0, 20, 20);			
-			s.addEventListener(MouseEvent.CLICK, getMouse)
-			addChild(s);
-			s.x = 600;
-			s.y = 10;
+			//var s:Sprite = new Sprite();
+			//s.graphics.beginFill(0x800000);
+			//s.graphics.drawRect(0, 0, 20, 20);			
+			//s.addEventListener(MouseEvent.CLICK, getMouse)
+			//cmdBorda.addChild(s);
+			//s.x = 600;
+			//s.y = 10;
 			
+			if(zoomBtns == null){
+				zoomBtns = new ZoomBtns();
+				zoomBtns.x = 10;
+				zoomBtns.y = 130;
+				cmdBorda.addChild(zoomBtns);
+				zoomBtns.start();
+				zoomBtns.btnFunction(ZoomBtns.ZOOM_IN, zoomInFunc);
+				zoomBtns.btnFunction(ZoomBtns.ZOOM_OUT, zoomOutFunc);
+			}
+			
+			if(btns == null){
+				btns = new Botoes();
+				btns.x = 747;
+				btns.y = 435;
+				cmdBorda.addChild(btns);
+				btns.start();
+				btns.btnFunction(Botoes.CREDITOS, openCredit);
+				btns.btnFunction(Botoes.INSTRUCOES, openInstructions);
+				btns.btnFunction(Botoes.TUTORIAL, restartTutorial);
+				btns.btnFunction(Botoes.RESET, getMouse);
+			}
+			
+			if(borda == null){
+				borda = new Borda();
+				cmdBorda.addChild(borda);
+			}
+			
+			
+		}
+		
+		private function zoomInFunc(e:MouseEvent):void 
+		{
+			cenario.zoomInFunc();
+			verifyZoom();
+		}
+		
+		private function zoomOutFunc(e:MouseEvent):void 
+		{
+			cenario.zoomOutFunc();
+			verifyZoom();
+		}
+		
+		private function verifyZoom(e:Event = null):void
+		{
+			if (cenario.zoom == 1) zoomBtns.lockBtn(ZoomBtns.ZOOM_IN, true);
+			else zoomBtns.lockBtn(ZoomBtns.ZOOM_IN, false);
+			
+			if (Math.abs(cenario.zoom - 0.5) < 0.01) zoomBtns.lockBtn(ZoomBtns.ZOOM_OUT, true);
+			else zoomBtns.lockBtn(ZoomBtns.ZOOM_OUT, false);
+		}
+		
+		private function openCredit(e:MouseEvent):void 
+		{
+			
+		}
+		
+		private function openInstructions(e:MouseEvent):void 
+		{
+			
+		}
+		
+		private function restartTutorial(e:MouseEvent):void 
+		{
 			
 		}
 		
@@ -135,7 +224,7 @@ package
 		private function changeParameters(e:Event):void 
 		{
 			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_TEMPERATURE,  compSlider.temperatura);
-			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_PH,  compSlider.ph);
+			//env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_PH,  compSlider.ph);
 			env.getRegion(new Point(0, 0)).setResourceValue(Region.TYPE_HUMIDITY,  compSlider.umidade);
 		}
 		
