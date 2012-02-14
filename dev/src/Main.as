@@ -143,7 +143,7 @@ package
 			if(zoomBtns == null){
 				zoomBtns = new ZoomBtns();
 				zoomBtns.x = 10;
-				zoomBtns.y = 130;
+				zoomBtns.y = 100;
 				cmdBorda.addChild(zoomBtns);
 				zoomBtns.start();
 				zoomBtns.btnFunction(ZoomBtns.ZOOM_IN, zoomInFunc);
