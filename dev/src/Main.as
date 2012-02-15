@@ -41,6 +41,9 @@ package
 		private var cmdBorda:Sprite;
 		private var cmdAtividade:Sprite;
 		
+		private var creditosScreen:AboutScreen;
+		private var orientacoesScreen:InstScreen;
+		
 		public function Main():void 
 		{
 			if (stage) init();
@@ -54,6 +57,10 @@ package
 			addAnimations();
 			reset();
 			
+			creditosScreen = new AboutScreen();
+			orientacoesScreen = new InstScreen();
+			addChild(creditosScreen);
+			addChild(orientacoesScreen);
 		}
 		
 
@@ -123,10 +130,10 @@ package
 			compSlider.temperatura = 80;
 			
 			if(controlTime == null){
-				controlTime = new SliderComp("Tempo", 100, 1200, 50, 200, 400, 300);
+				controlTime = new SliderComp("Velocidade da animação: ", 100, 1200, 50, 200, 400, 300);
 				//controlTime = new SliderComp("Tempo", 100, 3000, 100, 500, 400);
 				controlTime.x = 200;
-				controlTime.y = 565;
+				controlTime.y = 552;
 				controlTime.addEventListener(Event.CHANGE, changeTime)
 				cmdBorda.addChild(controlTime);
 			}
@@ -153,7 +160,7 @@ package
 			if(btns == null){
 				btns = new Botoes();
 				btns.x = 747;
-				btns.y = 435;
+				btns.y = 9;
 				cmdBorda.addChild(btns);
 				btns.start();
 				btns.btnFunction(Botoes.CREDITOS, openCredit);
@@ -193,12 +200,12 @@ package
 		
 		private function openCredit(e:MouseEvent):void 
 		{
-			
+			creditosScreen.openScreen();
 		}
 		
 		private function openInstructions(e:MouseEvent):void 
 		{
-			
+			orientacoesScreen.openScreen();
 		}
 		
 		private function restartTutorial(e:MouseEvent):void 

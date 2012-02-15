@@ -16,7 +16,7 @@ package
 		public static const RESET:String = "reset";
 		public static const CREDITOS:String = "creditos";
 		
-		private var tutoBtn:MovieClip;
+		//private var tutoBtn:MovieClip;
 		private var instBtn:MovieClip;
 		private var intResetBtn:MovieClip;
 		private var creditBtn:MovieClip;
@@ -32,7 +32,7 @@ package
 		
 		private function makeConections():void
 		{
-			tutoBtn = tutorialBtn;
+			//tutoBtn = tutorialBtn;
 			instBtn = instructionsBtn;
 			intResetBtn = resetBtn;
 			creditBtn = creditosBtn;
@@ -40,7 +40,7 @@ package
 		
 		private function initializeBtns():void 
 		{
-			overOutListeners(tutoBtn, "Reiniciar tutorial");
+			//overOutListeners(tutoBtn, "Reiniciar tutorial");
 			overOutListeners(instBtn, "Orientações");
 			overOutListeners(intResetBtn, "Reiniciar");
 			overOutListeners(creditBtn, "Créditos");
@@ -73,9 +73,9 @@ package
 		public function btnFunction(btn:String, func:Function):void
 		{
 			switch(btn) {
-				case TUTORIAL:
-					tutoBtn.addEventListener(MouseEvent.CLICK, func);
-					break;
+				//case TUTORIAL:
+					//tutoBtn.addEventListener(MouseEvent.CLICK, func);
+					//break;
 				case INSTRUCOES:
 					instBtn.addEventListener(MouseEvent.CLICK, func);
 					break;

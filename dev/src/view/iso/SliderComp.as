@@ -35,29 +35,33 @@ package view.iso
 			slider.liveDragging = true;
 			slider.x = borda;
 			slider.y = borda;
-			addChild(slider);
+			
 			slider.addEventListener(Event.CHANGE, setTextLabel);
 			
 			setTextLabel();
+			
+			addChild(slider);
 		}
 		
 		private function drawBackground(width:Number):void 
 		{
-			graphics.beginFill(0x80FFFF, 0.8);
-			graphics.drawRect(0, -2, width, 30);
+			graphics.beginFill(0xDBDBDB, 1);
+			//graphics.drawRect(0, -2, width, 30);
+			graphics.drawRoundRect(0, -2, width, 40, 10, 10);
 		}
 		
 		private function setTextLabel(e:Event = null):void 
 		{
 			if(label == null){
 				label = new TextField();
-				label.defaultTextFormat = new TextFormat("arial", 14);
-				label.autoSize = TextFieldAutoSize.CENTER;
-				label.y = 10;
+				label.defaultTextFormat = new TextFormat("arial", 14, null, null, null, null, null, null, "left");
+				//label.autoSize = TextFieldAutoSize.RIGHT;
+				label.width = 300;
+				label.y = 18;
 				label.selectable = false;
 				addChild(label);
 				//label.text = labelTxt;
-				//label.x = (widthSlider - label.width) / 2 + borda;
+				label.x = 100;
 			}
 			setText();
 			dispatchEvent(new Event(Event.CHANGE, true));
@@ -65,10 +69,13 @@ package view.iso
 		
 		private function setText():void
 		{
-			if (slider.value == 300) label.text = labelTxt + ": Normal";
-			else label.text = labelTxt;
+			if (slider.value == 300) label.text = labelTxt + "normal";
+			else if (slider.value < 300) label.text = labelTxt + "lento";
+			else if (slider.value > 300 && slider.value < 1000) label.text = labelTxt + "rápido";
+			else if(slider.value >= 1000) label.text = labelTxt + "muito rápido";
+			//else label.text = labelTxt;
 			
-			label.x = (widthSlider - label.width) / 2 + borda;
+			//label.x = (widthSlider - label.width) / 2 + borda;
 		}
 		
 		public function getValue():Number {
