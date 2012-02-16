@@ -64,7 +64,10 @@ package  view.iso
 			if (Config.time < 10) currentFrame += 2;
 			else currentFrame++;
 			if (currentFrame >= movimento.length) currentFrame = 0;
-			if (state == STATE_PLAYING) setTimeout(changeGraphics, Config.time + _adjust);
+			if (state == STATE_PLAYING) {
+				setTimeout(changeGraphics, Config.time + _adjust);
+				dispatchEvent(new Event(Event.COMPLETE));
+			}
 
 		}
 		

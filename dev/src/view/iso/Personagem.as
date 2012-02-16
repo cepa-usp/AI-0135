@@ -38,11 +38,20 @@ package  view.iso
 			//s.graphics.beginFill(0, 1);
 			//s.graphics.drawEllipse(-12, -5, 25, 13);
 			
-			
+			bitmapFrame.addEventListener(Event.COMPLETE, onAnimationComplete);
 			addEventListener(MouseEvent.CLICK, showdata);
 			agent.eventDispatcher.addEventListener(Event.SELECT, setFocus);
 			
 			
+		}
+		
+		private function onAnimationComplete(e:Event):void 
+		{
+			if (this.agent is BioAgent) {
+				if (BioAgent(this.agent).mindState == BioAgent.MINDSTATE_DEAD) {
+					bitmapFrame.stop();
+				}
+			}
 		}
 		
 		private function showdata(e:Event):void 
