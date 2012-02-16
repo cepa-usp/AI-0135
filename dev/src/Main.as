@@ -1,5 +1,6 @@
 package 
 {
+	import cepa.utils.ToolTip;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
@@ -125,7 +126,16 @@ package
 				cmdBorda.addChild(compSlider);
 				compSlider.x = 10;
 				compSlider.y = 10;
-				compSlider.addEventListener(Event.CHANGE, changeParameters)
+				compSlider.addEventListener(Event.CHANGE, changeParameters);
+				
+				compSlider.tempTT.buttonMode = true;
+				compSlider.umidTT.buttonMode = true;
+				
+				var tempTT:ToolTip = new ToolTip(compSlider.tempTT, "Temperatura", 12, 0.8, 200, 0.6, 0.1);
+				var umidTT:ToolTip = new ToolTip(compSlider.umidTT, "Umidade", 12, 0.8, 200, 0.6, 0.1);
+				
+				addChild(tempTT);
+				addChild(umidTT);
 			}
 			compSlider.temperatura = 80;
 			
@@ -159,7 +169,7 @@ package
 			
 			if(btns == null){
 				btns = new Botoes();
-				btns.x = 747;
+				btns.x = 748;
 				btns.y = 9;
 				cmdBorda.addChild(btns);
 				btns.start();
@@ -172,8 +182,9 @@ package
 			if(borda == null){
 				borda = new Borda();
 				cmdBorda.addChild(borda);
+				borda.width += 1;
+				borda.height += 1;
 			}
-			
 			
 		}
 		
